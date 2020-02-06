@@ -1,0 +1,45 @@
+<aura:component controller="SPM_InvoiceCnt" description="c:SPM_InvoiceDetailsCmp component" access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="invoices" type="Contract[]" />
+    <aura:attribute name="invoiceLines" type="Opportunity[]" default="[{}]"/>
+    <aura:attribute name="invoiceSelected" type="Contract[]" />
+    <aura:attribute name="numberOfInvoicesToDisplay" type="Contract[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService"/>
+    <aura:registerEvent name="SPM_CustomerAndProjectEvt" type="c:SPM_CustomerAndProjectEvt"/>
+    <aura:handler action="{!c.displayInvoiceFiltered}" event="c:SPM_FilterInvoiceEvt" />
+
+
+    <div class="slds-grid ">
+        <!--
+        First column
+      -->
+        <div class="slds-col" id="sidebar">
+          <c:SPM_FinanceSidebar />
+        </div>
+        <!--
+        Second column
+      -->
+        <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+    <c:SPM_ListHeaderCmp iconName="standard:partner_fund_claim"
+     objects="{!v.invoices}" numberOfLinesToDisplay="{!v.numberOfInvoicesToDisplay}"
+        totalSize="{!v.totalSize}" title=" Invoices" objetsSelected="{!v.invoiceSelected}" />
+        <div class="slds-m-right_large">
+            <lightning:button class="slds-float_right slds-m-top_medium slds-m-bottom_medium" label="New" title="Neutral action"
+                onclick="{! c.addInvoice }" />
+        </div>
+        <table class=" ">
+            <lightning:datatable keyField="id" data="{!v.numberOfInvoicesToDisplay}" columns="{!v.columns}"
+                onrowaction="{!c.handleRowAction}" hideCheckboxColumn="true" class="tablecol" />
+        </table>
+    <c:SPM_ListFooterCmp objects="{!v.invoices}" numberOfLinesToDisplay="{!v.numberOfInvoicesToDisplay}"
+        totalSize="{!v.totalSize}" pageSize="{!v.pageSize}" start="{!v.start}" end="{!v.end}" />
+        </div>
+    </div>
+</aura:component>

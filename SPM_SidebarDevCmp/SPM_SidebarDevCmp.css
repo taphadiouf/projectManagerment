@@ -1,0 +1,57 @@
+.THIS .width {
+      width: 45px; 
+   }
+ .THIS #nav {
+     margin: 0;
+     padding: 7px 6px 0;
+     background: darkblue;
+     line-height: 100%;
+     display:table-row;
+   }
+   .THIS #nav li {
+     display: table-cell;
+     margin: 0 ;
+     padding: 0 0 8px;
+     float: left;
+     position: relative;
+     list-style: none;
+   }
+   
+   /* main level link */
+   .THIS #nav div {
+     font-weight: bold;
+     color: #e7e5e5;
+     text-decoration: none;
+     display: block;
+     padding: 8px 20px;
+     margin: 0;
+   }
+   .THIS #nav div:hover {
+     color: #fff;
+   }
+   
+   /* main level link hover */
+   .THIS #nav .current div,
+   .THIS #nav li:hover > div {
+     background: blue;
+     color: #fff;
+   }
+   
+   
+   /* dropdown */
+   .THIS #nav li:hover > ul {
+     display: block;
+   }
+   /* clearfix */
+   .THIS #nav:after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+   }
+   
+ .THIS .icon-white{
+   color: white;
+ }

@@ -1,0 +1,52 @@
+<aura:component access="global" implements="flexipage:availableForAllPageTypes">
+
+    <aura:attribute name="objects" type="Object[]" />
+    <aura:attribute name="objetsSelected" type="Object[]" />
+    <aura:attribute name="numberOfLinesToDisplay" type="Object[]" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="iconName" type="String" default="standard:groups"/>
+    <aura:attribute name="searchKey" type="String" default="" />
+
+
+    <div class="slds-page-header slds-card ">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning:icon iconName="{!v.iconName}" class="slds-theme_inverse" />
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title slds-m-top_x-small">
+                                <h1>
+                                    <span>LIST OF {!v.title}</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <div class="slds-page-header__control">
+                        <ul class="slds-button-group-list  ">
+                            <li>
+                                <ui:inputSelect class="" aura:id="records" change="{!c.onSelectChange}" label="Show ">
+                                    <ui:inputSelectOption text="5" value="5" />
+                                    <ui:inputSelectOption text="10" value="10" />
+                                    <ui:inputSelectOption text="20" value="20" />
+                                    <ui:inputSelectOption text="30" value="30" />
+                                </ui:inputSelect>
+                            </li>
+                            <li onkeyup="{! c.searchKeyChange }">
+                                <lightning:input aura:id="enter-search" value="{!v.searchKey}" name="enter-search"
+                                    isLoading="{! v.issearching }" type="search" class="slds-m-left_small" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

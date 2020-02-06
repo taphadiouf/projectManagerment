@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="task" type="Asset" default="{'Name':'',
+                                                        'Status':'',
+                                                        'StartDate__c':'',
+                                                        'EndDate__c':''}"/>
+</aura:event>

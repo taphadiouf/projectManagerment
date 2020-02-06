@@ -1,0 +1,117 @@
+<!--
+  @File Name          : SPM_AbsenceFormCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/01/2020 à 11:08:45
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    9/4/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+
+<aura:component controller="SPM_AbsenceCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="absence" type="Case" default="{}" />
+    <aura:attribute name="members" type="Contract[]" />
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="types" type="SPM_TypeAbsenceCs__c[]" />
+    <aura:attribute name="status" type="SPM_StatusAbsenceCs__c[]" />
+    <aura:attribute name="validFor" type="SPM_ValidForAbsenceCs__c[]" />
+
+    <aura:attribute name="isOpen" type="boolean" default="false" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    <aura:attribute name="startDateValidationError" type="boolean" />
+    <aura:attribute name="endDateValidationError" type="boolean" />
+
+
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class="slds-theme--default slds-container-x-large">
+            <!-- <legend id="newexpenseform" class="slds-text-heading-small 
+              slds-p-vertical-medium">
+                Add Absence
+            </legend> -->
+
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout>
+                    <lightning:layoutItem size="6" class="slds-m-right_small">
+                        <!--
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.projects}" label="project" 
+                                value="{!v.absence.AccountId}" onchange="{!c.projectChange}" 
+                                                placeholder="Select a project" required=""/>
+                        </div> -->
+
+                        <!-- <div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.members}" label="{!$Label.c.members_field_label}" 
+                                value="{!v.absence.ContactId}" onchange="{!c.memberChange}"
+                                                placeholder="Select a member" required="true"/>
+                        </div> -->
+
+                        <!--<div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.validFor}" value="{!v.absence.SuppliedName}" 
+                                label="{!$Label.c.valid_for_field_label}"  onchange="{!c.validForChange}" />
+                        </div>-->
+                        <div class=" ">
+                            <lightning:input aura:id="isValideField" label="{!$Label.c.start_date_field_label}"
+                                type="date" value="{!v.absence.CreatedDate}" required="true"
+                                class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+                                onchange="{!c.startDateUpdate}" />
+                            <aura:if isTrue="{!v.startDateValidationError}">
+                                <div class="slds-text-color_error slds-p-left_x-small">
+                                    Start date must be in present or in future..
+                                </div>
+                            </aura:if>
+
+                        </div>
+                        <div class=" ">
+                            <lightning:input aura:id="isValideField" label="{!$Label.c.contact_field_label}" type="text"
+                                value="{!v.absence.Subject}" />
+                        </div>
+                        <div class="">
+                            <lightning:input aura:id="isValideField" label="{!$Label.c.description_field_label}"
+                                type="text" value="{!v.absence.Note__c}" />
+                        </div>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" class="slds-m-left_small">
+                        <div class="">
+                            <lightning:input aura:id="isValideField" label="{!$Label.c.end_date_field_label}"
+                                min="{!v.absence.CreatedDate}" disabled="{!empty(v.absence.CreatedDate)}"
+                                type="date" value="{!v.absence.EndDate__c}" required="true"
+                                class="{! v.endDateValidationError ? 'slds-has-error' : ''}"
+                                onchange="{!c.endDateUpdate}" />
+                            <aura:if isTrue="{!v.endDateValidationError}">
+                                <div class="slds-text-color_error slds-p-left_x-small">
+                                    Start date should be greater than End date
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.types}"
+                                value="{!v.absence.SuppliedPhone}" label="{!$Label.c.type_field_label}"
+                                onchange="{!c.typeChange}" placeholder="Select a type" required="true" />
+                        </div>
+                        <!--<div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.status}" value="{!v.absence.SuppliedCompany}" 
+                                label="{!$Label.c.status_field_label}" onchange="{!c.statusChange}" 
+                                                placeholder="Select a status" required="true"/>
+                        </div> -->
+
+                        <!--<div class="">
+                            <lightning:input aura:id="isValideField" label="{!$Label.c.duration_field_label}"  type="number" 
+                                value="{!v.absence.cost__c}" required="true" />
+                        </div>-->
+
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+</aura:component>

@@ -1,0 +1,5 @@
+.THIS .slds-custom_popover {
+    background-color: blue;
+    height:80vh;
+    overflow-y:auto;
+}

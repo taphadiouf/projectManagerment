@@ -1,0 +1,228 @@
+<aura:component
+  controller="SPM_TaskCnt"
+  access="global"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable"
+>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="task" type="Asset" default="{}"/>
+
+  <div class="slds-grid slds-theme_default" >   
+    
+    <div class="slds-col slds-size_3-of-4" id="sc">
+      
+    <article>
+      <div class="slds-grid">
+        <fieldset class=" slds-box slds-theme--default slds-container-x-large">
+          <legend id="newexpenseform" class="slds-text-heading--small">
+            Task Details
+          </legend>
+          <form class="slds-form--stacked">
+            <table class="slds-table slds-size_4-of-4 ">
+              <lightning:layout>
+                <lightning:layoutItem size="6" class="slds-m-right_large">
+                  <tbody>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Name">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.projects_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputText
+                            aura:id="nameOutput"
+                            value="{!v.task.Account.Name}"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Account Name">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.name_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputText
+                            aura:id="nameOutput"
+                            value="{!v.task.Name}"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Project">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.start_date_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputDateTime value="{!v.task.StartDate__c}" />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Project">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.end_date_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputDateTime value="{!v.task.EndDate__c}" />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Status">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.status_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputText
+                            aura:id="nameOutput"
+                            value="{!v.task.Status}"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" class="slds-m-left_large">
+                  <tbody>
+                    <tr class="slds-hint-parent">
+                      <th data-label="type">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.estimated_hours_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputNumber value="{!v.task.Quantity}" />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="type">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.billable_hours_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate ">
+                          <ui:outputNumber value="{!v.task.Billable_Hours__c}" />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="type">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.logged_hours_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputNumber value="{!v.task.Logged_Hours__c}" />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Status">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.link_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputText
+                            aura:id="nameOutput"
+                            value="{!v.task.ProductCode}"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                      <th data-label="Status">
+                        <div class="slds-truncate slds-text-title_bold">
+                          {!$Label.c.description_field_label}:
+                        </div>
+                      </th>
+                      <td data-label="Close Date">
+                        <div class="slds-truncate">
+                          <ui:outputRichText
+                            aura:id="nameOutput"
+                            value="{!v.task.Description}"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <!-- </aura:iteration> -->
+                </lightning:layoutItem>
+              </lightning:layout>
+            </table>
+          </form>
+        </fieldset>
+        
+        <!-- <fieldset class="slds-box slds-theme-default slds-container-x-large">
+          <div class="">
+            <c:SPM_HeaderCmp current="activities"/>
+            <c:SPM_ListHeaderCmp
+              objects="{!v.activities}"
+              numberOfLinesToDisplay="{!v.numberOfActivitiesToDisplay}"
+              totalSize="{!v.totalSize}"
+              title="Activities"
+              objetsSelected="{!v.activitiesSelected}"
+            />
+            
+            <table class=" ">
+              <lightning:datatable
+                keyField="id"
+                data="{!v.numberOfActivitiesToDisplay}"
+                columns="{!v.columns}"
+                onrowaction="{!c.handleRowAction}"
+                hideCheckboxColumn="true"
+                class="tablecol"
+               
+              />
+            </table>
+            
+            <c:SPM_ListFooterCmp
+              objects="{!v.activities}"
+              numberOfLinesToDisplay="{!v.numberOfActivitiesToDisplay}"
+              totalSize="{!v.totalSize}"
+              pageSize="{!v.pageSize}"
+              start="{!v.start}"
+              end="{!v.end}"
+            />
+          </div>
+        </fieldset> -->
+
+        <!-- <footer class="slds-modal__footer">
+            <aura:if isTrue="{!v.recordId!=null}">
+              <lightning:button
+                variant="brand"
+                label="{!$Label.c.update_button_title}"
+                title="Update"
+                onclick="{!c.updateTask}"
+              />
+              <aura:set attribute="else">
+                <lightning:button
+                  variant="success"
+                  label="Ok"
+                  title="Ok"
+                  onclick="{! c.closeModal }"
+                />
+              </aura:set>
+            </aura:if>
+          </footer> -->
+      </div>
+    </article>
+  </div>
+</div>
+</aura:component>

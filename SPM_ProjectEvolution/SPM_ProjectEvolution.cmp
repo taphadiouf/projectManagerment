@@ -1,0 +1,17 @@
+<!--
+  @File Name          : SPM_ProjectEvolution.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 22/01/2020 à 16:00:14
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    22/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="SPM_ProjectCnt">
+    <aura:attribute name="evolution" type="Integer" />
+    <aura:handler name='init' value='{!this}' action='{!c.doInit}' />
+
+    <lightning:progressBar value="{!v.evolution}" size="large" />
+</aura:component>

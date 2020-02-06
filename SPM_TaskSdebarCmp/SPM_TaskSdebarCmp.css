@@ -1,0 +1,48 @@
+.THIS .bg-black {
+    background-color: black;
+  }
+.THIS .text-green {
+    color: green;
+  }
+  .THIS .left {
+    float: left;
+  }
+  .THIS .bg-dimgrey {
+    background-color: rgb(31, 30, 30);
+  }
+  
+  
+  .THIS .bg-green {
+    background-color: green;
+    color: #fff;
+  }
+  
+  .THIS .text-white {
+    color: #fff;
+  }
+  .THIS .text-green {
+    color: green;
+  }
+  .THIS .w-auto {
+    width: auto;
+  }
+  .THIS .left {
+    float: left;
+  }
+  .THIS .right {
+    float: right;
+  }
+  
+  .THIS .height-2 {
+    height: 40px;
+  }
+  /*.w-5{
+    width: ;
+  }*/
+  .THIS .m-top {
+    margin-top: 0%;
+  }
+
+  .THIS .bg-green{
+    background-color: green;
+  }

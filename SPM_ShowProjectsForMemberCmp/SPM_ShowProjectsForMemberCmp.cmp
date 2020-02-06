@@ -1,0 +1,52 @@
+<aura:component controller="SPM_ProjectCnt"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global">
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="isDisplayProject" type="Boolean" default="false" />
+    <aura:attribute name="itemFlown" type="String" />
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="projectId" type="String" default="" />
+
+    <section aria-describedby="dialog-body-id-105" aria-label="Dialog Title"
+        class="slds-popover slds-popover_walkthrough slds-popover_feature" role="dialog" style="background-color: blue;height:80vh;overflow-y:auto;">
+        <div class="slds-popover__body" id="dialog-body-id-105">
+            <div class="slds-media">
+                <div class="slds-media__body">
+                    <ul class="dropdown__list" role="menu">
+                        <aura:if isTrue="{!v.itemFlown=='project'}">
+                            <h2 class="slds-text-heading_medium slds-align_absolute-center" style="color: white"><b>
+                                    PROJECTS</b></h2><br />
+                            <aura:iteration items="{!v.projects}" var="project" indexVar="index">
+                                <li class="slds-dropdown__item">
+                                    <a href="javascript:void(0);" role="menuitem"
+                                        style="text-decoration: none; color:white" onclick="{!c.getProject}"
+                                        data-selected-Index="{!index}">
+                                        <p class="slds-truncate"><b>{!project.Name}</b></p>
+                                    </a>
+                                </li>
+                            </aura:iteration>
+                        </aura:if>
+                        <aura:if isTrue="{!v.itemFlown=='absence'}">
+                            <h2 class="slds-text-heading_medium slds-align_absolute-center" style="color: white"><b>
+                                    ABSENCE</b></h2><br />
+                            <li class="slds-dropdown__item">
+                                <a href="javascript:void(0);" role="menuitem" style="text-decoration: none; color:white"
+                                    onclick="{!c.getProject}" data-selected-Index="{!index}">
+                                    <p class="slds-truncate"><b>New Absence</b></p>
+                                </a>
+                            </li>
+                            <li class="slds-dropdown__item">
+                                <a href="javascript:void(0);" role="menuitem" style="text-decoration: none; color:white"
+                                    onclick="{!c.getProject}" data-selected-Index="{!index}">
+                                    <p class="slds-truncate"><b>Mys Absences</b></p>
+                                </a>
+                            </li>
+                        </aura:if>
+                    </ul><br />
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</aura:component>

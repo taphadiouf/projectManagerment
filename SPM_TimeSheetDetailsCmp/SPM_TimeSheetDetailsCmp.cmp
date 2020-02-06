@@ -1,0 +1,142 @@
+<!--
+  @File Name          : SPM_TimeSheetDetailsCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 27/01/2020 à 10:18:43
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    16/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component>
+    <aura:attribute name="timeSheet" type="Contract" />
+    <aura:attribute name="activities" type="List" />
+    <aura:attribute name="showDetails" type="Boolean" />
+    <aura:attribute name="showConfirmation" type="Boolean" default="false" />
+    <aura:attribute name="editTimeSheet" type="Boolean" default="false" />
+    <aura:registerEvent name="deleteTimeSheet" type="c:SPM_NewTimeSheetCreatedEvt" />
+
+    <aura:if isTrue="{!v.editTimeSheet}">
+        <c:SPM_NewEventCmp createNewEvent="{!v.editTimeSheet}" timeSheet="{!v.timeSheet}" action="updateTimeSheets" />
+    </aura:if>
+    <section aria-describedby="dialog-body-id-99" aria-labelledby="dialog-heading-id-104"
+        class="slds-popover slds-nubbin_left slds-popover_large" role="dialog">
+        <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close"
+            title="Close details">
+            <lightning:buttonIcon iconName="utility:close" variant="border" size="xx-small"
+                alternativeText="alternativeText" onclick="{!c.closeDetails}" />
+            <span class="slds-assistive-text">Close</span>
+        </button>
+        <header class="slds-popover__header slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-shift">
+                    <lightning:icon iconName="standard:shift" alternativeText="alternativeText" />
+                    <span class="slds-assistive-text">TimeSheet</span>
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <h2 class="slds-text-heading_small" id="dialog-heading-id-104">
+                    {!v.timeSheet.Task__r.Name}
+                </h2>
+            </div>
+        </header>
+        <div class="slds-popover__body" id="dialog-body-id-99">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Project</b></div>
+                        <div>
+                            {!v.timeSheet.Account.Name}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Task</b></div>
+                        <div>
+                            {!v.timeSheet.Task__r.Name}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Date</b></div>
+                        <div>
+                            {!v.timeSheet.StartDate}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Total Hours</b></div>
+                        <div>
+                            {!v.timeSheet.number_hourses__c}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Start Time</b></div>
+                        <div>
+                            {!v.timeSheet.startTime__c}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>End Time</b></div>
+                        <div>
+                            {!v.timeSheet.endTime__c}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Member</b></div>
+                        <div>
+                            {!v.timeSheet.SPM_Members__r.Name}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-m-vertical_small">
+                        <div><b>Activities</b></div>
+                        <div>
+                            <ul>
+                                <aura:iteration items="{!v.activities}" var="activity">
+                                    <li>{!activity}</li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-m-vertical_small">
+                        <div><b>Description</b></div>
+                        <div>
+                            {!v.timeSheet.Description}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-popover__footer">
+            <lightning:buttonGroup>
+                <lightning:button title="Show Details" iconName="utility:preview" onclick="{! c.showDetails }" />
+                <lightning:button title="Update" iconName="utility:edit" onclick="{! c.editTimeSheet }" />
+                <lightning:button title="Delete" iconName="utility:delete" onclick="{! c.deleteTimeSheet }" />
+            </lightning:buttonGroup>
+        </footer>
+    </section>
+    <aura:if isTrue="{!v.showConfirmation}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Delete TimeSheet</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>Are you sure to want delete this TimeSheet ?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.cancel}">No</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.delete}">Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

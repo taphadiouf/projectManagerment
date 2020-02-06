@@ -1,0 +1,36 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global"
+    controller="SPM_InvoiceCnt">
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="customerId" type="Id" default="" />
+    <aura:attribute name="invoiceLines" type="Opportunity[]" default="[{}]"/>
+    <aura:attribute name="projects" type="Account[]"/>
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="invoice" type="Contract" default="{
+                                                        'End_Date__c': '',
+                                                        'paymentTerm__c':'',
+                                                        'Status_Member__c':'',
+                                                        'Status':'',
+                                                        'Type__c':'',
+                                                        'customer__c':'',
+                                                        'AccountId':''
+                                                         }" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService"/>
+    <aura:registerEvent name="SPM_IsFormValidEvt" type="c:SPM_IsFormValidEvt" />
+
+
+    <c:SPM_FomTitleCmp title=" Invoice" recordId="{!v.recordId}" />
+    <c:SPM_InvoiceFormCmp invoice="{!v.invoice}" projects="{! v.projects}" isValidFields="{!v.isValidFields}" invoiceLines="{!v.invoiceLines}" customerId="{!v.customerId}"/>
+    <div class="slds-float_right ">
+        <lightning:button class=" slds-button slds-button_destructive slds-m-top_none " label="Cancel"
+            onclick="{!c.close}" />
+        <aura:if isTrue="{!v.recordId!=''}">
+            <lightning:button class=" " variant="success" label="Update" title="Update" onclick="{! c.updateInvoices}" />
+            <aura:set attribute="else">
+                <lightning:button class=" " variant="success" label="Save" title="Save" onclick="{! c.addInvoice}" />
+            </aura:set>
+        </aura:if>
+    </div>
+
+</aura:component>

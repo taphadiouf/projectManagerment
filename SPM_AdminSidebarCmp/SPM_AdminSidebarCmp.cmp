@@ -1,0 +1,55 @@
+<aura:component>
+  <aura:attribute name="isNewProject" type="boolean" default="false" />
+  <aura:attribute name="pageReference" type="Object" />
+  <lightning:navigation aura:id="navService" />
+  <div class=" slds-m-top_large slds-m-left_large slds-text-align_left">
+    <div>
+      <h2 class="slds-text-color_inverse ">ADMIN PROJECTS</h2> <br></br>
+      <div class="slds-p-left_small">
+        <aura:if isTrue="{! v.isNewProject}">
+          <p class="slds-truncate">
+            <span class="">
+              <a href="" onclick="{!c.createSubProject}" class="text-green"
+                >Create Sub Project</a
+              ><br></br>
+            </span>
+          </p>
+          <p class="slds-truncate">
+            <span class="">
+              <a href="" onclick="{!c.cloneAProject}" class="text-green"
+                >Clone A Project</a
+              ><br></br>
+            </span>
+          </p>
+        </aura:if>
+        <p class="slds-truncate">
+          <span class="">
+            <a href="" onclick="{!c.createNewProject}" class="text-green"
+              >Add New Project</a
+            ><br></br>
+          </span>
+        </p>
+        <p class="slds-truncate ">
+          <span class="">
+            <a href="" onclick="{!c.importProject}" class="text-green">Import Project CSV</a>
+          </span>
+        </p>
+        <p class="slds-truncate ">
+          <span class="">
+            <a href="" class="text-green">Export Project CSV</a>
+          </span>
+        </p>
+        <p class="slds-truncate ">
+          <span class="">
+            <a href="" class="text-green">Resource Planning Report</a>
+          </span>
+        </p>
+        <p class="slds-truncate ">
+          <span class="">
+            <a href="" class="text-green">Advanced Filtering</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</aura:component>

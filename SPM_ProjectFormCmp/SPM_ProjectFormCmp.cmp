@@ -1,0 +1,153 @@
+<!--
+  @File Name          : SPM_ProjectFormCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/01/2020 à 10:38:19
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    28/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_ProjectCnt" implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="status" type="Project_StatusCs__c[]" />
+    <aura:attribute name="categories" type="SPM_Category_ProjectCs__c[]" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="project" type="Account" />
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="members" type="Contact[]" />
+    <aura:attribute name="customers" type="Contact[]" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="programId" type="Id" default="" />
+    <aura:attribute name="isNotParentId" type="boolean" default="true" />
+    <aura:attribute name="programs" type="Campaign[]" />
+    <aura:attribute name="isOpenModalNewProgram" type="boolean" default="false" />
+    <aura:attribute name="isOpenModalNewCustomer" type="boolean" default="false" />
+    <aura:attribute name="projectManagementId" type="String" default="" />
+    <aura:attribute name="startDateValidationError" type="boolean" />
+    <aura:attribute name="endDateValidationError" type="boolean" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c.SPM_NewProgramCreatedEvt" action="{!c.handleNewProgramCreation}" />
+    <aura:handler event="c.SPM_NewCustomerCreatedEvt" action="{!c.handleNewCustomerCreation}" />
+    <aura:handler event="c:SPM_IsValidProjectFormEvt" action="{!c.verifyFields}" />
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class=" slds-theme--default slds-container-x-large">
+
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout>
+                    <lightning:layoutItem size="6" class="slds-m-right_small">
+
+                        <div class="">
+                            <lightning:input type="txt" label="{!$Label.c.name_field_label}" placeholder="name"
+                                value="{!v.project.Name}" required="true" aura:id="isFieldValid" />
+                        </div>
+                        <div class=" ">
+                            <lightning:combobox options="{!v.categories}" value="{!v.project.Rating}"
+                                label="{!$Label.c.category_field_label}" required="true"
+                                placeholder="Select a type of the project" aura:id="isFieldValid" />
+                        </div>
+                        <div class=" ">
+                            <lightning:input value="{!v.project.Start_Date__c}"
+                                label="{!$Label.c.start_date_field_label}" type="date" required="true"
+                                aura:id="isFieldValid" 
+                                class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+                                    onchange="{!c.startDateUpdate}" />
+                                <aura:if isTrue="{!v.startDateValidationError}">
+                                    <div class="slds-text-color_error slds-p-left_x-small">
+                                        Start date must be in present or in future..
+                                    </div>
+                                </aura:if>
+                        </div>
+                        <div class="slds-form-element ">
+                            <lightning:input label="{!$Label.c.delivery_date_field_label}" type="date" required="true"
+                                value="{!v.project.End_Date__c}" aura:id="isFieldValid" 
+                                min="{!v.project.Start_Date__c}" disabled="{!empty(v.project.Start_Date__c)}"
+                                class="{! v.endDateValidationError ? 'slds-has-error' : ''}"
+                                    onchange="{!c.endDateUpdate}" />
+                                <aura:if isTrue="{!v.endDateValidationError}">
+                                    <div class="slds-text-color_error slds-p-left_x-small">
+                                        Start date should be greater than End date
+                                    </div>
+                                </aura:if>
+                        </div>
+                        <div class="">
+                            <lightning:input type="number" value="{!v.project.Project_Budget__c}"
+                                label="{!$Label.c.project_budget_field_label}" required="true" aura:id="isFieldValid" />
+                        </div>
+                        <div>
+                            <lightning:input type="number" label="{!$Label.c.percent_complete_field_label }"
+                                placeholder="Percent" min="1" max="100" value="{!v.project.NaicsDesc}" />
+                        </div>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" class="slds-m-left_small">
+                        <aura:if isTrue="{! v.programId==''}">
+                            <div class="slds-grid ">
+                                <div class="slds-col ">
+                                    <lightning:combobox options="{!v.programs}" value="{!v.project.Program__c}"
+                                        label="{!$Label.c.program_field_label}" placeholder="Select a project" />
+                                </div>
+                                <div class="slds_col">
+                                    <button
+                                        class="slds-m-top_x-large slds-m-left_small slds-button slds-button--icon-border slds-button--icon-xx-small slds-m-right_large"
+                                        aria-controls="tree0-node1">
+                                        <div class='icon-container'>
+                                            <lightning:buttonIcon iconName="utility:add" variant="brand"
+                                                onclick="{! c.openModalNewProgram }" alternativeText="Add" />
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{! v.isNotParentId}">
+                        <div class=" ">
+                            <lightning:combobox options="{!v.projects}" value="{!v.project.ParentId}"
+                                label="{!$Label.c.project_parent_field_label}" onchange="{!c.handleProject}"
+                                placeholder="Select a parent project" />
+                        </div>
+                        </aura:if>
+                        <div class="">
+                            <lightning:combobox options="{!v.members}" value="{!v.projectManagementId}"
+                                label="{!$Label.c.project_manager_field_label}" placeholder="Select a project menager"
+                                required="true" aura:id="isFieldValid" />
+                        </div>
+                        <div class="">
+                            <lightning:combobox options="{!v.status}" value="{!v.project.Type}"
+                                label="{!$Label.c.project_status_field_label}" onchange="{!c.handleStatus}"
+                                required="true" placeholder="Select a status of the project" aura:id="isFieldValid" />
+                        </div>
+                        <div class="slds-grid ">
+                            <div class="slds-col ">
+                                <lightning:combobox options="{!v.customers}" value="{!v.project.CustomerId__c}"
+                                    label="{!$Label.c.customer_field_label}" placeholder="Select a customer" />
+                            </div>
+                            <div class="slds_col">
+                                <button
+                                    class="slds-m-top_x-large slds-m-left_small slds-button slds-button--icon-border slds-button--icon-xx-small slds-m-right_large"
+                                    aria-controls="tree0-node1">
+                                    <div class='icon-container'>
+                                        <lightning:buttonIcon iconName="utility:add" variant="brand"
+                                            onclick="{!c.openModalNewCustomer }" alternativeText="Add"/>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <div class="slds-m-top_large ">
+                    <lightning:inputRichText value="{!v.project.Description}" placeholder="Type something interesting"
+                        label="{!$Label.c.description_field_label}" />
+                </div>
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+    <c:SPM_NewProgramCmp isModal="{!v.isOpenModalNewProgram}" />
+    <c:SPM_NewCustomerCmp isModal="{!v.isOpenModalNewCustomer}" isNotModal="false" />
+
+</aura:component>

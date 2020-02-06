@@ -1,0 +1,105 @@
+<aura:component  controller="SPM_MemberCnt">
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isModalOpened" type="boolean" default="false" />
+    <aura:attribute name="member" type="Contact" default="{'Name': '',
+                                                          'LeadSource':'',
+                                                          'Birthdate':'',
+                                                          'Level__c':'',
+                                                          'LastName':'',
+                                                          'IndividualId':'',
+                                                          'LastCURequestDate':''}"/>
+    
+    <article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+            <article class="slds-card slds-card_boundary">
+                <div class="slds-page-header slds-page-header_record-home">
+                    <div class="slds-page-header__row">
+                        <div class="slds-page-header__col-title">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning:icon iconName="standard:contact" alternativeText="New Opportunity" />
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-page-header__name">
+                                        <aura:if isTrue="{!v.recordId==''}">
+                                            <b> CREATE A NEW MEMBER </b>
+                                            <aura:set attribute="else">
+                                                <b> EdIT MEMBER </b>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </article>
+    <aura:if isTrue="{!v.isModal}">
+        <lightning:button class=" slds-m-top_small" variant="success" label="Nouveau" onclick="{!c.openModal}" />
+    </aura:if>
+    
+    
+    <aura:if isTrue="{!v.isModal}">
+        <aura:if isTrue="{!v.isModalOpened}">
+            <!--Start Modal-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModal }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="font-size: 20px; font-family:'Times New Roman', Times, serif"></h2>
+                    </header>
+                    <c:PM_MemberFormCmp member="{!v.member}" />
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="destructive"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModal }"/>
+                        <aura:if isTrue="{!v.recordId!=null}">
+                            <lightning:button variant="brand"
+                                              label="Update"
+                                              title="Update"
+                                              onclick="{!c.addMember}"/>
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand"
+                                                  label="Save"
+                                                  title="Save"
+                                                  onclick="{!c.addMember}"/>
+                            </aura:set>
+                        </aura:if>
+                    </footer>
+                </div>
+                
+            </section>
+            
+        </aura:if>
+        <!--End Modal-->
+        <aura:set attribute="else">
+            <c:PM_MemberFormCmp member="{!v.member}" /> 
+            <div class="slds-float_right">
+                <lightning:button class=" slds-button slds-button_destructive  slds-m-top_small"
+                                  label="Cancel" />
+                <aura:if isTrue="{!v.recordId!=''}">
+                    <lightning:button variant="brand"
+                                      label="Update"
+                                      title="Update"
+                                      onclick="{!c.addMember}"/>
+                    <aura:set attribute="else">
+                        <lightning:button variant="brand"
+                                          label="Save"
+                                          title="Save"
+                                          onclick="{!c.addMember}"/>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </aura:set>
+    </aura:if> 
+    
+</aura:component>

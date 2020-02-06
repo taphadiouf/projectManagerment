@@ -1,0 +1,86 @@
+<aura:component controller="SPM_MemberCnt" access="global"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes">
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+
+  <aura:attribute name="member" type="Contact" />
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="userId" type="Id" default="" />
+  <aura:attribute name="pictureSrc" type="String" />
+
+  <div class="slds-grid ">
+    <!--
+      First column
+    -->
+    <div class="slds-col" id="sidebar">
+      <c:SPM_CustomerSidebarCmp  />
+    </div>
+    <!--
+      Second column
+    -->
+    <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+
+      <div class=" slds-theme_default">
+
+        <article>
+          <div class="">
+            <div class="slds-form slds-m-around_large " role="list">
+              <div class="slds-form__row slds-grid">
+                <div class="slds-size_2-of-3 slds-float_left">
+                  <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                    <div
+                      class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                      <span class="slds-form-element__label">First Name: {!v.member.FirstName}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                    <div
+                      class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                      <span class="slds-form-element__label">Last Name: {!v.member.LastName}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                    <div
+                      class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                      <span class="slds-form-element__label">Genre: {!v.member.LeadSource}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                    <div
+                      class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                      <span class="slds-form-element__label">Contract Type: {!v.member.Level__c}</span>
+                    </div>
+                  </div>
+                  <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                    <div
+                      class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                      <span class="slds-form-element__label">Start Date: {!v.member.Birthdate}</span>
+                    </div>
+                  </div>
+                  <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                    <div
+                      class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                      <span class="slds-form-element__label">End Date: {!v.member.EndDate__c}</span>
+                    </div>
+                  </div>
+                </div>
+                  <div class="slds">
+                    <span class="">
+                        <img src="{!v.pictureSrc}" alt="person name" class="profileIcon"/>
+                </span>
+            </div>
+              </div>
+            </div>
+          </div>
+          
+        </article>
+        <div>
+          {!v.body}
+        </div>
+      </div>
+    </div>
+  </div>
+</aura:component>

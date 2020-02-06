@@ -1,0 +1,45 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global"
+    controller="SPM_ProgramCnt">
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="program" type="Campaign" default="{'Name': '',
+                                                          'StartDate':'',
+                                                          'EndDate':''}" />
+    <aura:registerEvent name="SPM_NewProgramCreatedEvt" type="c:SPM_NewProgramCreatedEvt"/> 
+
+
+    <aura:if isTrue="{!v.isModal}">
+
+        <!--Start Modal-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <c:SPM_FomTitleCmp title="Program"  />
+                </header>
+                <div class="slds-card">
+                    <c:SPM_ProgramFormCmp program="{!v.program}" />
+                </div>
+                <footer class="slds-modal__footer">
+                        <lightning:button variant="destructive" label="{!$Label.c.cancel_button_title}" title="Cancel"
+                            onclick="{! c.closeModal }" />
+                    <aura:if isTrue="{!v.recordId!=''}">
+                            <lightning:button variant="brand" label="{!$Label.c.update_button_title}" title="Save"
+                            onclick="{!c.updatePrograms}" />
+                        <aura:set attribute="else">
+                            <lightning:button variant="brand" label="{!$Label.c.create_button_title}" title="Save"
+                                    onclick="{!c.addProgram}" />
+                        </aura:set>
+                    </aura:if>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!--End Modal-->
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,39 @@
+<aura:component>
+    <div class="slds-size_1-of-4 slds-m-left_x-large slds-float_left slds-m-bottom_x-large">
+        <table class="slds-table slds-m-around_x-small slds-table_header-hidden">
+            <thead>
+                <tr>
+                    <th colspan="2" style="background-color: cornflowerblue; color:white">
+                        Company Data
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <b>Adress</b>:
+                    </td>
+                    <td>
+                        Thiés, villa n° 92 sis au quartier sud stade Lat Dior,<br/> rue 10 angle 11
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Email</b>:
+                    </td>
+                    <td>
+                        info@terangacloudsolutions.com
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Phone</b>:
+                    </td>
+                    <td>
+                        +221 33 951 94 91
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</aura:component>

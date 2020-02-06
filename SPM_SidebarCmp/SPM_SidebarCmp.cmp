@@ -1,0 +1,97 @@
+<aura:component controller="SPM_ProjectCnt" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="mineAll" type="List" default="[
+        {'label': 'Mine', 'value': 'mine'},
+        {'label': 'All', 'value': 'all'}
+        ]" />
+    <aura:attribute name="mineOrAll" type="String" default="all"/>
+    <aura:attribute name="status" type="Project_StatusCs__c[]" />
+    <aura:attribute name="statu" type="String" default="" />
+    <aura:attribute name="categories" type="SPM_Category_ProjectCs__c[]" />
+    <aura:attribute name="category" type="String" default="" />
+    <aura:attribute name="project" type="Account" />
+    <aura:attribute name="members" type="Contact[]" />
+    <aura:attribute name="member" type="String" default=""/>
+    <aura:attribute name="customers" type="Contact[]" />
+    <aura:attribute name="customer" type="String" default=""/>
+    <aura:attribute name="startDate" type="String" default=""/>
+    <aura:attribute name="endDate" type="String" default=""/>
+    <aura:attribute name="createProject" type="boolean" default="true" />
+    
+    
+    <aura:registerEvent name="SPM_FilterProjectEvt" type="c:SPM_FilterProjectEvt" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+
+
+    <div class="bg-black ">
+        <article class="slds-card  bg-black">
+            <c:SPM_HeaderSidebarCmp/>
+            <footer class="slds-card__footer m-top bg-dimgrey slds-border_top">
+                 <div class=" w-auto slds-m-vertical_small ">
+                        <h2 class="text-white left" style="margin-left: 5PX;">SHOW PROJECT</h2>
+                        <br></br><br></br>
+                        <div class="slds-text-align_left slds-m-left_medium">
+                            <div class="slds-grid">
+                                <span
+                                    class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">Mine/All</span>
+                                <lightning:combobox  value="{!v.mineOrAll}"
+                                    class="slds-size_1-of-2 slds-col slds-align_absolute-right" placeholder="All"
+                                    options="{! v.mineAll }"  />
+                            </div>
+                            <div class="slds-grid">
+                                <span class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">Project
+                                    Status</span>
+                                <lightning:combobox  value="{!v.statu}"
+                                    class="slds-size_1-of-2 slds-col slds-align_absolute-right" placeholder="All"
+                                    options="{!v.status}" />
+                            </div>
+                            <div class="slds-grid">
+                                <span class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">Project
+                                    Type</span>
+                                <lightning:combobox  value="{!v.category}"
+                                    class="slds-size_1-of-2 slds-col slds-align_absolute-right" placeholder="All"
+                                    options="{!v.categories}" />
+                            </div>
+                            <div class="slds-grid">
+                                <span
+                                    class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">Customer</span>
+                                <lightning:combobox  value="{!v.customer}"
+                                    class="slds-size_1-of-2 slds-col slds-align_absolute-right" placeholder="All"
+                                    options="{!v.customers}" />
+                            </div>
+                            <div class="slds-grid">
+                                <span class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">With
+                                    Member</span>
+                                <lightning:combobox  value="{!v.member}"
+                                    class="slds-size_1-of-2 slds-col slds-align_absolute-right" placeholder="All"
+                                    options="{!v.members}"  />
+                            </div>
+                            <div class="slds-grid">
+                                <span class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">Start
+                                    Date</span>
+                                <lightning:input type="date"  value="{!v.startDate}"
+                                    class="slds-col slds-align_absolute-right slds-size_1-of-2" />
+                            </div>
+                            <div class="slds-grid">
+                                <span class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">End
+                                    Date</span>
+                                <lightning:input type="date"  value="{!v.endDate}"
+                                    class="slds-col slds-align_absolute-right slds-size_1-of-2" />
+                            </div><br />
+                            <lightning:button class="slds-align_absolute-center bg-green" label="Go" title="Go"
+                                onclick="{! c.filtrer }" />
+                        </div>
+                    </div>
+
+                    <!--
+        Admin project
+      -->
+                   <c:SPM_AdminSidebarCmp/>
+                <!--
+        Home
+      -->
+                <c:SPM_HomeSideBarCmp />
+            </footer>
+        </article>
+    </div>
+</aura:component>

@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="member" type="Contact"/>
+    <aura:attribute name="isModal" type="boolean" default="false"/>
+</aura:event>

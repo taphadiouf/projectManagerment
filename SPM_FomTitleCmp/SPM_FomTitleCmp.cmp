@@ -1,0 +1,49 @@
+<!--
+  @File Name          : SPM_FomTitleCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 9/6/2019, 1:41:12 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    9/5/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component
+  implements="force:appHostable,flexipage:availableForAllPageTypes"
+  access="global"
+>
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="isSubOrClone" type="boolean" default="false" />
+  <aura:attribute name="title" type="String" default="" />
+  <lightning:layout class="slds-page-header slds-page-header--object-home">
+    <lightning:layoutItem>
+      <lightning:icon
+        iconName="standard:scan_card"
+        alternativeText="My Expenses"
+      />
+    </lightning:layoutItem>
+    <lightning:layoutItem padding="horizontal-small">
+      <div class="page-section page-header">
+        <h1 class="slds-text-heading--label">
+          <aura:if isTrue="{!v.recordId==''}">
+            <aura:if isTrue="{!v.isSubOrClone}">
+              <b>Add {!v.title}</b>
+              <aura:set attribute="else">
+                <b>{!$Label.c.new_title_label } {!v.title}</b>
+              </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+              <aura:if isTrue="{!v.isSubOrClone}">
+                <b>{!v.title}</b>
+                <aura:set attribute="else">
+                  <b> {!$Label.c.edit_title_label} {!v.title}</b>
+                </aura:set>
+              </aura:if>
+            </aura:set>
+          </aura:if>
+        </h1>
+      </div>
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

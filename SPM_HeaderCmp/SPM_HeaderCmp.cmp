@@ -1,0 +1,133 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="pageReference" type="Object" />
+    <aura:attribute name="current" type="string" default="summary" />
+    <lightning:navigation aura:id="navService"/>
+       
+    <div class=" slds-card ">
+        <!--
+    Admin
+    -->
+        <div class="height slds-grid">
+            <div class="slds-col slds-size_1-of-2">
+                <lightning:buttonIcon iconName="utility:rows" onclick="{!c.displaySidebar}" size="x_large"
+                    alternativeText="View Sidebar" class="slds-m-top_xx-small slds-m-left_xxx-small" />
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <lightning:avatar src="/bad/image/avatar1.jpg" fallbackIconName="standard:avatar"
+                    alternativeText="Administrator" class="slds-float_right slds-m-top_xx-small slds-m-right_small" />
+            </div>
+        </div>
+        <!--
+    Navagation
+    -->
+        <ul id="nav" class="">
+            <li class="{! v.current == 'summary'? 'current' : '' }"><a href="#"
+                    onclick="{!c.summary}">Summary</a></li><!-- n1 -->
+                    <li class="{! v.current == 'projects'? 'current' : '' }"><a href="#"
+                        onclick="{!c.displayListOfproject}">Projects</a></li>
+            <li class="{! v.current == 'finances'? 'current' : '' }"><a href="#"
+                    onclick="{!c.displayListOfFinance}">Finances</a></li>
+            <li class="{! v.current == 'tasks'? 'current' : '' }"><a href="#" onclick="{!c.displayListOfTasks}">Tasks
+                    <lightning:buttonIcon iconName="utility:down" variant="bare" alternativeText="View More"
+                        class="icon-white" />
+                </a>
+                <ul class="slds">
+                    <li><a href="" onclick="{!c.kanbanTab}">Kanban Tab</a></li>
+                    <li><a href="" onclick="{!c.developerProfil}">My Task</a></li>
+                </ul>
+            </li>
+            <li class="{! v.current == 'timesheets'? 'current' : '' }"><a href="#"
+                    onclick="{!c.navigToTimesheets}">Timesheets
+                    <lightning:buttonIcon iconName="utility:down" variant="bare" alternativeText="View More"
+                        class="icon-white" />
+                </a>
+                    <ul class="slds">
+                        <li><a href="" onclick="{!c.newHours}">New Hours</a></li>
+                    </ul>
+                    </li>
+            <li class="{! v.current == 'activities'? 'current' : '' }"><a href="#"
+                    onclick="{!c.displayListOfActivities}">Activities
+                    <lightning:buttonIcon iconName="utility:down" variant="bare" alternativeText="View More"
+                        class="icon-white" />
+                </a>
+                <ul class="slds">
+                    <li><a href="" onclick="{!c.activityAdd}">Activity Add</a></li>
+                    <li><a href="" onclick="{!c.activityView}">Activity View</a></li>
+                    <li><a href="" onclick="{!c.activityList}">Activity List</a></li>
+                </ul>
+            </li>
+            <li class="{! v.current == 'expenses'? 'current' : '' }"><a href="#"
+                    onclick="{!c.displayListOfExpenses}">Expenses</a></li>
+          <!-- <li class="{! v.current == 'report'? 'current' : '' }"><a href="">Reports
+                    <lightning:buttonIcon iconName="utility:down" variant="bare" alternativeText="View More"
+                        class="icon-white" />
+                </a>
+                <ul class="slds">
+                    <li><a href="" onclick="{!c.navigToDTB}">Deviation Time Budget</a></li>
+                    <li><a href="" onclick="{!c.navigToBMP}">Budget Main Projects</a></li>
+                    <li><a href="" onclick="{!c.navigToLUvsPU}">Logged Units vs Planned Units</a>
+                    </li>
+                    <li><a href="" onclick="{!c.navigToPMP}">Project Manager Productivity</a></li>
+                    <li><a href="">Timesheets
+                            <lightning:buttonIcon iconName="utility:right" size="x-small" alternativeText="View More"
+                                class="slds-float_right" />
+                        </a>
+                        <ul>
+                            <li><a href="" onclick="{!c.navigToTimesheetCube}">Timesheet Cube</a></li>
+                            
+                            <li><a href="" onclick="{!c.navigToTimesheetCustProject}">Timesheet Customer
+                                    Project</a></li>
+                            <li><a href="" onclick="{!c.navigToTimesheetIncmpDay}">Timesheet Incomplete
+                                    Days</a></li>
+                            <li><a href="" onclick="{!c.navigToTimesheetProdCalenViewSimpl}">Timesheet
+                                    Productivity Calendar View Simple</a></li>
+                            <li><a href="" onclick="{!c.navigToTimesheetFinance}">Timesheet Finance</a></li>
+                            <li><a href="" onclick="{!c.navigToTimesheetProductivity}">Timesheet
+                                    Productivity</a>
+                            </li>
+                            <li><a href="" onclick="{!c.navigToTimesheetWeeklyView}">Timesheet Weekly View</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Finances
+                            <lightning:buttonIcon iconName="utility:right" size="x-small" alternativeText="View More"
+                                class="slds-float_right" />
+                        </a>
+                        <ul>
+                            <li><a href="" onclick="{!c.navigToFN}">Finance Cube</a></li>
+                            <li><a href="" onclick="{!c.navigToFinanceExpenses}">Finance Expenses</a></li>
+                            
+                            <li><a href="" onclick="{!c.navigToFinanceExpensesReimbursement}">Finance Expenses
+                                    Reimbursement</a></li>
+                            <li><a href="" onclick="{!c.navigToFinanceIncomeStatement}">Finance Income
+                                    Statement</a>
+                            </li>
+                            <li><a href="" onclick="{!c.navigToFinanceProjectDocumentHierarchy}">Finance Project
+                                    Document Hierarchy</a></li>
+                            <li><a href="" onclick="{!c.navigToFDandP}">Finance Documents
+                                    and
+                                    Projects</a></li>
+                            <li><a href="" onclick="{!c.navigToFinanceVAT}">Finance VAT</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="" onclick="{!c.navigToObjectAuditCube}">Object Audit Cube</a></li>
+                    <li><a href="" onclick="{!c.navigToPriceCube}">Price Cube</a></li>
+                    <li><a href="" onclick="{!c.navigToEVA}">Earned Value Analysis</a></li>
+                </ul>
+            </li>-->
+            <li class="{! v.current == 'resource'? 'current' : '' }"><a href="#"
+                    onclick="{!c.displayListOfMembers}">Resources
+                    <lightning:buttonIcon iconName="utility:down" variant="bare" alternativeText="View More"
+                        class="icon-white" />
+                </a>
+                <ul class="slds">
+                    <li><a href="" onclick="{!c.displayListOfMembers}">Members</a></li>
+                    <li><a href="" onclick="{!c.displayListOfAbsences}">Absences </a></li>
+
+                </ul>
+            </li>
+            <li class="{! v.current == 'risk'? 'current' : '' }"><a href="" onclick="{!c.displayListOfRisk}">Risks</a></li>
+        </ul>
+    </div>
+    
+</aura:component>

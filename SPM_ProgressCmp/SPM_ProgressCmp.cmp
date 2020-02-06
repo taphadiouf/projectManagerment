@@ -1,0 +1,177 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="active" type="String" default="slds-path__item slds-is-current slds-is-active" />
+    <aura:attribute name="notActive" type="String" default="slds-path__item slds-is-incomplete" />
+    <aura:attribute name="complete" type="String" default="slds-path__item slds-is-complete" />
+    <aura:attribute name="isSubmitted" type="boolean" default="false" />
+    <aura:attribute name="isNew" type="boolean" default="false" />
+    <!--<lightning:path aura:id="path" recordId="{!v.recordId}" variant="{!v.variant}"
+        hideUpdateButton="{!v.hideUpdateButton}" onselect="{!c.handleSelect}" />-->
+    <article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-path">
+                <div class="slds-grid slds-path__track">
+                    <div class="slds-grid slds-path__scroller-container">
+                        <div class="slds-path__scroller" role="application">
+                            <div class="slds-path__scroller_inner">
+                                <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                                    <li class="{!v.active}" role="presentation">
+                                        <a aria-selected="true" class="slds-path__link" href="javascript:void(0);"
+                                            id="path-6" role="option" tabindex="0">
+                                            <span class="slds-path__stage">
+                                                <lightning:icon iconName="standard:task2"
+                                                    class="slds-icon slds-icon_x-small" aria-hidden="true" />
+                                                <!-- <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                            <use
+                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check">
+                                                            </use>
+                                                        </svg> -->
+                                                <span class="slds-assistive-text">Stage Complete</span>
+                                            </span>
+                                            <span class="slds-path__title">Draft</span>
+                                        </a>
+                                    </li>
+                                    <li class="{!v.notActive}" role="presentation">
+                                        <a aria-selected="false" class="slds-path__link" href="javascript:void(0);"
+                                            id="path-7" role="option" tabindex="-1">
+                                            <span class="slds-path__stage">
+                                                <!-- <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                            <use
+                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check">
+                                                            </use>
+                                                        </svg> -->
+                                                <span class="slds-assistive-text">Stage Complete</span>
+                                            </span>
+                                            <span class="slds-path__title">Submitted</span>
+                                        </a>
+                                    </li>
+                                    <li class="{!v.notActive}" role="presentation">
+                                        <a aria-selected="false" class="slds-path__link" href="javascript:void(0);"
+                                            id="path-8" role="option" tabindex="-1">
+                                            <span class="slds-path__stage">
+                                                <!--  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                            <use
+                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check">
+                                                            </use>
+                                                        </svg> -->
+                                                <span class="slds-assistive-text">Stage Complete</span>
+                                            </span>
+                                            <span class="slds-path__title">Approved</span>
+                                        </a>
+                                    </li>
+                                    <li class="{!v.notActive}" role="presentation">
+                                        <a aria-selected="true" class="slds-path__link" href="javascript:void(0);"
+                                            id="path-9" role="option" tabindex="0">
+                                            <span class="slds-path__stage">
+                                                <!-- <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                            <use
+                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check">
+                                                            </use>
+                                                        </svg> -->
+                                                <span class="slds-assistive-text">Current Stage:</span>
+                                            </span>
+                                            <span class="slds-path__title">Rejected</span>
+                                        </a>
+                                    </li>
+                                    <!--    <aura:if isTrue="{!v.isSubmitted}">
+                                        <li class="{!v.complete}" role="presentation">
+                                            <a aria-selected="true" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-6" role="option" tabindex="0">
+                                                <span class="slds-path__stage">
+                                                    <lightning:icon iconName="utility:task2"
+                                                        class="slds-icon slds-icon_x-small" aria-hidden="true" />
+                                                    
+                                                    <span class="slds-assistive-text">Stage Complete</span>
+                                                </span>
+                                                <span class="slds-path__title">Draft</span>
+                                            </a>
+                                        </li>
+                                        <li class="{!v.active}" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-7" role="option" tabindex="-1">
+                                                <span class="slds-path__stage">
+                                                   
+                                                    <span class="slds-assistive-text">Stage Complete</span>
+                                                </span>
+                                                <span class="slds-path__title">Submitted</span>
+                                            </a>
+                                        </li>
+                                        <li class="{!v.notActive}" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-8" role="option" tabindex="-1">
+                                                <span class="slds-path__stage">
+                                                  
+                                                    <span class="slds-assistive-text">Stage Complete</span>
+                                                </span>
+                                                <span class="slds-path__title">Approved</span>
+                                            </a>
+                                        </li>
+                                        <li class="{!v.notActive}" role="presentation">
+                                            <a aria-selected="true" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-9" role="option" tabindex="0">
+                                                <span class="slds-path__stage">
+                                                   
+                                                    <span class="slds-assistive-text">Current Stage:</span>
+                                                </span>
+                                                <span class="slds-path__title">Rejected</span>
+                                            </a>
+                                        </li>
+                                    </aura:if> -->
+                                    <!--    <aura:set attribute="else">
+                                        <li class="{!v.active}" role="presentation">
+                                            <a aria-selected="true" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-6" role="option" tabindex="0">
+                                                <span class="slds-path__stage">
+                                                    <lightning:icon iconName="standard:task2"
+                                                        class="slds-icon slds-icon_x-small" aria-hidden="true" />
+                                                    
+                                                      
+                                                    <span class="slds-assistive-text">Stage Complete</span>
+                                                </span>
+                                                <span class="slds-path__title">Draft</span>
+                                            </a>
+                                        </li>
+                                        <li class="slds-path__item slds-is-complete" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-7" role="option" tabindex="-1">
+                                                <span class="slds-path__stage">
+                                                    <span class="slds-assistive-text">Stage Complete</span>
+                                                </span>
+                                                <span class="slds-path__title">Submitted</span>
+                                            </a>
+                                        </li>
+                                        <li class="slds-path__item slds-is-complete" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-8" role="option" tabindex="-1">
+                                                <span class="slds-path__stage">
+                                                    <span class="slds-assistive-text">Stage Complete</span>
+                                                </span>
+                                                <span class="slds-path__title">Approved</span>
+                                            </a>
+                                        </li>
+                                        <li class="slds-path__item slds-is-current slds-is-active" role="presentation">
+                                            <a aria-selected="true" class="slds-path__link" href="javascript:void(0);"
+                                                id="path-9" role="option" tabindex="0">
+                                                <span class="slds-path__stage">
+                                                    <span class="slds-assistive-text">Current Stage:</span>
+                                                </span>
+                                                <span class="slds-path__title">Rejected</span>
+                                            </a>
+                                        </li>
+                                    </aura:set>    -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="slds-grid slds-path__action">
+                        <span class="slds-path__stage-name">Stage: Unqualified</span>
+                        <button class="slds-button slds-button_brand slds-path__mark-complete">
+                            <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                            </svg>Mark Status as Complete</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+    </article>
+</aura:component>

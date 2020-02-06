@@ -1,0 +1,130 @@
+<aura:component
+                controller="SPM_TaskCnt"
+                access="global"
+                implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable">
+    
+<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+<aura:handler action="{!c.displayTaskToListFiltered}" event="c:SPM_FilterTaskEvt"/>
+<aura:handler name="SPM_NewTaskCreatedEvt" action="{!c.addTaskToList}" event="c:SPM_NewTaskCreatedEvt" />
+    <aura:attribute name="tasks" type="Asset[]" />
+    <aura:attribute name="task" type="Asset" default="{}"/>
+    <aura:attribute name="tasksSelected" type="Asset[]" />
+    <aura:attribute name="numberOfTasksToDisplay" type="Asset[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="isModalAssign" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="string" default="" />
+    <aura:attribute name="taskId" type="Id" default="" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService" />
+    <aura:attribute name="activityId" type="Id" default="" />
+    <aura:attribute name="Description" type="String"/>
+    
+    <aura:if isTrue="{!v.recordId!=''}"> 
+                       
+        <c:SPM_ListHeaderCmp
+                                            iconName="standard:task"
+                                             objects="{!v.tasks}"
+                                             numberOfLinesToDisplay="{!v.numberOfTasksToDisplay}"
+                                             totalSize="{!v.totalSize}"
+                                             title="TASKS"
+                                             objetsSelected="{!v.tasksSelected}"
+                                             />
+                        
+                        <div class="slds-m-right_large">
+                            <lightning:button
+                                              class="slds-float_right slds-m-top_medium slds-m-bottom_medium"
+                                              label="New"
+                                              title="Neutral action"
+                                              onclick="{! c.openModalNewTask }"
+                                              />
+                        </div>
+                        <table class=" ">
+                            <lightning:datatable
+                                                 keyField="id"
+                                                 data="{!v.numberOfTasksToDisplay}"
+                                                 columns="{!v.columns}"
+                                                 onrowaction="{!c.handleRowAction}"
+                                                 hideCheckboxColumn="true"
+                                                 class="tablecol"
+                                                 />
+                        </table>
+                        <c:SPM_NewTaskCmp
+                                          task="{!v.task}"
+                                          isModal="{!v.isModal}"
+                                          isNotModal="false"
+                                          recordId="{!v.taskId}"
+                                          projectId="{!v.recordId}"
+                                          />
+                        <c:SPM_ListFooterCmp
+                                             objects="{!v.tasks}"
+                                             numberOfLinesToDisplay="{!v.numberOfTasksToDisplay}"
+                                             totalSize="{!v.totalSize}"
+                                             pageSize="{!v.pageSize}"
+                                             start="{!v.start}"
+                                             end="{!v.end}"
+                                             /> 
+        <aura:set attribute="else">
+            <div class="slds-grid ">
+                <!--
+          First column
+          -->
+                <div class="slds-col" id="sidebar">
+                    <c:SPM_TaskSdebarCmp />
+                </div>
+                <!--
+          Second column
+          -->
+                <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+                    
+                    <c:SPM_ListHeaderCmp
+                                        iconName="standard:task"
+                                         objects="{!v.tasks}"
+                                         numberOfLinesToDisplay="{!v.numberOfTasksToDisplay}"
+                                         totalSize="{!v.totalSize}"
+                                         title="TASKS"
+                                         objetsSelected="{!v.tasksSelected}"
+                                         />
+                    
+                    <div class="slds-m-right_large">
+                        <lightning:button
+                                          class="slds-float_right slds-m-top_medium slds-m-bottom_medium"
+                                          label="New"
+                                          title="Neutral action"
+                                          onclick="{! c.openModalNewTask }"
+                                          />
+                    </div>
+                    <table class=" ">
+                        <lightning:datatable
+                                             keyField="id"
+                                             data="{!v.numberOfTasksToDisplay}"
+                                             columns="{!v.columns}"
+                                             onrowaction="{!c.handleRowAction}"
+                                             hideCheckboxColumn="true"
+                                             class="tablecol"
+                                             />
+                    </table>
+                    <c:SPM_NewTaskCmp
+                                      task="{!v.task}"
+                                      isModal="{!v.isModal}"
+                                      isNotModal="false"
+                                      recordId="{!v.taskId}"
+                                      />
+                    <c:SPM_ListFooterCmp
+                                         objects="{!v.tasks}"
+                                         numberOfLinesToDisplay="{!v.numberOfTasksToDisplay}"
+                                         totalSize="{!v.totalSize}"
+                                         pageSize="{!v.pageSize}"
+                                         start="{!v.start}"
+                                         end="{!v.end}"
+                                         /> 
+                </div>
+            </div>
+        </aura:set>
+    </aura:if>
+    <c:SMP_AssignMemberToTaskCmp projectId="{!v.recordId}" taskId="{!v.taskId}"  isModal="{!v.isModalAssign}"/>
+</aura:component>

@@ -1,0 +1,20 @@
+<aura:component  implements="flexipage:availableForAllPageTypes" access="global">
+    
+ 
+    <div class="bg-black height">
+        <article class="slds-card  bg-black">
+            <c:SPM_HeaderSidebarCmp/>
+            <footer class="slds-card__footer m-top bg-dimgrey slds-border_top">
+
+                    <!--
+        Admin project
+      -->
+                   <c:SPM_AdminSidebarCmp isNewProject="true"/>
+                <!--
+        Home
+      -->
+                <c:SPM_HomeSideBarCmp />
+            </footer>
+        </article>
+    </div>
+</aura:component>

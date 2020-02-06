@@ -1,0 +1,156 @@
+<aura:component controller="SPM_TaskCnt"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+  access="global">
+  <aura:attribute name="backgroundColor" type="String" default="#000000" />
+  <aura:attribute name="tasks" type="Asset[]" default="" />
+  <aura:attribute name="tasksNotStarted" type="Asset[]" default="" />
+  <aura:attribute name="tasksStarted" type="Asset[]" default="" />
+  <aura:attribute name="tasksTested" type="Asset[]" default="" />
+  <aura:attribute name="tasksDone" type="Asset[]" default="" />
+  <aura:attribute name="task" type="Asset" default="{}" />
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="isModal" type="Boolean" default="false" />
+  <aura:attribute name="isOpenPromptCompleted" type="Boolean" default="false" />
+  <aura:attribute name="statusTask" type="String" default="" />
+
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+  <aura:handler event="force:refreshView" action="{!c.doReload}" />
+  <aura:handler
+    action="{!c.updateListTask}"
+    event="c:SPM_TaskCreatedEvt"
+  />
+  <aura:handler name="SPM_TaskDeletedEvt" event="c:SPM_TaskDeletedEvt" action="{!c.updateListTasks}" />
+
+
+  <div style="{!'background-color:'+v.backgroundColor}">
+    <lightning:layout class="slds-wrap " multipleRows="true">
+      <lightning:layoutItem size="3" class="slds-m-around_xx-small ">
+        <article class="slds-card">
+          <div class="slds-card__header slds-grid ">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate slds-theme-shade">
+
+              <div class="slds-media__body slds-m-left_small">
+                <h2 class="slds-card__header-title">
+                  <span>Not Started</span>
+                </h2>
+              </div>
+              <div class="slds-no-flex slds-m-right_small">
+                <lightning:button variant="base" label="..." title="Looks like a link" onclick="{!c.handleClick}"
+                  class="" />
+              </div>
+            </header>
+          </div>
+          <div class="slds-card__body drop-zone">
+            <c:SPM_TasksViewCmp tasks="{!v.tasksNotStarted}" backgroundColor="#3498db" statusTask="Not Started"/>
+          </div>
+          <footer class="slds-card__footer">
+            <lightning:button variant="base" label="+ Add Card" title="Looks like a link"
+              onclick="{!c.AddNoStartedTask}" class="" />
+
+          </footer>
+        </article>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="3" class="slds-m-around_xx-small">
+        <article class="slds-card">
+          <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate slds-theme-shade">
+
+              <div class="slds-media__body slds-m-left_small">
+                <h2 class="slds-card__header-title">
+                  <span>Started</span>
+                </h2>
+              </div>
+              <div class="slds-no-flex slds-m-right_small">
+                <lightning:button variant="base" label="..." title="Looks like a link" onclick="{!c.handleClick}"
+                  class="" />
+              </div>
+            </header>
+          </div>
+          <div class="slds-card__body">
+            <c:SPM_TasksViewCmp tasks="{!v.tasksStarted}" backgroundColor="#feb203" statusTask="Started"/>
+          </div>
+          <footer class="slds-card__footer">
+            <lightning:button variant="base" label="+ Add Card" title="Looks like a link"
+              onclick="{!c.AddStartedTask}" class="" />
+          </footer>
+        </article>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="3" class="slds-m-around_xx-small">
+        <article class="slds-card">
+          <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate slds-theme-shade">
+
+              <div class="slds-media__body slds-m-left_small">
+                <h2 class="slds-card__header-title">
+                  <span>Tested</span>
+                </h2>
+              </div>
+              <div class="slds-no-flex slds-m-right_small">
+                <lightning:button variant="base" label="..." title="Looks like a link"
+                  onclick="{!c.openPromptCompleted}" class="" />
+              </div>
+            </header>
+          </div>
+          <div class="slds-card__body">
+            <c:SPM_TasksViewCmp tasks="{!v.tasksTested}"  backgroundColor="#FFFF00" statusTask="Tested"/>
+          </div>
+          <footer class="slds-card__footer">
+            <lightning:button variant="base" label="+ Add Card" title="Looks like a link"
+              onclick="{!c.AddTestedTask}" class="" />
+          </footer>
+        </article>
+        <aura:if isTrue="{!v.isOpenPromptCompleted}">
+          <section aria-describedby="dialog-body-id-100" aria-labelledby="dialog-heading-id-5"
+            class="slds-popover slds-popover_prompt slds-popover_prompt_top-right" role="dialog">
+            <header class="slds-popover__header slds-p-vertical_large">
+              <lightning:buttonIcon iconName="utility:close" onclick="{! c.closePromptCompleted }" alternativeText="close"
+                variant="bare" class="slds-popover__close slds-float_right" />
+            </header>
+            <div class="slds-popover__body" id="dialog-body-id-100">
+              <div class="slds-media">
+                <div class="slds-media__body">
+                  <lightning:button variant="base" label="Add a new card" title="Looks like a link"
+                    onclick="{!c.openPromptCompleted}" class="" /> <br/>
+                <lightning:button variant="base" label="Add a new card" title="Looks like a link"
+                    onclick="{!c.openPromptCompleted}" class="" /> <br/>
+                <lightning:button variant="base" label="Add a new card" title="Looks like a link"
+                    onclick="{!c.openPromptCompleted}" class="" />
+                </div>
+              </div>
+            </div>
+            <footer class="slds-popover__footer">
+              <lightning:button variant="base" label="Move all card of this list" title="Looks like a link"
+                onclick="{!c.move}" class="" />
+            </footer>
+          </section>
+        </aura:if>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="2" class="slds-m-around_xx-small">
+        <article class="slds-card">
+          <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate slds-theme-shade">
+
+              <div class="slds-media__body slds-m-left_small">
+                <h2 class="slds-card__header-title">
+                  <span>Done</span>
+                </h2>
+              </div>
+              <div class="slds-no-flex slds-m-right_small">
+                <lightning:button variant="base" label="..." title="Looks like a link" onclick="{!c.handleClick}"
+                  class="" />
+              </div>
+            </header>
+          </div>
+          <div class="slds-card__body">
+            <c:SPM_TasksViewCmp tasks="{!v.tasksDone}"  backgroundColor="#5afe03" statusTask="Done"/>
+          </div>
+          <footer class="slds-card__footer">
+            <lightning:button variant="base" label="+ Add Card" title="Looks like a link"
+              onclick="{!c.AddDoneTask}" class=""></lightning:button>
+          </footer>
+        </article>
+      </lightning:layoutItem>
+    </lightning:layout>
+  </div>
+  <c:SPM_NewTaskCmp task="{!v.task}" isModal="{!v.isModal}" isNotModal="false" projectId="{!v.recordId}" statusTask="{!v.statusTask}"/>
+</aura:component>

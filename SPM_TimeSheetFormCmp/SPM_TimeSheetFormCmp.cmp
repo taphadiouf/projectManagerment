@@ -1,0 +1,57 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="SPM_TimeSheetCnt">
+  <aura:attribute name="timeSheet" type="Contract" default="{}"/>
+  <aura:attribute name="members" type="Contact[]" />
+  <aura:attribute name="memberId" type="String" />
+  <aura:attribute name="isOpen" type="boolean" default="false" />
+  <aura:attribute name="isValidFields" type="boolean" default="false" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+  <aura:handler event="c.SPM_NewTimeSheetCreatedEvt" action="{!c.handleNewTimeSheetCreation}" />
+
+  <div class="">
+    <!-- BOXED AREA -->
+    <fieldset class=" slds-box slds-theme--default slds-container-x-large">
+      <legend
+        id="newexpenseform"
+        class="slds-text-heading--small 
+              slds-p-vertical--medium"
+      >
+        Add TimeSheet
+      </legend>
+
+      <!-- CREATE NEW EXPENSE FORM -->
+      <form class="slds-form--stacked slds-m-around_large">
+        <div class="">
+          <lightning:combobox
+                options="{!v.members}"
+                aura:id="isValideField"
+                value="{!v.memberId}"
+                label="{!$Label.c.members_field_label}"
+                onchange="{!c.memberChange}"
+                placeholder="Select a Member"
+                required="true"
+              />
+        </div>
+        <div class=" ">
+          <lightning:input
+            value="{!v.timeSheet.ActivatedDate}"
+            label="{!$Label.c.start_date_field_label}"
+            type="date"
+            placeholder="Select a Date"
+          />
+        </div>
+        <div class=" ">
+          <lightning:input
+            type="number"
+            value="{!v.timeSheet.ContractTerm}"
+            label="{!$Label.c.hours_total_field_label}"
+            placeholder="Enter Total Hours"
+          />
+        </div>
+      </form>
+      <!-- / CREATE NEW EXPENSE FORM -->
+    </fieldset>
+    <!-- / BOXED AREA -->
+  </div>
+</aura:component>

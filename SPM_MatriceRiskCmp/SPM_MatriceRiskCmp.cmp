@@ -1,0 +1,118 @@
+<aura:component controller="SPM_RiskCnt" access="global" implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:handler action="{!c.displayProjectFiltered}" event="c:SPM_FilterProjectRiskEvt" />
+    <aura:handler action="{!c.doInit}" event="c:SPM_NewRiskCreatedEvt" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="risks" type="Opportunity[]" />
+    <aura:attribute name="tableData" type="String[]" default="[]"  />
+    <aura:attribute name="recordId" type="String"  />
+    
+    
+    <h1 class="slds-text-heading_medium" style="color:black"><center>Risk Matrix </center></h1>
+        
+        
+    
+    <div class="slds-grid ">
+        <div class="slds-col slds-theme_shade">
+            <span>Fréquence</span>
+            <table  class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"> 
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="im">4</div>
+                        </th>
+                        <th class="" scope="col" style="background-color:yellow">
+                            <div class="slds-truncate" title="im">{!v.tableData[5]}</div>
+                        </th>
+                        <th class="" scope="col" style="background-color:orange">
+                            <div class="slds-truncate" title="im">{!v.tableData[9]}</div>
+                        </th>
+                        <th class="" scope="col" style="background-color:red">
+                            <div class="slds-truncate" title="im">{!v.tableData[12]} </div>
+                        </th>
+                        <th class="" scope="col" style="background-color: red">
+                            <div class="slds-truncate" title="im">{!v.tableData[13]}</div>
+                        </th>
+                        
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr class="slds-hint-parent">
+                        <th class="" data-label="im" scope="row">
+                            <div class="slds-truncate" title="im">3</div>
+                        </th>
+                        <td data-label="im" style="background-color: green" >
+                            <div class="slds-truncate" title="im">{!v.tableData[0]}</div>
+                        </td>
+                        <td data-label="im" style="background-color:yellow">
+                            <div class="slds-truncate" title="im">{!v.tableData[6]}</div>
+                        </td>
+                        <td data-label="im" style="background-color:orange">
+                            <div class="slds-truncate" title="im">{!v.tableData[10]}</div>
+                        </td>
+                        <td data-label="im" style="background-color: red">
+                            <div class="slds-truncate" title="im">{!v.tableData[14]}</div>
+                        </td>
+                        
+                    </tr>
+                    <tr   class="slds-hint-parent">
+                        <th data-label="im" scope="row">
+                            <div class="slds-truncate" title="im">2</div>
+                        </th>
+                        <td data-label="im" style="background-color: green">
+                            <div class="slds-truncate" title="im">{!v.tableData[1]}</div>
+                        </td>
+                        <td data-label="im"  style="background-color:yellow">
+                            <div class="slds-truncate" title="im">{!v.tableData[7]}</div>
+                        </td>
+                        <td data-label="im" style="background-color:yellow">
+                            <div class="slds-truncate" title="im">{!v.tableData[8]}</div>
+                        </td>
+                        <td data-label="im" style="background-color: orange">
+                            <div class="slds-truncate" title="im">{!v.tableData[11]}</div>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <th class="" data-label="im" scope="row">
+                            <div class="slds-truncate" title="im">1</div>
+                        </th>
+                        <td data-label="im" style="background-color: green">
+                            <div class="slds-truncate" title="im">{!v.tableData[2]}</div>
+                        </td>
+                        <td data-label="im" style="background-color: green">
+                            <div class="slds-truncate" title="im">{!v.tableData[3]}</div>
+                        </td>
+                        <td data-label="im" style="background-color:green">
+                            <div class="slds-truncate" title="im">{!v.tableData[4]}</div>
+                        </td>
+                        <td data-label="im" style="background-color:yellow" >
+                            <div class="slds-truncate" title="im">{!v.tableData[9]}</div>
+                        </td>
+                        
+                    </tr>
+                    
+                    <tr>
+                        <th class="" data-label="im" scope="row">
+                            <div class="slds-truncate" title="im"></div>
+                        </th>
+                        <td data-label="im">
+                            <div class="slds-truncate" title="im">1</div>
+                        </td>
+                        <td data-label="im">
+                            <div class="slds-truncate" title="im">2</div>
+                        </td>
+                        <td data-label="im">
+                            <div class="slds-truncate" title="im">3</div>
+                        </td>
+                        <td data-label="im">
+                            <div class="slds-truncate" title="im">4</div>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            <span> <center> Gravité </center> </span>
+        </div>
+    </div>    
+</aura:component>

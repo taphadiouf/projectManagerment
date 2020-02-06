@@ -1,0 +1,37 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    controller="SPM_MemberHasProjectHasTaskCnt" access="global">
+    <aura:attribute name="allItemsToDo" type="Asset[]" default="[]" />
+    <aura:attribute name="allItemsInProgress" type="Asset[]" default="[]" />
+    <aura:attribute name="allItemsDone" type="Asset[]" default="[]" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isVisible" type="boolean" />
+    <aura:attribute name="dataNotNull" type="boolean" default="false" />
+    <aura:attribute name="statusTask" type="String" default="" />
+
+    <!--aura:handler name="SPM_TaskFormChangeEvt" event="c:SPM_TaskFormChangeEvt" action="{!c.onTaskBlockChanged}"/-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <div class="slds-p-around_medium slds-card slds-card_boundary">
+        <!--    <lightning:tabset variant="default">
+         <lightning:tab id="-LMIHx0i9Z66-0C4ffHE" label="Task"> -->
+        <lightning:layout class="slds-wrap" multipleRows="true">
+            <lightning:layoutItem size="4" class="slds-p-left_small">
+                <aura:if isTrue="{!v.dataNotNull}">
+                    <c:SPM_TaskToDoForMemberCardCmp tasks="{!v.allItemsToDo}" isVisible="{!v.isVisible}" statusTask="Not Started Yet" />
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" class="slds-p-left_small slds-p-right_small">
+                <aura:if isTrue="{!v.dataNotNull}">
+                    <c:SPM_TaskInProcessForMemberCardCmp tasks="{!v.allItemsInProgress}" isVisible="{!v.isVisible}" statusTask="Started"/>
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" class="slds-p-right_small">
+                <aura:if isTrue="{!v.dataNotNull}">
+                    <c:SPM_TaskDoneForMemberCardCmp tasks="{!v.allItemsDone}" isVisible="{!v.isVisible}" statusTask="Completed"/>
+                </aura:if>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- </lightning:tab> 
+        </lightning:tabset> -->
+    </div>
+</aura:component>

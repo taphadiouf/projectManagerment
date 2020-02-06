@@ -1,0 +1,14 @@
+.THIS .tablecol thead th span {
+    background-color: #f7f7f7;
+    font-weight: bold;
+  }
+
+  .THIS .tablecol{
+    text-align: center;
+}
+
+.THIS .tablecol .slds-th__action .slds-th__action-button { display: none; }
+
+.THIS .tablecol .slds-button_icon-bare{
+    display: none;
+}

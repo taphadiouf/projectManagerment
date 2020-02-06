@@ -1,0 +1,77 @@
+<aura:component
+  controller="SPM_ActivityCnt"
+  access="global"
+  implements="flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="activity" type="Case" default="{}" />
+  <aura:attribute name="tasks" type="Asset[]" />
+  <aura:attribute name="taskId" type="String" default=""/>
+  <aura:attribute name="isValidFields" type="boolean" default="false" />
+  <aura:attribute name="isOpenModalNewTask" type="boolean" default="false" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+  <aura:handler event="c.SPM_NewTaskCreatedEvt" action="{!c.handleNewTaskCreation}" />
+
+  <div class="">
+    <!-- BOXED AREA -->
+    <fieldset class=" slds-theme--default slds-container-x-small">
+
+      <form class="slds-form--stacked slds-m-around_large">
+        <lightning:layout>
+          <lightning:layoutItem size="12" class="slds-m-right_small">
+            <div class="">
+              <div class="slds-grid">
+                <div class="slds-col">
+                  <aura:if isTrue="{!v.taskId==''}">
+                            <div class="">
+                                <lightning:combobox aura:id="isValideField" options="{!v.tasks}" value="{!v.activity.AssetId}" label="{!$Label.c.task_field_label}"  required="true"
+                                                    onchange="{!c.taskChange}"       placeholder="Select a task"  />
+                            </div>
+                 </aura:if>
+
+                </div>
+                </div>
+              <lightning:input
+                aura:id="isValideField"
+                type="txt"
+                label="{!$Label.c.name_field_label}"
+                placeholder="Title of the activity"
+                value="{!v.activity.Subject}"
+                required="true"
+              />
+            </div>
+            <div class="">
+              <div class="">
+                <lightning:input
+                  aura:id="isValideField"
+                  type="txt"
+                  label="Short Name"
+                  placeholder="Short name"
+                  value="{!v.activity.SuppliedName}"
+                  required="true"
+                />
+              </div>
+            </div>
+            <div class="">
+              <div class="">
+                <lightning:input
+                  aura:id="isValideField"
+                  type="number"
+                  label="{!$Label.c.cost_field_label}"
+                  placeholder="Short name"
+                  value="{!v.activity.cost__c}"
+                />
+              </div>
+            </div>
+          </lightning:layoutItem>
+        </lightning:layout>
+        <div class="slds-float_right"> </div>
+      </form>
+      <!-- / CREATE NEW EXPENSE FORM -->
+    </fieldset>
+    <!-- / BOXED AREA -->
+  </div>
+  <c:SPM_NewTaskCmp isModal="{!v.isOpenModalNewTask}" isNotModal="false" isModalInModal="true"/>
+</aura:component>

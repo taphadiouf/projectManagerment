@@ -1,0 +1,93 @@
+<!--
+  @Component Name     : SPM_RiskFormCmp.cmp
+  @Description        : 
+  @Author             : Abdoulaye Diallo
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    8/27/2019, 11:41:10 AM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_RiskCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="projectId" type="Id" default="" />
+    <aura:attribute name="status" type="SPM_statusprojectCs__c[]" />
+    <aura:attribute name="projects" type="Account[]"/> 
+    <aura:attribute name="type" type="SPM_typeriskCs__c[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="duration" type ="Integer" />
+    <aura:attribute name="maitrise" type="Integer"/>
+    <aura:attribute name="amount" type="Integer"/>
+    <aura:attribute name="risk" type="Opportunity" default="{}"/>
+    <aura:handler event="c:SPM_IsFormRiskValidEvt" action="{!c.verifyFields}" />
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class="">
+            
+            
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout >
+                    <lightning:layoutItem size="6" class="slds-m-right_small">
+                        
+                        <div class="">
+                            <lightning:input aura:id="isValideField" type="txt" label="{!$Label.c.title_field_label}"  placeholder="Title of risk" value="{!v.risk.Name}" required="true" />
+                        </div>
+                        <div class="">
+                            <div class="">
+                                <lightning:input aura:id="isValideField" type="number" label="{!$Label.c.impact_field_label}"  placeholder="Impact" value="{!v.risk.NextStep}"   required="true" />
+                            </div>
+                        </div>
+                        
+                        <div class="">
+                            <lightning:slider label="Gravité" value="{!v.duration}"  min ="1" max="4"/> 
+                        </div>
+                        <div class="">
+                            <lightning:slider label="Maitrise" value="{!v.maitrise}" min ="1" max="2" size="medium"/> 
+                        </div>        
+                    </lightning:layoutItem>
+                    
+                    <lightning:layoutItem size="6" class="slds-m-left_small">
+                        
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.type}" value="{!v.risk.Type}" label="{!$Label.c.type_field_label}" onchange="{!c.typeChange}" required="true"
+                                                placeholder="Select a Type"  />
+                        </div>
+                        <aura:if isTrue="{!v.projectId==''}">
+                            <div class="">
+                                <lightning:combobox aura:id="isValideField" options="{!v.projects}" value="{!v.risk.AccountId}" label="{!$Label.c.projects_field_label}"  required="true"
+                                                    onchange="{!c.projectChange}"       placeholder="Select a project"  />
+                            </div>
+                        </aura:if>
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField" options="{!v.status}" value="{!v.risk.DeliveryInstallationStatus__c}" label="{!$Label.c.status_field_label}" onchange="{!c.statusChange}" required="true"
+                                                placeholder="Select a status"  />
+                        </div>
+                        <div class="">
+                            <lightning:slider label="Frequence" value="{!v.amount}"  default="2"  min ="1" max="4"/>
+                        </div>
+                    </lightning:layoutItem>
+                    
+                </lightning:layout>
+                
+                <lightning:layoutItem size="6" class="slds-m-left_small">
+                    
+                    
+                   
+                </lightning:layoutItem>
+                <div class="slds-float_right">
+                    
+                </div>
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+            
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+    
+</aura:component>

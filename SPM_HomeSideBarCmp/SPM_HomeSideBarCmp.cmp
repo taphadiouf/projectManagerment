@@ -1,0 +1,73 @@
+<aura:component>
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService"/>
+
+    <div class="slds-m-top_large slds-m-left_large slds-text-align_left">
+        <div>
+            <h2 class="text-white ">Home</h2> <br></br>
+            <div class="slds-p-left_small">
+                <p class="slds-truncate">
+                    <span class="">
+                        <a href="" onclick="{!c.navigToHome}" class="text-green">+ Home</a><br></br>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green" onclick="{!c.navigToPM}">+ Project
+                            Management</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green" onclick="{!c.displayCustomer}">+ Customers</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                        <span class="">
+                            <a href="" class="text-green" onclick="{!c.displayOrgUnit}">+ Organisations Unit</a>
+                        </span>
+                    </p>
+                    <p class="slds-truncate ">
+                            <span class="">
+                                <a href="" class="text-green" onclick="{!c.displayProgram}">+ Programs</a>
+                            </span>
+                        </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ Human Resources</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ CRM</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ Provider Management</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ IT Service Management</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ Colaboration</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ Finance</a>
+                    </span>
+                </p>
+                <p class="slds-truncate ">
+                    <span class="">
+                        <a href="" class="text-green">+ Risk</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</aura:component>

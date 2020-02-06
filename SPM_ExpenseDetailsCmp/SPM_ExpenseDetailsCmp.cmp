@@ -1,0 +1,116 @@
+<aura:component controller="SPM_ExpenseCnt"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:isUrlAddressable"
+    access="global" description="c:SPM_ExpenseDetailsCmp component">
+    <aura:attribute name="expense" type="Case" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService" />
+    <div class="slds-grid slds-theme_default slds-font-family slds-font-size-6">
+        <!--
+        First column
+      -->
+        <div class="slds-card slds-size_1-of-1 slds-m-bottom_xx-large">
+            <div class="slds-form slds-p-around_xx-large" role="list">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">* </abbr>Assigned To</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <span
+                                        class="slds-avatar slds-avatar_x-small slds-avatar_circle slds-m-right_xx-small">
+                                        <img alt="{!v.expense.Member_has_project__r.SPM_Members__r.Name}"
+                                            src="/assets/images/avatar1.jpg"
+                                            title="{!v.expense.Member_has_project__r.SPM_Members__r.Name}" />
+                                    </span>
+                                    <a
+                                        href="javascript:void(0);">{!v.expense.Member_has_project__r.SPM_Members__r.Name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">Team Name</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <a href="javascript:void(0);">{!v.expense.Account.Name}</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label"><b>{!$Label.c.amount_field_label}</b></span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!v.expense.amount__c}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label"><b>{!$Label.c.expense_date_field_label}</b></span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <lightning:formattedDateTime value="{!v.expense.CreatedDate}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span
+                                class="slds-form-element__label"><b>{!$Label.c.external_company_field_label}</b></span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!v.expense.SuppliedCompany}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label"><b>{!$Label.c.expense_type_field_label}</b></span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!v.expense.Type}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent slds-form-element_1-col">
+                            <span class="slds-form-element__label"><b>{!$Label.c.description_field_label}</b></span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static slds-text-longform">
+                                    {!v.expense.SPM_Description__c}
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <c:spm_UploadPictureLwc recordId="{!v.recordId}"/>
+                </div>
+            </div>
+            <div>
+                <lightning:button class="slds-float_right slds-m-right_medium slds-m-bottom_small slds-button_brand"
+                    label="Submit" onclick="{!c.handleUpdateStatus}" />
+            </div>
+        </div>
+    </div>
+</aura:component>

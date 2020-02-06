@@ -1,0 +1,65 @@
+<!--
+  @Component Name     : Show Activites Details .cmp
+  @Description        :  
+  @Author             : adiallo
+  @Group              : 
+  @Last Modified By   : 
+  @Last Modified On   : 26/09/2019 à 08:40:15
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author                 Modification
+  ==============================================================================
+  1.0    26/09/2019 à 08:42:14   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_ActivityCnt" access="global" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="id" type="Id" />
+    <aura:attribute name="activity" type="Case" />
+    
+        <div>
+            <div class="slds-form slds-m-around_large" role="list">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                <abbr class="slds-required" title="required"></abbr>Cost</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    {!v.activity.cost__c}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label"> Name</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                        {!v.activity.Subject}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">Short Name</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    {!v.activity.SuppliedName}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                </div>
+            </div>
+        
+    
+</aura:component>

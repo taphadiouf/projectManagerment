@@ -1,0 +1,10 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="filtre" type="Object" default="{
+        'status': '',
+        'category': '',
+        'customer': '',
+        'member': '',
+        'startDate': '',
+        'endDate': '', 
+        'mineOrAll': ''}" />
+</aura:event>

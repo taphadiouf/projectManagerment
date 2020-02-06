@@ -1,0 +1,7 @@
+.hasDay.THIS {
+    background-color: rgb(197, 242, 243);
+}
+
+.hasDay:hover.THIS {
+    background-color: rgb(197, 242, 243);
+}

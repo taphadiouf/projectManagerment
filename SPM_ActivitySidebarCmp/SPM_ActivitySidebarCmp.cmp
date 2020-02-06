@@ -1,0 +1,57 @@
+<aura:component controller="SPM_TaskCnt" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="projects" type="Account[]"/>
+    <aura:attribute name="project" type="String"  default=""/>
+    <aura:attribute name="members" type="Contact[]" />
+    <aura:attribute name="member" type="String" default="" />
+     <aura:registerEvent name="SPM_NavigateToPageEvt" type="c:SPM_NavigateToPageEvt" />
+    <aura:registerEvent name="SPM_FilterActivitiesEvt" type="c:SPM_FilterActivitiesEvt" />
+    
+    <div class="bg-black ">
+        <article class="slds-card  bg-black">
+            <c:SPM_HeaderSidebarCmp/>
+            <footer class="slds-card__footer m-top bg-dimgrey slds-border_top ">
+                <h2 class="slds-text-heading_medium text-white" ><b>Filter Activities</b></h2><br />
+                <table class=" ">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="" class="text-white">Projects</label>
+                            </td>
+                            <td>
+                                <lightning:combobox  value="{! v.project}" options="{! v.projects }" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="" class="text-white">Members</label>
+                            </td>
+                            <td>
+                                <lightning:combobox  value="{! v.member}" options="{! v.members }" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="slds-float_right slds-m-top_small">
+                                    <lightning:button variant="Success" label="Go" title="Go" 
+                                        onclick="{! c.filtrer }" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+
+                    <!--
+        Admin project
+      -->
+                   <c:SPM_AdminSidebarCmp/>
+                <!--
+        Home
+      -->
+                <c:SPM_HomeSideBarCmp />
+            </footer>
+        </article>
+    </div>
+</aura:component>

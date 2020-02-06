@@ -1,0 +1,62 @@
+<!--
+  @File Name          : SPM_ListHeaderCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 9/9/2019, 1:00:41 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    9/6/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component access="global" implements="flexipage:availableForAllPageTypes">
+
+    <aura:attribute name="objects" type="Object[]" />
+    <aura:attribute name="objetsSelected" type="Object[]" />
+    <aura:attribute name="numberOfLinesToDisplay" type="Object[]" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="searchKey" type="String" default="" />
+
+
+    <div class="slds-page-header">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning:icon iconName="standard:scan_card" alternativeText="My Expenses" />
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span>{!$Label.c.list_title_label} {!v.title}</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <div class="slds-page-header__control">
+                        <ul class="slds-button-group-list  ">
+                            <li>
+                                <ui:inputSelect class=" " aura:id="records" change="{!c.onSelectChange}">
+                                    <ui:inputSelectOption text="5" value="5" />
+                                    <ui:inputSelectOption text="10" value="10" />
+                                    <ui:inputSelectOption text="20" value="20" />
+                                    <ui:inputSelectOption text="30" value="30" />
+                                </ui:inputSelect>
+                            </li>
+                            <li onkeyup="{! c.searchKeyChange }">
+                                <lightning:input aura:id="enter-search" value="{!v.searchKey}" name="enter-search"
+                                    isLoading="{! v.issearching }" type="search" class="slds-m-left_small" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

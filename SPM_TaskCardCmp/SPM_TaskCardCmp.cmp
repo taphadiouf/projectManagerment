@@ -1,0 +1,126 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    access="global" controller="SPM_TaskCnt">
+   
+    
+    <aura:attribute name="statusTask" type="String" default="" />
+    <aura:attribute name="task" type="Asset" default="{}" />
+    <aura:attribute name="taskMoved" type="Asset"  />
+    <aura:attribute name="activities" type="Case[]" />
+    <aura:attribute name="isOpenModalTaskInformation" type="Boolean" default="false" />
+    <aura:attribute name="memberAssigned" type="String" default="" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="taskId" type="Id" default="" />
+    <aura:attribute name="isModalAssign" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="string" default="" />
+    <aura:attribute name="backgroundColor" type="String" default="#3498db" />
+    <aura:attribute name="numActivityChecked" type="integer" default="{!v.task.numberActivityChecked}" />
+    <aura:attribute name="isVisible" type="boolean" default="true"/>
+    <aura:registerEvent name="SPM_DragTaskEvt" type="c:SPM_DragTaskEvt" />
+    <aura:registerEvent name="SPM_TaskDeletedEvt" type="c:SPM_TaskDeletedEvt" />
+    
+        <!--CARD -->
+        <aura:if isTrue="{!not(empty(v.task))}">
+            <div class="slds-m-bottom_small slds-page-header slds-box slds-box slds-theme_shade card draggable"
+                draggable="{!v.statusTask!='Done'}" ondragstart="{!c.onDragStart}" style="position: relative;">
+                <div class="slds-media__body">
+                    <lightning:layout>
+                        <aura:if isTrue="{!v.isVisible}">
+                            <lightning:layoutItem size="11">
+                                <a href="" style="text-decoration: none; color:rgb(0, 0, 0)"
+                                    onclick="{!c.showDescription}">
+                                    <div class="slds-m-bottom_small "
+                                        style="{!'border-radius:5px;color:#fff;height:10%;width:30%;background-color:'+v.backgroundColor}">
+                                    </div>
+                                    <div class="slds-item slds-text-heading_small slds-truncate">
+                                        <p> Task Name : {!v.task.Name} </p>
+                                    </div>
+                                    <div class="slds-item">
+                                        <p> Start Date :
+                                            <lightning:formattedDateTime value="{!v.task.StartDate__c}" />
+                                        </p>
+                                    </div>
+                                    <div class="slds-item">
+                                        <p> End Date :
+                                            <lightning:formattedDateTime value="{!v.task.EndDate__c}" />
+                                        </p>
+                                    </div>
+                                </a>
+                            </lightning:layoutItem>
+                        <aura:set attribute="else">
+                                <lightning:layoutItem size="10">
+                                        <a href="" style="text-decoration: none; color:rgb(0, 0, 0)"
+                                            onclick="{!c.showDescription}">
+                                            <div class="slds-m-bottom_small "
+                                                style="{!'border-radius:5px;color:#fff;height:10%;width:30%;background-color:'+v.backgroundColor}">
+                                            </div>
+                                            <div class="slds-item slds-text-heading_small slds-truncate">
+                                                <p> Task Name : {!v.task.Task__r.Name} </p>
+                                            </div>
+                                            <div class="slds-item">
+                                                <p> Start Date :
+                                                    <lightning:formattedDateTime value="{!v.task.Task__r.StartDate__c}" />
+                                                </p>
+                                            </div>
+                                            <div class="slds-item">
+                                                <p> End Date :
+                                                    <lightning:formattedDateTime value="{!v.task.Task__r.EndDate__c}" />
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </lightning:layoutItem>
+                        </aura:set>
+                        </aura:if>
+                        <lightning:layoutItem size="2">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="1">
+                                        <lightning:buttonIcon class="" iconName="utility:delete"  size="small"   onclick="{! c.deleteTaskHandeler }" variant="bare" alternativeText="Delete task" disabled="{!v.statusTask=='Done'}"/>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="1">
+                                        <lightning:buttonIcon class="slds-m-left_medium" iconName="utility:edit"  size="small"   onclick="{! c.editTask }" variant="bare" alternativeText="update task" disabled="{!v.statusTask=='Done'}"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            <div style="padding-top: 20px">
+
+                            </div>
+                                <button class="slds-button" onclick="{!c.assignTaskToMember}" disabled="{!v.statusTask=='Done'}">
+                                    <lightning:avatar src="{!v.task.picture__c}" initials="{!v.task.assignMember}"
+                                        fallbackIconName="standard:avatar" alternativeText="{!v.task.Link__c}"
+                                        class="slds-m-right_small" />
+                                </button>
+                        </lightning:layoutItem>
+
+                    </lightning:layout>
+                    <div class="slds-float_right">
+                        <lightning:layout>
+                            <lightning:layoutItem>
+                                    <div class="slds-item ">
+                                            <p title="Estimated Hours">EH : {!v.task.Quantity} </p>
+                                        </div>
+                            </lightning:layoutItem>
+                            <aura:if isTrue="{!v.task.Logged_Hours__c}">
+                                <lightning:layoutItem>
+                                    <div class="slds-item slds-m-left_large">
+                                        <p title="Logged Hours">LH : {!v.task.Logged_Hours__c} </p>
+                                    </div>
+                                </lightning:layoutItem>
+                            </aura:if>
+                            <aura:if isTrue="{!v.task.Cases.length > 0}">
+                                <lightning:layoutItem size="">
+                                    <div class="slds-item slds-m-left_x-large">
+                                        <p> {!v.numActivityChecked}/{!v.task.Cases.length} </p>
+                                    </div>
+                                </lightning:layoutItem>
+                            </aura:if>
+                        </lightning:layout>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <c:SPM_TaskInformationCmp isModalOpen="{!v.isOpenModalTaskInformation}" task="{!v.task}" taskId="{!v.task.Id}"
+            numActivityChecked="{!v.numActivityChecked}" />
+        <c:SPM_NewTaskCmp task="{!v.task}" isModal="{!v.isModal}" isNotModal="false" recordId="{!v.taskId}" />
+        <c:SMP_AssignMemberToTaskCmp projectId="{!v.recordId}" taskId="{!v.taskId}" isModal="{!v.isModalAssign}" picture="{!v.task.picture__c}"/>
+        <!--/CARD 2-->
+
+</aura:component>

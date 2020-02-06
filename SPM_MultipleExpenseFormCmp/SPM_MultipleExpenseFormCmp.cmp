@@ -1,0 +1,167 @@
+<aura:component controller="SPM_ExpenseCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="expenses" type="Case[]" default="[{
+        'AccountId':'',
+        'Member_has_project__c': '',
+        'amount__c':'',
+        'SuppliedCompany':'',
+        'Origin':'',
+        'SuppliedName':'',
+        'SuppliedPhone':'',
+        'SPM_Description__c':'',
+        'CreatedDate':'',
+        'Type':''
+         }]" />
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="membersHasProjects" type="Contract[]" />
+    <aura:attribute name="expenseTypes" type="SPM_ExpenseTypeCS__c[]" />
+    <aura:attribute name="paymentTypes" type="SPM_PaymentTypeCS__c[]" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    <aura:attribute name="options" type="List" default="[
+                        {'label': 'YES', 'value': 'Yes'},
+                        {'label': 'NO', 'value': 'NO'}
+                        ]" />
+    <aura:attribute name="option" type="List" default="[
+                        {'label': 'YES', 'value': 'Yes'},
+                        {'label': 'NO', 'value': 'NO'}
+                        ]" />
+
+
+    <!-- CREATE NEW EXPENSE -->
+    <fieldset class="slds-theme--default slds-container-xxx-large slds-m-around_x-small">
+        <form action="#">
+            <div class="slds-form slds-size_1-of-1">
+                <table class="slds-table slds-m-around_x-small slds-table_header-hidden">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #212125">
+                                <div style="color: white">No Line</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">Project</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">memberHasProject</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">Amount</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">Expense Date</div>
+                            </th>
+                            <th style="background-color: #212125" >
+                                <div style="color: white">External Company</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">Expense Type</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">Billable</div>
+                            </th>
+                            <th style="background-color: #212125">
+                                <div style="color: white">Payment Type</div>
+                            </th>
+                            <th style="background-color: #212125" >
+                                <div style="color: white">Reimbursable</div>
+                            </th>
+                            <th style="background-color: #212125" >
+                                <div style="color: white">Note</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.expenses}" var="expense" indexVar="index">
+                            <tr>
+                                <td>
+                                    {!index + 1}
+                                </td>
+                                <td>
+                                    <div class="slds-form-element__control">
+                                        <lightning:combobox aura:id="isValideField" options="{!v.projects}"
+                                            value="{!expense.AccountId}" placeholder="-Select-" required="true"
+                                            onchange="{!c.projectChange}" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-form-element__control">
+                                        <lightning:combobox aura:id="isValideField" options="{!v.membersHasProjects}"
+                                            value="{!expense.Member_has_project__c}" placeholder="-Select-"
+                                            required="true" />
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <lightning:input aura:id="isValideField" type="number"
+                                        value="{!expense.amount__c}" min="0.1" formatter="currency" step="0.01"
+                                        messageWhenRangeUnderflow="Enter an amount that's at least $0.10." />
+                                </td>
+
+                                <td>
+                                    <lightning:input aura:id="isValideField" type="date"
+                                        value="{!expense.CreatedDate}" />
+                                </td>
+
+                                <td>
+                                    <lightning:input aura:id="isValideField"
+                                        type="text"
+                                        value="{!expense.SuppliedCompany}" />
+                                </td>
+
+                                <td>
+                                    <lightning:combobox aura:id="isValideField"
+                                        options="{!v.expenseTypes}"
+                                        value="{!expense.Type}" placeholder="Select a type" required="true" />
+                                </td>
+
+                                <td>
+                                    <lightning:combobox aura:id="isValideField"
+                                        value="{!expense.SuppliedName}" placeholder="-Select -" required="true"
+                                        options="{! v.options }" />
+                                </td>
+
+                                <td>
+                                    <div class="slds-form-element__control">
+                                        <lightning:combobox aura:id="isValideField"
+                                            options="{!v.paymentTypes}"
+                                            value="{!expense.Origin}" placeholder="Select a payment"
+                                            required="true" />
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <lightning:combobox aura:id="isValideField"
+                                        value="{!expense.SuppliedPhone}"
+                                        placeholder="-Select -" options="{! v.option }" />
+                                </td>
+
+                                <td>
+                                    <lightning:input value="{!expense.SPM_Description__c}" type="text"
+                                        placeholder="describe"  />
+                                </td>
+                                <td>
+                                    <!-- conditionally Display Add or Delete Icons if rowIndex is 0 then show Add New Row Icon else show delete Icon -->
+                                    <aura:if isTrue="{!index == 0}">
+                                        <a onclick="{!c.AddNewRow}">
+                                            <lightning:icon iconName="utility:add" class="slds-icon slds-icon_small"
+                                                size="small" title="Add new row" />
+                                            <span class="slds-assistive-text">Add Icon</span>
+                                        </a>
+                                        <aura:set attribute="else">
+                                            <a onclick="{!c.removeRow}" id="{!index}">
+                                                <lightning:icon variant="error" iconName="utility:delete"
+                                                    class="slds-icon slds-icon_small" size="small"
+                                                    title="remove this row" />
+                                                <span class="slds-assistive-text">Delete Icon</span>
+                                            </a>
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </fieldset>
+</aura:component>

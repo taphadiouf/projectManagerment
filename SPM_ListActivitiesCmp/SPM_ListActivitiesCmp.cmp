@@ -1,0 +1,77 @@
+<aura:component
+  controller="SPM_ActivityCnt"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global"
+>
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+  
+  <aura:attribute name="activities" type="Case[]" />
+  <aura:attribute name="activity" type="Case" default="{}" />
+  <aura:attribute name="activitiesSelected" type="Case[]" />
+  <aura:attribute name="numberOfActivitiesToDisplay" type="Case[]" />
+  <aura:attribute name="pageSize" type="Integer" default="5" />
+  <aura:attribute name="totalSize" type="Integer" />
+  <aura:attribute name="start" type="Integer" />
+  <aura:attribute name="end" type="Integer" />
+  <aura:attribute name="columns" type="List" />
+  <aura:attribute name="isModal" type="boolean" default="false" />
+  <aura:attribute name="recordId" type="Id" default="" />
+  
+  <aura:attribute name="pageReference" type="Object" />
+  <lightning:navigation aura:id="navService" />
+  <aura:attribute name="activityId" type="Id" default="" />
+    <aura:attribute name="taskId" type="Id" default="" />
+
+  <div class="slds-grid ">
+    <!--
+  First column
+-->
+
+    <!--
+  Second column
+-->
+    <div class="slds-col slds-size_4-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+      
+      <c:SPM_ListHeaderCmp
+      iconName="standard:topic"
+        objects="{!v.activities}"
+        numberOfLinesToDisplay="{!v.numberOfActivitiesToDisplay}"
+        totalSize="{!v.totalSize}"
+        title="Activities"
+        objetsSelected="{!v.activitiesSelected}"
+      />
+      <div class="slds-m-right_large">
+        <lightning:button
+          class="slds-float_right slds-m-top_medium slds-m-bottom_medium"
+          label="New"
+          title="Neutral action"
+          onclick="{! c.openModalAddActivity }"
+        />
+      </div>
+      <table class=" ">
+        <lightning:datatable
+          keyField="id"
+          data="{!v.numberOfActivitiesToDisplay}"
+          columns="{!v.columns}"
+          onrowaction="{!c.handleRowAction}"
+          hideCheckboxColumn="true"
+          class="tablecol"
+         
+        />
+      </table>
+      <c:SPM_NewActivityCmp
+        activity="{!v.activity}"
+        isModal="{!v.isModal}"
+        isNotModal="false"
+        recordId="{!v.recordId}"
+      />
+      <c:SPM_ListFooterCmp
+        objects="{!v.activities}"
+        numberOfLinesToDisplay="{!v.numberOfActivitiesToDisplay}"
+        totalSize="{!v.totalSize}"
+        pageSize="{!v.pageSize}"
+        start="{!v.start}"
+        end="{!v.end}"
+      />
+    </div>
+  </div>
+</aura:component>

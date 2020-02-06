@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="custmerId" type="Id"/>
+    <aura:attribute name="projectId" type="Id"/>
+</aura:event>

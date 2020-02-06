@@ -1,0 +1,138 @@
+<!--
+  @Component Name     : SPM_MemberFormCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 8/30/2019, 4:18:47 PM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    8/27/2019, 11:41:10 AM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_MemberCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="member" type="Contact" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="orgUnitId" type="Id" default="" />
+    <aura:attribute name="userId" type="Id" default="" />
+    <aura:attribute name="users" type="User[]" />
+    <aura:attribute name="orgUnits" type="SPM_Organisation__c[]" />
+    <aura:attribute name="genders" type="SPM_GenderCs__c[]" />
+    <aura:attribute name="contrats" type="SPM_ContratCs__c[]" />
+    <aura:attribute name="name" type="String" default="{!$Label.c.name_field_label}" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="startDateValidationError" type="boolean" />
+    <aura:attribute name="endDateValidationError" type="boolean" />
+    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class="  slds-theme--default slds-container-x-large">
+
+
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout>
+                    <aura:if isTrue="{!v.userId == ''}">
+                        <lightning:layoutItem size="6" class="slds-m-right_small">
+
+                            <div class="">
+                                <lightning:combobox aura:id="isValideField" options="{!v.users}"
+                                    label="{!$Label.c.users_field_label}" value="{!v.member.UserId__c}"
+                                    placeholder="Select a user" required="true" />
+                            </div>
+                            <aura:if isTrue="{!v.orgUnitId ==''}">
+                                <div class=" ">
+                                    <lightning:combobox aura:id="isValideField" options="{!v.orgUnits}"
+                                        value="{! v.member.organisation_Unit__c}"
+                                        label="{!$Label.c.organisation_unit_field_label}" placeholder="Select a Org"
+                                        required="true" />
+                                </div>
+                            </aura:if>
+                            <div class=" ">
+                                <lightning:input aura:id="isValideField" label="{!$Label.c.start_date_field_label}"
+                                    type="date" value="{!v.member.Birthdate}"
+                                    class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+                                    onchange="{!c.startDateUpdate}" />
+                                <aura:if isTrue="{!v.startDateValidationError}">
+                                    <div class="slds-text-color_error slds-p-left_x-small">
+                                        Start date must be in present or in future..
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="">
+                                <lightning:input aura:id="isValideField" type="text"
+                                    label="{!$Label.c.location_field_label}" value="{!v.member.Title}" />
+                            </div>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem size="6" class="slds-m-left_small">
+                            <div class="">
+                                <lightning:combobox aura:id="isValideField" options="{!v.genders}"
+                                    value="{!v.member.LeadSource}" label="{!$Label.c.gender_field_label}"
+                                    placeholder="Select a gender" required="true" />
+                            </div>
+                            <div class="">
+                                <lightning:input aura:id="isValideField" label="{!$Label.c.end_date_field_label}"
+                                    type="date" value="{!v.member.EndDate__c}"
+                                    class="{! v.endDateValidationError ? 'slds-has-error' : ''}"
+                                    onchange="{!c.endDateUpdate}" />
+                                <aura:if isTrue="{!v.endDateValidationError}">
+                                    <div class="slds-text-color_error slds-p-left_x-small">
+                                        Start date should be greater than End date
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="">
+                                <lightning:combobox aura:id="isValideField" options="{!v.contrats}"
+                                    value="{!v.member.Level__c}" label="{!$Label.c.contract_type_field_label}"
+                                    placeholder="Select a contract type " required="true" />
+                            </div>
+                        </lightning:layoutItem>
+                    </aura:if>
+                    <aura:if isTrue="{!v.orgUnitId == '' }">
+                        <aura:if isTrue="{!v.userId != '' }">
+                            <lightning:layoutItem size="12">
+                                <div class="">
+                                    <lightning:combobox aura:id="isValideField" options="{!v.orgUnits}"
+                                        value="{! v.member.organisation_Unit__c}"
+                                        label="{!$Label.c.organisation_unit_field_label}" placeholder="Select a Org"
+                                        required="true" />
+                                </div>
+                                <div class=" ">
+                                    <lightning:input aura:id="isValideField" label="{!$Label.c.start_date_field_label}"
+                                        type="date" value="{!v.member.Birthdate}"
+                                        class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+                                        onchange="{!c.startDateUpdate}" />
+                                    <aura:if isTrue="{!v.startDateValidationError}">
+                                        <div class="slds-text-color_error slds-p-left_x-small">
+                                            Start date must be in present or in future..
+                                        </div>
+                                    </aura:if>
+                                </div>
+                                <div class="">
+                                    <lightning:input aura:id="isValideField" label="{!$Label.c.end_date_field_label}"
+                                        type="date" value="{!v.member.EndDate__c}"
+                                        class="{! v.endDateValidationError ? 'slds-has-error' : ''}"
+                                        onchange="{!c.endDateUpdate}" />
+                                    <aura:if isTrue="{!v.endDateValidationError}">
+                                        <div class="slds-text-color_error slds-p-left_x-small">
+                                            Start date should be greater than End date
+                                        </div>
+                                    </aura:if>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                    </aura:if>
+                </lightning:layout>
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+
+</aura:component>

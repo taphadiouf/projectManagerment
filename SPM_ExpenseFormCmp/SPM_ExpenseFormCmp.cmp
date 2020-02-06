@@ -1,0 +1,139 @@
+<!--
+  @File Name          : SPM_ExpenseFormCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/01/2020 à 09:51:20
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    28/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_ExpenseCnt" access="global" implements="flexipage:availableForAllPageTypes">
+	<aura:attribute name="expense" type="Case" />
+	<aura:attribute name="projects" type="Account[]" />
+	<aura:attribute name="selectedProject" type="Account" />
+	<aura:attribute name="membersHasProjects" type="Contract[]" />
+	<aura:attribute name="expenseTypes" type="SPM_ExpenseTypeCS__c[]" />
+	<aura:attribute name="paymentTypes" type="SPM_PaymentTypeCS__c[]" />
+	<aura:attribute name="isChecked" type="boolean" default="false" />
+	<aura:attribute name="isValidFields" type="boolean" default="false" />
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+	<aura:attribute name="options" type="List" default="[
+                        {'label': 'YES', 'value': 'Yes'},
+                        {'label': 'NO', 'value': 'NO'}
+                        ]" />
+	<aura:attribute name="option" type="List" default="[
+                        {'label': 'YES', 'value': 'Yes'},
+                        {'label': 'NO', 'value': 'NO'}
+                        ]" />
+
+
+	<!-- CREATE NEW EXPENSE -->
+	<fieldset class="slds-theme--default slds-container-xxx-large slds-m-around_x-small">
+		<form action="#">
+			<div class="slds-form slds-size_5-of-5">
+				<div class="slds-size_1-of-2 slds-p-around_medium slds-m-bottom_x-large" style="float: left">
+					<table class="slds-table slds-m-around_x-small slds-table_header-hidden">
+						<tbody>
+							<tr>
+								<td>
+									<div class="slds-form-element__control">
+										<lightning:combobox aura:id="isValideField"
+											label="{!$Label.c.project_field_label}" options="{!v.projects}"
+											value="{!v.expense.AccountId}" placeholder="-Select-" required="true"
+											onchange="{!c.projectChange}" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="slds-form-element__control">
+										<lightning:combobox aura:id="isValideField"
+											label="{!$Label.c.members_has_projects_field_label}"
+											options="{!v.membersHasProjects}" value="{!v.expense.Member_has_project__c}"
+											placeholder="-Select-" required="true" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<lightning:input aura:id="isValideField" label="{!$Label.c.amount_field_label}"
+										type="number" value="{!v.expense.amount__c}" min="0.1" formatter="currency"
+										step="0.01"
+										messageWhenRangeUnderflow="Enter an amount that's at least $0.10." />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<lightning:input aura:id="isValideField"
+										label="{!$Label.c.expense_date_field_label}"
+										disabled="{!empty(v.expense.AccountId)}"
+										min="{!v.selectedProject.Start_Date__c}" max="{!v.selectedProject.End_Date__c}"
+										type="date" value="{!v.expense.CreatedDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<lightning:input aura:id="isValideField"
+										label="{!$Label.c.external_company_field_label}" type="text"
+										value="{!v.expense.SuppliedCompany}" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slds-size_1-of-2 slds-p-around_medium" style="float: right">
+					<table class="slds-table slds-m-around_x-small slds-table_header-hidden">
+						<tbody>
+							<tr>
+								<td>
+									<lightning:combobox aura:id="isValideField"
+										label="{!$Label.c.expense_type_field_label}" options="{!v.expenseTypes}"
+										value="{!v.expense.Type}" placeholder="Select a type" required="true" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<lightning:combobox aura:id="isValideField" label="{!$Label.c.billable_field_label}"
+										value="{!v.expense.SuppliedName}" placeholder="-Select -" required="true"
+										options="{! v.options }" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="slds-form-element__control">
+										<lightning:combobox aura:id="isValideField"
+											label="{!$Label.c.payment_type_field_label}" options="{!v.paymentTypes}"
+											value="{!v.expense.Origin}" placeholder="Select a payment"
+											required="true" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<lightning:combobox aura:id="isValideField"
+										label="{!$Label.c.reimbursable_field_label}" value="{!v.expense.SuppliedPhone}"
+										placeholder="-Select -" options="{! v.option }" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slds-col slds-size_1-of-1 slds-p-around_large ">
+					<table class="slds-p-around_large">
+						<tbody>
+							<tr>
+								<td>
+									<lightning:inputRichText value="{!v.expense.SPM_Description__c}"
+										placeholder="describe" label="{!$Label.c.note_field_label}" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</form>
+	</fieldset>
+</aura:component>

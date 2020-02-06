@@ -1,0 +1,23 @@
+<aura:component controller="SPM_ProjectCnt" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="project" type="Account"  default=""/>
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="createProject" type="boolean" default="true" />
+    <aura:registerEvent name="SPM_FilterCustomersByProjectEvt" type="c:SPM_FilterCustomersByProjectEvt" />
+    
+    <div class="bg-black ">
+        <article class="slds-card  bg-black">
+            <c:SPM_HeaderSidebarCmp/>
+            <footer class="slds-card__footer m-top bg-dimgrey slds-border_top">
+               <!--
+        Admin project
+      -->
+                   <c:SPM_AdminSidebarCmp/>
+                <!--
+        Home
+      -->
+                <c:SPM_HomeSideBarCmp />
+            </footer>
+        </article>
+    </div>
+</aura:component>

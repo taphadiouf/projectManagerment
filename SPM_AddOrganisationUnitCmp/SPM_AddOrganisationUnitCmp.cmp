@@ -1,0 +1,78 @@
+<!--
+  @Component Name     : SPM_AddOrganisationUnitCmp.cmp
+  @Description        : 
+  @Author             : abdoulaye Diallo
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 9/2/2019, 9:30:58 AM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    8/30/2019, 10:19:59 AM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="SPM_OrganisationUnitCnt">
+    <aura:attribute name="isModal" type="boolean" default="false"/>
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isNotModal" type="boolean" default="true" />
+    <aura:attribute name="organisationUnit" type="SPM_Organisation__c" default="{
+                                                              'Name':''
+                                                              }"/>
+    <aura:registerEvent name="SPM_NewOrgUnitCreatedEvt" type="c:SPM_NewOrgUnitCreatedEvt"/> 
+    
+    <div class="slds-m-around_xx-large">
+        
+        <!--Use aura:if tag to display/hide popup based on isModalOpen value-->  
+        <aura:if isTrue="{!v.isModal}">
+            
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModelOrgUnit }"
+                                              alternativeText="{!$Label.c.close_button_title}" 
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="font-size: 20px; font-family:'Times New Roman', Times, serif">Organisation Unit</h2>
+                        <c:SPM_FomTitleCmp title="OrganisationUnit" recordId="{!v.recordId}" />
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                       <c:SPM_OrganisationUnitFormCmp organisationUnit="{!v.organisationUnit}" isValidFields="{!v.isValidFields}" />
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        
+                        <lightning:button variant="destructive"
+                                          label="{!$Label.c.cancel_button_title}" 
+                                          title="Cancel"
+                                          onclick="{! c.closeModelOrgUnit }"/>
+                        <lightning:button variant="brand"
+                                          label="{!$Label.c.add_button_title}" 
+                                          title="Save"
+                                          onclick="{! c.addOrgUnit }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+    <aura:if isTrue="{!v.isNotModal}">
+        <c:SPM_FomTitleCmp title="OrganisationUnit" recordId="{!v.recordId}" />
+        <c:SPM_OrganisationUnitFormCmp organisationUnit="{!v.organisationUnit}" isValidFields="{!v.isValidFields}" />
+        <div class="slds-float_right ">
+            <lightning:button class=" slds-button slds-button_destructive slds-m-top_none " label="Cancel" />
+            <aura:if isTrue="{!v.recordId!=''}">
+                <lightning:button class=" " variant="success" label="Update" title="Update"
+                                  onclick="{!c.updateOrganisationUnits}" />
+                <aura:set attribute="else">
+                    <lightning:button class=" " variant="success" label="Save" title="Save"
+                                      onclick="{!c.addOrgUnit}" />
+                </aura:set>
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

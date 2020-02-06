@@ -1,0 +1,172 @@
+<!--
+  @Component Name     : SPM_TaskInformationCmp.cmp
+  @Description        : 
+  @Author             : Ad
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 08/12/2019, 4:18:47 PM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    8/27/2019, 11:41:10 AM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_ActivityCnt" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="task" type="Asset" default="{}"/>
+    <aura:attribute name="activities" type="Case[]" default="[{}]"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/> 
+    <aura:attribute name="memberAssigned" type="String" default="" />
+    <aura:attribute name="isModalAssign" type="boolean" default="false"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="myBool" type="Boolean" default="true"/>
+    <aura:attribute name="numActivityChecked" type="integer" default="{!v.task.numberActivityChecked}"/>
+    <aura:attribute name="index" type="integer" default="0"/>
+    <aura:attribute name="myVal" type="string" default=""/>
+    <aura:attribute name="activity" type="Case" default="{}" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="taskId" type="String" default=""/>
+    
+    <aura:handler name="SPM_NewActivityCreatedEvt" event="c:SPM_NewActivityCreatedEvt" action="{!c.updateListActivity}" />
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.task.Name}</h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_4-of-5">
+                                
+                                
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col">
+                                        <span><b>Membres</b></span><br/>
+                                        <span>{!v.task.Link__c}</span>
+                                    </div>
+                                    <div class="slds-col">
+                                        <span>Etiquettes</span>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <lightning:card footer="" title="">
+                                    <aura:set attribute="actions">   
+                                        <div>                                                                                    
+                                            <aura:if isTrue="{!v.task.Linc__c}">      
+                                                <lightning:buttonIcon class="slds-m-left_large" iconName="utility:edit"  size="xx-small"   onclick="{!c.editTaskMember}" variant="bare" />
+                                            </aura:if>   
+                                            <button class="slds-button"  label="Edit" onclick="{!c.AssignTaskMember}">
+                                                <lightning:avatar src="{!v.task.picture__c}" initials="{!v.task.assignMember}"
+                                                                          fallbackIconName="standard:avatar" alternativeText="{!v.task.Link__c}"
+                                                                          class="slds-m-right_small" />                                                   
+                                            </button>                          
+                                        </div>
+                                    </aura:set>
+                                    <p class="slds-p-horizontal_small">
+                                        
+                                    </p>
+                                </lightning:card>
+                                <div class="slds-m-bottom_medium">
+                                    <div class="slds-text-heading_medium"> Activites  </div> 
+                                </div>
+                                <div class="slds-m-bottom_small">
+                                    <!--<lightning:progressBar value="{!v.numActivityChecked/v.task.Cases.length*100}" size="medium" class="slds-theme_default"/>-->
+                                    <div data-reactroot="" class="slds-progress-bar  slds-progress-bar_medium slds-progress-bar_circular" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{!v.percentDone}" role="progressbar">
+                                        <span class="{!v.numActivityChecked/v.task.Cases.length*100 == 100 || v.numActivityChecked/v.task.Cases.length*100 == 0 ? 'slds-progress-bar__value slds-theme_success':'slds-progress-bar__value slds-theme_info'}" style="{!'width:'+v.numActivityChecked/v.task.Cases.length*100+'%'}">
+                                            <span class="slds-assistive-text">Progress: {!v.percentDone}%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <aura:iteration var="activity" items="{!v.task.Cases}" indexVar="index">
+                                    <lightning:layout>
+                                        <lightning:layoutItem>
+                                            <ui:inputCheckbox aura:id="checkbox" value="{!activity.ActivityCompleted__c}" name="{!activity.Id}" class="myCheckbox slds-m-right_x-small" label="{!index+1}" change="{!c.onCheck}"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem>
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="">
+                                                    <span class="slds-m-left_small">{!activity.Subject}</span>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="">
+                                                    <lightning:buttonIcon class="slds-m-left_large" iconName="utility:edit"  size="x-small"   onclick="{! c.updateActivity }" variant="bare" alternativeText="{update activity" value="{!index}"/>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="">
+                                                    <lightning:buttonIcon class="slds-m-right_x-small" iconName="utility:delete"  size="x-small"   onclick="{! c.deleteActivity }" variant="bare" alternativeText="delete activity" value="{!index}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </aura:iteration>
+                                <lightning:button class="slds-theme_shade"  title="add a new activity" label="+ add a activity" onclick="{! c.openModalAddActivity }" />
+                                <div class="slds-form-element__control">    
+                                    <div class="slds-form-element__control">
+                                        <ui:inputTextArea aura:id="comments" label="Comments"  value="{!v.task.Description}" rows="5"/>
+                                        <ui:button class="btn" label="Ajouter" press="{!c.ajouter}"/>	
+                                        
+                                        <div aura:id="msg" class="hide">
+                                            Commentaires : <ui:outputTextArea aura:id="oTextarea" value=""/>
+                                        </div>                                        
+                                    </div>                                                                       
+                                </div> </div>
+                            <div class="slds-m-right_large">
+                                
+                                
+                                <c:SPM_NewActivityCmp
+                                                      activity="{!v.activity}"
+                                                      isModal="{!v.isModal}"
+                                                      isNotModal="false"
+                                                      taskId="{!v.task.Id}"
+                                                      recordId="{!v.recordId}"
+                                                      />
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-5">
+                                
+                                <div class="slds-icon-eq slds-is-animated" title="Description of the icon when needed">
+                                    suggérées
+                                    
+                                    <lightning:buttonIcon iconName="utility:adduser" title="Rejoindre" alternativeText=""  onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+                                    Ajouter
+                                    <lightning:buttonIcon iconName="utility:adduser" alternativeText="" title="Membres" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+                                    <lightning:buttonIcon iconName="utility:attach" alternativeText="" title ="Pieces Jointes" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+                                    <lightning:buttonIcon iconName="utility:picklist_type" alternativeText="" title="CheckList" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+                                    <lightning:buttonIcon iconName="utility:date_time" alternativeText="" title="Date Limite" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+                                    Action
+                                    
+                                    <lightning:buttonIcon iconName="utility:forward"  alternativeText="" title="Déplacer" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" /> 
+                                    <lightning:buttonIcon iconName="utility:socialshare" alternativeText="" title="Partager" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+                                    
+                                    <lightning:buttonIcon iconName="utility:like" alternativeText=""  title="Voter" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse"/>
+                                    <lightning:buttonIcon iconName="utility:package" alternativeText="" title="Archiver" onclick="" class="slds-float_left slds-m-around_x-small slds-theme_inverse"/>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        
+                    </div>     
+                    
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <c:SMP_AssignMemberToTaskCmp projectId="{!v.recordId}" taskId="{!v.taskId}" isModal="{!v.isModalAssign}" />
+    
+</aura:component>

@@ -1,0 +1,140 @@
+<aura:component
+  controller="SPM_ProjectCnt"
+  access="global"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable"
+>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+  <aura:attribute name="project" type="Account" />
+  <aura:attribute name="projectManagement" type="String" />
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="membersOrTasks" type="List" default="[
+  {'label': 'Members', 'value': 'member'},
+  {'label': 'Tasks', 'value': 'task'}
+  ]" />
+
+     
+  <div class="slds-grid ">
+      <!--
+      First column
+    -->
+      <div class="slds-col" id="sidebar">
+        <c:SPM_CustomerSidebarCmp />
+      </div>
+      <!--
+      Second column
+    -->
+      <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+      <div class="slds-theme_default">
+      <article class="">
+        <div class="">
+          <div class="slds-form  " role="list">
+            <div class="slds-form__row">
+              <div
+                class="slds-form__item slds-m-top_medium slds-m-bottom_medium"
+                role="listitem"
+              >
+                <div
+                  class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                >
+                  <span class="slds-form-element__label"
+                    ><b>Name: </b>{!v.project.Name}
+                  </span>
+                </div>
+              </div>
+              <div
+                class="slds-form__item slds-m-top_medium slds-m-bottom_medium"
+                role="listitem"
+              >
+                <div
+                  class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                >
+                  <span class="slds-form-element__label"
+                    ><b>Budget: </b>{!v.project.Project_Budget__c}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="slds-form__row">
+              <div
+                class="slds-form__item slds-m-top_medium slds-m-bottom_medium"
+                role="listitem"
+              >
+                <div
+                  class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                >
+                  <span class="slds-form-element__label"
+                    ><b>Program: </b>{!v.project.Program__r.Name}
+                  </span>
+                </div>
+              </div>
+              <div
+                class="slds-form__item slds-m-top_medium slds-m-bottom_medium"
+                role="listitem"
+              >
+                <div
+                  class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                >
+                  <span class="slds-form-element__label"
+                    ><b>Customer: </b>{!v.project.CustomerId__r.Name}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="slds-form__row">
+              <div
+                class="slds-form__item slds-m-top_medium slds-m-bottom_medium"
+                role="listitem"
+              >
+                <div
+                  class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                >
+                  <span class="slds-form-element__label"
+                    ><b>Parent Project: </b>{!v.project.Parent.Name}
+                  </span>
+                </div>
+              </div>
+              <div
+                class="slds-form__item slds-m-top_medium slds-m-bottom_medium"
+                role="listitem"
+              >
+                <div
+                  class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                >
+                  <span class="slds-form-element__label"
+                    ><b>Project Management: </b
+                    >{!v.projectManagement.SPM_Members__r.Name}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div class="slds-grid slds-grid_vertical">
+          <div class="slds-col slds-m-around_medium">
+          <lightning:tabset selectedTabId="member" variant="scoped" >
+              <lightning:tab label="Members" id="member" >
+                  <c:SPM_ListMembershasProjectCmp title=" MEMBERS" projectId="{!v.recordId}" project="{!v.project}"/>
+              </lightning:tab>
+              <lightning:tab label="Tasks" id="task">
+                  <c:SPM_ListTasksCmp projectId="{!v.recordId}"/>
+              </lightning:tab>
+              <lightning:tab label="Risks" id="risk">
+                 A ajuter!!!!!
+              </lightning:tab>
+          </lightning:tabset>
+          </div>
+        <!--<div class="slds-col slds-m-around_medium">
+            <lightning:combobox  value=""
+            class="slds-size_1-of-5 slds-col slds-align_absolute-right" placeholder="Member"
+            options="{! v.membersOrTasks }" onchange="{!c.displayListTasksOrMembers}" label="Members / Tasks of the Project"/>
+          </div>
+        <div class="slds-col">
+          {!v.body}
+        </div>-->
+      </div>
+      </div>
+      </div>
+  </div>
+</aura:component>

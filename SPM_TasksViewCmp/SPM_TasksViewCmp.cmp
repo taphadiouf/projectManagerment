@@ -1,0 +1,34 @@
+<aura:component controller="SPM_TaskCnt" access="global"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="tasks" type="Asset[]" default="[]" />
+    <aura:attribute name="backgroundColor" type="String" default="" />
+    <aura:attribute name="statusTask" type="String" default="" />
+    <aura:attribute name="taskMoved" type="Asset"  />
+    <aura:handler
+    action="{!c.moveTaskInSource}"
+    event="c:SPM_DragTaskEvt"
+  />
+<!--begin
+  <div class="slds-scrollable_y" style="height:30rem;width:37,5rem">
+    <div class="drop-zone" aura:id="dropZone" ondragenter="{!c.handleOnDragEnterDummy}" ondragover="{!c.dragoverHandler}" ondragleave="{!c.dragLeaveHandler}" ondrop="{!c.dropHandler}">
+        <div class=" slds-m-around_xx-small">
+            <aura:iteration items="{!v.tasks}" var="task">
+                <c:SPM_TaskCardCmp task="{!task}" backgroundColor="{!v.backgroundColor}" taskMoved="{!v.taskMoved}"/>
+            </aura:iteration>
+        </div>
+    </div>
+</div-->
+
+<div>
+<!--begin<ul ondrop="{!c.drop}" ondragover="{!c.allowDrop}" class="slds-has-dividers_around-space dropZone" data-Pick-Val="{!pickVal}" style="height:70vh;overflow-y:auto;"-->
+<ul aura:id="dropZone" ondragenter="{!c.handleOnDragEnterDummy}" ondragover="{!c.dragoverHandler}" ondragleave="{!c.dragLeaveHandler}" ondrop="{!c.dropHandler}" class="slds-has-dividers_around-space dropZone" data-Pick-Val="{!pickVal}" style="height:70vh;overflow-y:auto;">
+    <aura:iteration items="{!v.tasks}" var="task">
+            <li class="slds-ite slds-m-around_small" draggable="{!v.statusTask!='Done'}" ondragstart="{!c.drag}" id="">
+                <article class="slds-tile slds-tile_board">
+                    <c:SPM_TaskCardCmp task="{!task}" backgroundColor="{!v.backgroundColor}" taskMoved="{!v.taskMoved}" statusTask="{!v.statusTask}"/>
+                </article>
+            </li>
+    </aura:iteration>
+</ul>
+</div>
+</aura:component>

@@ -1,0 +1,24 @@
+<aura:component description="c:SPM_ShowUserDetailsCmp component" controller="SPM_UserCnt" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="users" type="User[]" />
+    <aura:attribute name="user" type="User" />
+    <aura:attribute name="usersSelected" type="User[]" />
+    <aura:attribute name="numberOfUsersToDisplay" type="User[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService"/>
+    <c:SPM_ListHeaderCmp objects="{!v.users}" numberOfLinesToDisplay="{!v.numberOfUsersToDisplay}"
+        totalSize="{!v.totalSize}" title="USERS" objetsSelected="{!v.usersSelected}" />
+    <table class=" ">
+        <lightning:datatable keyField="id" data="{!v.numberOfUsersToDisplay}" columns="{!v.columns}"
+            onrowaction="{!c.handleRowAction}" hideCheckboxColumn="true" class="tablecol" />
+    </table>
+    <c:SPM_ListFooterCmp objects="{!v.users}" numberOfLinesToDisplay="{!v.numberOfUsersToDisplay}"
+        totalSize="{!v.totalSize}" pageSize="{!v.pageSize}" start="{!v.start}" end="{!v.end}" />
+</aura:component>

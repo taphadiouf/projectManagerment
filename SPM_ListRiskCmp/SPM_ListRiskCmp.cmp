@@ -1,0 +1,167 @@
+<!--
+  @Component Name     : ListRisk.cmp
+  @Description        : list of risk 
+  @Author             : abdoulayeDiallo
+  @Group              : 
+  @Last Modified By   : 
+  @Last Modified On   :
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author                 Modification
+  ==============================================================================
+  1.0    28/08/2019 à 10:42:14   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component
+                controller="SPM_RiskCnt"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global"
+                >
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="risks" type="Opportunity[]" />
+    <aura:handler
+                  name="SPM_RiskEvt"
+                  action="{!c.addRiskToList}"
+                  event="c:SPM_RiskEvt"
+                  />
+    <aura:attribute name="risk" type="Opportunity" default="{}" />
+    <aura:attribute name="risksSelected" type="Opportunity[]" />
+    <aura:attribute name="numberOfRiskToDisplay" type="Opportunity[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="tableData" type="String[]" default="[]"  />
+    <aura:handler
+                  action="{!c.displayProjectFiltered}"
+                  event="c:SPM_FilterProjectRiskEvt"
+                  />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService" />
+    <aura:attribute name="riskId" type="Id" default="" />
+    <aura:attribute name="projectId" type="Id" default="" />
+    
+    <aura:registerEvent name="SPM_NewRiskCreatedEvt" type="c:SPM_NewRiskCreatedEvt"/>
+    
+    <aura:if isTrue="{!v.recordId!=''}">
+        
+        <div class="slds-col slds-m-vertical_x-large">
+            <c:SPM_ListHeaderCmp
+                                 iconName="standard:data_integration_hub"
+                                 objects="{!v.risks}"
+                                 numberOfLinesToDisplay="{!v.numberOfRiskToDisplay}"
+                                 totalSize="{!v.totalSize}"
+                                 title="RISKS"
+                                 objetsSelected="{!v.risksSelected}"
+                                 />
+            
+            <div class="slds-m-right_large">
+                <lightning:button
+                                  class="slds-float_right slds-m-top_medium slds-m-bottom_medium"
+                                  label="New"
+                                  title="Neutral action"
+                                  onclick="{! c.openModalAddRisk }"
+                                  />
+            </div>
+            <table class=" ">
+                <lightning:datatable
+                                     keyField="id"
+                                     data="{!v.numberOfRiskToDisplay}"
+                                     columns="{!v.columns}"
+                                     onrowaction="{!c.handleRowAction}"
+                                     hideCheckboxColumn="true"
+                                     class="tablecol"
+                                     
+                                     />
+            </table>
+            <c:SPM_AddRiskCmp
+                              risk="{!v.risk}"
+                              isModal="{!v.isModal}"
+                              isNotModal="false"
+                              recordId="{!v.riskId}"
+                              projectId="{!v.recordId}"
+                              />
+            <c:SPM_ListFooterCmp
+                                 objects="{!v.risks}"
+                                 numberOfLinesToDisplay="{!v.numberOfRiskToDisplay}"
+                                 totalSize="{!v.totalSize}"
+                                 pageSize="{!v.pageSize}"
+                                 start="{!v.start}"
+                                 end="{!v.end}"
+                                 />
+        </div>
+        <aura:set attribute="else">
+            <div class=" slds-grid ">
+                <!--
+      First column
+    -->
+                <div class="slds-col" id="sidebar">
+                    <c:SPM_SidebarRiskCmp />
+                </div>
+                <!--
+      Second column
+    -->
+                <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small " id="sc">
+                    
+                    <div class="slds-col">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                            </div>
+                            
+                            <div class="slds-col">
+                                <c:SPM_MatriceRiskCmp   tableData="{!v.tableData}"/>  
+                            </div>
+                        </div>
+                        <div class="slds-col slds-m-vertical_x-large">
+                            <c:SPM_ListHeaderCmp
+                                                 iconName="standard:data_integration_hub"
+                                                 objects="{!v.risks}"
+                                                 numberOfLinesToDisplay="{!v.numberOfRiskToDisplay}"
+                                                 totalSize="{!v.totalSize}"
+                                                 title="RISKS"
+                                                 objetsSelected="{!v.risksSelected}"
+                                                 />
+                            
+                            <div class="slds-m-right_large">
+                                <lightning:button
+                                                  class="slds-float_right slds-m-top_medium slds-m-bottom_medium"
+                                                  label="New"
+                                                  title="Neutral action"
+                                                  onclick="{! c.openModalAddRisk }"
+                                                  />
+                            </div>
+                            <table class=" ">
+                                <lightning:datatable
+                                                     keyField="id"
+                                                     data="{!v.numberOfRiskToDisplay}"
+                                                     columns="{!v.columns}"
+                                                     onrowaction="{!c.handleRowAction}"
+                                                     hideCheckboxColumn="true"
+                                                     class="tablecol"
+                                                     
+                                                     />
+                            </table>
+                            <c:SPM_AddRiskCmp
+                                              risk="{!v.risk}"
+                                              isModal="{!v.isModal}"
+                                              isNotModal="false"
+                                              recordId="{!v.riskId}"
+                                              />
+                            <c:SPM_ListFooterCmp
+                                                 objects="{!v.risks}"
+                                                 numberOfLinesToDisplay="{!v.numberOfRiskToDisplay}"
+                                                 totalSize="{!v.totalSize}"
+                                                 pageSize="{!v.pageSize}"
+                                                 start="{!v.start}"
+                                                 end="{!v.end}"
+                                                 />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:set>
+    </aura:if>
+    
+    
+</aura:component>

@@ -1,0 +1,25 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+        <aura:attribute name="expense" type="boolean" default="false" />
+    <!--aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c.SPM_ExpenseSidebarCmp" action="{!c.SPM_ExpenseSidebarCmp}" />
+    <aura:handler event="c.SPM_SidebarRiskEvtCmp" action="{!c.sidebarRisk}" />
+    <aura:handler event="c.SPM_SidebarResourceEvtCmp" action="{!c.sidebarResource}" />
+    <aura:handler event="c.SPM_SidebarAbsenceEvtCmp" action="{!c.sidebarAbsence}" />
+    <aura:handler event="c.SPM_SidebarFinanceEvtCmp" action="{!c.sidebarFinance}" />
+    <aura:handler event="c.SPM_SidebarEvtCmp" action="{!c.sidebar}" /-->
+    <div class="slds-grid slds-theme_default" >
+        <!--
+    First column
+  -->
+        <div class="slds-col" id="sidebar">
+            <c:SPM_SidebarCmp/>
+        </div>
+        <!--
+    Second column
+  -->
+        <div class="slds-col slds-size_3-of-4" id="sc">
+            <c:SPM_HeaderCmp/>
+            
+        </div>
+    </div>
+</aura:component>

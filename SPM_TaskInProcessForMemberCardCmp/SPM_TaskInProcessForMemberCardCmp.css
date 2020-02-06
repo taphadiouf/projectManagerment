@@ -1,0 +1,7 @@
+.THIS.drop-zone {
+    border-style: dashed;
+    border-color: transparent;
+}
+.THIS.active{
+    border-color: #027FB3;
+}

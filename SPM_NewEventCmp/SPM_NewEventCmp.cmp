@@ -1,0 +1,141 @@
+<!--
+  @File Name          : SPM_NewEventCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/01/2020 à 08:51:55
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    02/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_TimeSheetCnt">
+    <aura:attribute name="timeSheet" type="Contract" />
+    <aura:attribute name="action" type="String" />
+    <aura:attribute name="projects" type="List" />
+    <aura:attribute name="allAssignedTasks" type="List" />
+    <aura:attribute name="tasks" type="List" />
+    <aura:attribute name="times" type="List" />
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="activities" type="List" />
+    <aura:attribute name="task" type="ID" />
+    <aura:attribute name="createNewEvent" type="Boolean" default="false" />
+    <aura:handler name='init' value='{!this}' action='{!c.doInit}' />
+    <aura:registerEvent name="timeSheetSaved" type="c:SPM_NewTimeSheetCreatedEvt"/>
+    
+    <aura:if isTrue="{!v.createNewEvent}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small"
+            aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close">
+                        <!-- <lightning:icon iconName="utility:close" alternativeText="alternativeText" /> -->
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New TimeSheet</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-form" role="list">
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1">
+                                    <div class="slds-form-element__control">
+                                        <!-- <lightning:input type="time" required="true" label="Start time" name="startTime"
+                                            value="{!v.timeSheet.startTime__c}" /> -->
+                                        <lightning:select aura:id="startTime" value="{!v.timeSheet.startTime__c}" label="Start Time" required="true" onchange="{!c.startTimeHandler}">
+                                            <aura:iteration items="{!v.times}" var="time">
+                                                <aura:if isTrue="{!lessthan(time,'20:00')}">
+                                                    <option value="{!time}">{!time}</option>
+                                                </aura:if>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1">
+                                    <div class="slds-form-element__control">
+                                        <!-- <lightning:input type="time" required="true" label="End time" name="endTime"
+                                            value="{!v.timeSheet.endTime__c}" /> -->
+                                        <lightning:select aura:id="endTime" value="{!v.timeSheet.endTime__c}" label="End Time" required="true">
+                                            <aura:iteration items="{!v.times}" var="time">
+                                                <aura:if isTrue="{!time>v.timeSheet.startTime__c}">
+                                                    <option value="{!time}">{!time}</option>
+                                                </aura:if>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1">
+                                    <lightning:select label="Project" aura:id="select" required="true" value="{!v.timeSheet.AccountId}"
+                                        onchange="{!c.selectProjectHandler}">
+                                        <option value="">Select a project</option>
+                                        <aura:iteration items="{!v.projects}" var="project">
+                                            <option value="{!project.Id}"  selected="{! v.timeSheet.AccountId==project.Id}">{!project.Name}</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1">
+                                    <lightning:select label="Task" aura:id="select" required="true" value="{!v.timeSheet.Task__c}"
+                                        onchange="{!c.selectTaskHandler}">
+                                        <option value="">Select a task</option>
+                                        <aura:iteration items="{!v.tasks}" var="task">
+                                            <option value="{!task.Id}" selected="{! v.timeSheet.Task__c==task.Id}">{!task.Name}</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1">
+                                    <lightning:dualListbox value="{!v.timeSheet.activities__c}" label="Activities" sourceLabel="Activities"
+                                        selectedLabel="Done" fieldLevelHelp="Select activities"
+                                        options="{!v.options}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1 slds-form-element_1-col">
+                                    <div class="slds-form-element__control">
+                                        <lightning:textarea name="Description"
+                                            label="Description"
+                                            required="false"
+                                            value="{!v.timeSheet.Description}"
+                                            placeholder="put a little description"
+                                            maxlength="32000"
+                                            messageWhenTooLong="The description is long" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-size_1-of-1 slds-form-element_1-col">
+                                    <label class="slds-form-element__label" for="single-form-element-id-04">Date</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning:formattedDateTime value="{!v.timeSheet.StartDate}" year="numeric"
+                                            month="2-digit" day="numeric" weekday="narrow" hour12="false" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.close}">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.save}">Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

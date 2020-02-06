@@ -1,0 +1,95 @@
+<!--
+  @File Name          : SPM_AddMemberModalCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 9/2/2019, 9:27:11 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    9/2/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component >
+    <aura:attribute name="isModal" type="boolean" default="false"/>
+    <aura:handler event="c:SPM_MemberEvt" action="{!c.openModelMember}"/> 
+    
+    
+    <aura:if isTrue="{!v.isModal}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModelOrgUnit }"
+                                          alternativeText="{!$Label.c.close_button_title}" 
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="font-size: 20px; font-family:'Times New Roman', Times, serif"></h2>
+                </header>
+                <article class="slds-card">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <article class="slds-card slds-card_boundary">
+                            <div class=" slds-m-top_xx-large">
+                                <div class="slds-grid slds-m-around_large">
+                                    <div class=" slds-col  slds-m-right_large">
+            
+                                        <div class="">
+                                            <lightning:combobox options="{!v.users}" label="{!$Label.c.users_field_label}" value="{!v.member.UserId__c}" onchange="{!c.userChange}" 
+                                                                placeholder="Select a user" required="true"/>
+                                        </div> 
+                                        <div class="">
+                                            <lightning:combobox options="{!v.genders}" value="{!v.member.LeadSource}" label="{!$Label.c.gender_field_label}"  onchange="{!c.genderChange}" 
+                                                                placeholder="Select a gender" required="true"/>
+                                        </div>
+                                        <div class=" ">
+                                            <lightning:input label="{!$Label.c.start_date_field_label}" type="date" value="{!v.member.Birthdate}" />
+                                        </div>
+                                        <div class="">
+                                            <lightning:input type="text" label="{!$Label.c.location_field_label}" value="{!v.member.Title}" />
+                                        </div>
+                                    </div>
+                                    <div class=" slds-col  slds-m-left_large">
+                                        <div class="slds-grid ">
+                                            <div class="slds-col ">
+                                                <lightning:combobox options="{!v.orgUnits}" value="{!v.member.organisation_Unit__c}" label="{!$Label.c.organisation_unit_field_label}" onchange="{!c.orgUnitChange}" 
+                                                                    placeholder="Select a Org" required="true"/>
+                                            </div>
+                                            <div class="slds_col">
+                                                <button
+                                                        class="slds-m-top_large slds-button slds-button--icon-border slds-button--icon-xx-small slds-m-right_large"
+                                                        aria-controls="tree0-node1">
+                                                    <div class='icon-container'>
+                                                        <lightning:buttonIcon iconName="utility:add" variant="brand" onclick="{! c.openModel }"
+                                                                              alternativeText="Add" />
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <lightning:input label="{!$Label.c.end_date_field_label}"  type="date" value="{!v.member.EndDate__c}" />
+                                        </div>
+                                        <div class="">
+                                            <lightning:combobox options="{!v.contrats}" value="{!v.member.Level__c}" label="{!$Label.c.contract_type_field_label}"  onchange="{!c.contractTypeChange}" 
+                                                                placeholder="Select a contract type " required="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </article>  
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="destructive"
+                                      label="{!$Label.c.cancel_button_title}"
+                                      title="Cancel"
+                                      onclick="{! c.closeModelOrgUnit }"/>
+                    <lightning:button variant="brand"
+                                      label="{!$Label.c.add_button_title}"
+                                      title="Save"
+                                      onclick="{!c.submitDetailsOrgUnit}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

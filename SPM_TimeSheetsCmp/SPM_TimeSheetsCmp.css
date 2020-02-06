@@ -1,0 +1,15 @@
+.THIS .selectedWeek {
+    background-color: #b6c9fc;
+}
+
+.THIS td {
+    cursor: pointer;
+}
+
+.THIS tr:hover .hasDay {
+    background-color: rgb(197, 242, 243) !important;
+}
+
+.THIS .selectedWeek:hover td {
+    background-color: #b6c9fc !important;
+}

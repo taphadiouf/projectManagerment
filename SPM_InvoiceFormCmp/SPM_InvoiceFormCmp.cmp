@@ -1,0 +1,112 @@
+<aura:component controller="SPM_InvoiceCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="invoice" type="Contract[]" />
+    <aura:attribute name="invoiceLines" type="Opportunity[]" default="[{}]" />
+    <aura:attribute name="customer" type="Contact[]" />
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="customerId" type="Id"  default=""/>
+    <aura:attribute name="paymentTypes" type="SPM_PaymentTypeCS__c[]" />
+    <aura:attribute name="invoiceTypes" type="SPM_InvoiceTypesCS__c[]" />
+    <aura:attribute name="invoiceStatus" type="SPM_InvoiceStatusCS__c[]" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    <aura:attribute name="startDateValidationError" type="boolean" />
+    <aura:attribute name="endDateValidationError" type="boolean" />
+
+    <fieldset class="slds-theme--default slds-container-xxx-large slds-m-around_x-small">
+        <div class="slds-size_5-of-5">
+            <form action="#">
+                <!--Tableau 1-1/2-->
+                <div class="slds-size_1-of-2 slds-p-around_medium  slds-m-bottom_x-large" style="float: left">
+                    <table class="slds-table slds-m-around_x-small slds-table_header-hidden">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col" colspan="2" style="background-color: #212125">
+                                    <div class="slds-truncate" style="color: white">Invoice Data</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <lightning:input aura:id="isValideField"
+                                        label="{!$Label.c.invoice_date_field_label}" type="date"
+                                        value="{!v.invoice.End_Date__c}" 
+                                                      class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+                                    onchange="{!c.startDateUpdate}" />
+                                <aura:if isTrue="{!v.startDateValidationError}">
+                                    <div class="slds-text-color_error slds-p-left_x-small">
+                                        Start date must be in present or in future..
+                                    </div>
+                                </aura:if>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning:input aura:id="isValideField"
+                                        label="{!$Label.c.payment_terms_field_label}" type="number"
+                                        value="{!v.invoice.paymentTerm__c}" placeholder="number of days" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning:combobox aura:id="isValideField"
+                                        label="{!$Label.c.payment_type_field_label}" options="{!v.paymentTypes}"
+                                        value="{!v.invoice.Status_Member__c}" placeholder="Select a payment" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning:combobox aura:id="isValideField" label="{!$Label.c.status_field_label}"
+                                        options="{!v.invoiceStatus}" value="{!v.invoice.Status}"
+                                        placeholder="Select a payment" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <lightning:combobox aura:id="isValideField" label="{!$Label.c.type_field_label}"
+                                        options="{!v.invoiceTypes}" value="{!v.invoice.Type__c}"
+                                        placeholder="Select a payment" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--Tableau 2-1/2-->
+                <div class="slds-size_1-of-2 slds-p-around_medium" style="float: right">
+                    <table class="slds-table slds-m-around_x-small slds-table_header-hidden">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col" colspan="2" style="background-color: #212125">
+                                    <div class="slds-truncate" style="color: white">{!$Label.c.customer_field_label}
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <lightning:combobox aura:id="isValideField" options="{!v.customer}"
+                                        label="{!$Label.c.customer_field_label}"
+                                        value="{!v.invoice.customer__c}" placeholder="-Select-"
+                                        onchange="{!c.customerChange}" />
+                                </td>
+                                <td>
+                                    <lightning:combobox aura:id="isValideField" options="{!v.projects}"
+                                        label="{!$Label.c.project_field_label}"
+                                        value="{!v.invoice.AccountId}" placeholder="-Select-"
+                                        />
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--Tableau 3-1/1-->
+                <c:SPM_InvoiceLineCmp invoiceLines="{!v.invoiceLines}" />
+            </form>
+        </div>
+    </fieldset>
+</aura:component>

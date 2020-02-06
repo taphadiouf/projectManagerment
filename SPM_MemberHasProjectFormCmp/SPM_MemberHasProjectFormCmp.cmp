@@ -1,0 +1,73 @@
+<aura:component controller="SPM_MembersHasProjectCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="members" type="Contact[]" />
+    <aura:attribute name="project" type="Account" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="projectId" type="Id" default="" />
+    <aura:attribute name="membersHasProject" type="Contract" />
+    <aura:attribute name="roles" type="SPM_RoleCS__c[]" />
+    <aura:attribute name="isOpen" type="boolean" default="false" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    <aura:attribute name="options" type="List" default="[
+                        {'label': 'Active', 'value': 'Active'},
+                        {'label': 'Inactive', 'value': 'Inactive'}
+                        ]"/>
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class="  slds-theme--default slds-container-x-large">
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout >
+                    <lightning:layoutItem size="12" >
+
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField" 
+                                                options="{!v.members}"
+                                                label="{!$Label.c.members_field_label}"
+                                                value="{!v.membersHasProject.SPM_Members__c}"
+                                                placeholder="Select a Member" 
+                                                required="true" />
+                        </div>
+                       
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField" 
+                                                options="{!v.roles}"
+                                                value="{!v.membersHasProject.Type__c}" 
+                                                label="{!$Label.c.role_field_label}"
+                                                placeholder="Select a Role" 
+                                                 />
+                        </div>
+                        <div class=" ">
+                            <lightning:input aura:id="isValideField" 
+                                            label="{!$Label.c.start_date_field_label}"
+                                            type="date" 
+                                            value="{!v.membersHasProject.StartDate}"
+                                            required="true" />
+                        </div>
+                        <div class=" ">
+                            <lightning:input aura:id="isValideField" 
+                                            label="{!$Label.c.end_date_field_label}"
+                                            type="date" 
+                                            value="{!v.membersHasProject.End_Date__c}" />
+                        </div>
+                        <div class="">
+                            <lightning:combobox aura:id="isValideField"
+                                            label="{!$Label.c.status_field_label}" 
+                                            value="{!v.membersHasProject.Status_Member__c}" 
+                                            placeholder="Select a Status" 
+                                            options="{! v.options }" 
+                                            />
+
+                        </div>
+                        
+                    </lightning:layoutItem>
+                </lightning:layout>
+               </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+
+</aura:component>

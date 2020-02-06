@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event template">
+          <aura:attribute name="newActivity" type="Case" />
+          <aura:attribute name="ActivityUpdated" type="Case" />
+          <aura:attribute name="isUpdate" type="Boolean" default="false"/>
+</aura:event>

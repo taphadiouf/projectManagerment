@@ -1,0 +1,56 @@
+<aura:component controller="SPM_ProgramCnt" access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="programs" type="Campaign[]" />
+    <aura:attribute name="program" type="Campaign" default="{}"/>
+    <aura:attribute name="programsSelected" type="Campaign[]" />
+    <aura:attribute name="numberOfProgramsToDisplay" type="Campaign[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="isModalNewProject" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService"/>
+     <aura:attribute name="programId" type="Id" default="" />
+
+   <!-- <aura:handler event="c:SPM_NewprogramCreatedEvt" action="{!c.addCustomerToList}"/>
+    <aura:handler action="{!c.displayCustomerFiltered}" event="c:SPM_FilterCustomersByProjectEvt" />-->
+
+    <div class="slds-grid ">
+            <!--
+            First column
+          -->
+            <div class="slds-col" id="sidebar">
+              <c:SPM_CustomerSidebarCmp />
+            </div>
+            <!--
+            Second column
+          -->
+            <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+             
+    <div class="slds-container slds-theme_default">   
+    <c:SPM_ListHeaderCmp iconName="standard:campaign" objects="{!v.programs}" numberOfLinesToDisplay="{!v.numberOfProgramsToDisplay}"
+        totalSize="{!v.totalSize}" title=" PROGRAMS" objetsSelected="{!v.programsSelected}" />
+    <div class="slds-m-right_large">
+            <lightning:button class="slds-float_right slds-m-top_medium slds-m-bottom_medium" label="New" title="Neutral action"
+                onclick="{! c.openModalNewProgram }" />
+    </div>
+    <table class=" ">
+        <lightning:datatable keyField="id" data="{!v.numberOfProgramsToDisplay}" columns="{!v.columns}"
+            onrowaction="{!c.handleRowAction}" hideCheckboxColumn="true" class="tablecol" />
+    </table>
+    <c:SPM_NewProgramCmp program="{!v.program}" isModal="{!v.isModal}" recordId="{!v.recordId}"/>
+    <c:SPM_ListFooterCmp objects="{!v.programs}" numberOfLinesToDisplay="{!v.numberOfProgramsToDisplay}"
+        totalSize="{!v.totalSize}" pageSize="{!v.pageSize}" start="{!v.start}" end="{!v.end}" />
+    </div>
+    <c:SPM_NewProjectCmp
+    programId="{!v.programId}"
+    isModal="{!v.isModalNewProject}"
+    isNotModal="false"
+  />
+            </div>
+    </div>
+    </aura:component>

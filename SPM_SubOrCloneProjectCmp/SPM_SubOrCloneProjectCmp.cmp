@@ -1,0 +1,38 @@
+<aura:component controller="SPM_ProjectCnt" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global">
+    <aura:attribute name="projectId" type="Id" default="" />
+    <aura:attribute name="project" type="Account" default="{}" />
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{! v.pageReference}" action="{!c.reInit}" />
+
+    <div class="slds-grid  slds-wrap">
+        <!--
+                    First column
+                    -->
+        <div class="slds-col" id="sidebar">
+          <c:SPM_NewProjectSidebarCmp />
+        </div>
+        <!--
+                    Second column
+                    -->
+        <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+         
+    <lightning:layout class="slds-m-left_medium slds-m-top_medium slds-m-bottom_medium">
+        <lightning:layoutItem size="6">
+            <div class=" ">
+                <lightning:combobox options="{!v.projects}" value="{!v.projectId}"
+                    label="{!$Label.c.project_parent_field_label}" onchange="{!c.handleProject}"
+                    placeholder="Choice a project" />
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!--c:SPM_NewProjectCmp
+            project="{!v.project}"
+            isNotModal="true"
+            isSubOrCloneProject="true"
+            isNotParentId = "false"
+          /-->
+          {!v.body}
+        </div>
+    </div>
+</aura:component>

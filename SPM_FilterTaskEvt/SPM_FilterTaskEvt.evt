@@ -1,0 +1,7 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="filter" type="Object" default="{
+        'status': '',
+        'project': '',
+        'member': ''
+    }" />
+</aura:event>

@@ -1,0 +1,41 @@
+<aura:component controller="SPM_InvoiceCnt" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="project" type="Account"  default=""/>
+    <aura:attribute name="projects" type="Account[]" />
+    <aura:attribute name="createProject" type="boolean" default="true" />
+    <aura:registerEvent name="SPM_FilterInvoiceEvt" type="c:SPM_FilterInvoiceEvt" />
+    
+    <div class="bg-black ">
+        <article class="slds-card  bg-black">
+            <c:SPM_HeaderSidebarCmp/>
+            <footer class="slds-card__footer m-top bg-dimgrey slds-border_top">
+                <div class=" w-auto slds-m-vertical_small ">
+                        <h2 class="text-white left" style="margin-left: 5PX;">SHOW PROJECT</h2>
+                        <br></br><br></br>
+                        <div class="slds-text-align_left slds-m-left_medium">
+                            <div class="slds-grid">
+                                <span
+                                    class="slds-col slds-truncate slds-text-color_inverse slds-m-top_large">Projects</span>
+                                <lightning:combobox  value="{!v.project}"
+                                    class="slds-size_1-of-2 slds-col slds-align_absolute-right" placeholder="All"
+                                    options="{! v.projects }"  />
+                            </div>
+                            
+                            <br/>
+                            <lightning:button class="slds-align_absolute-center bg-green" label="Go" title="Go"
+                                onclick="{! c.filtrer }" />
+                        </div>
+                    </div>
+
+                    <!--
+        Admin project
+      -->
+                   <c:SPM_AdminSidebarCmp/>
+                <!--
+        Home
+      -->
+                <c:SPM_HomeSideBarCmp />
+            </footer>
+        </article>
+    </div>
+</aura:component>

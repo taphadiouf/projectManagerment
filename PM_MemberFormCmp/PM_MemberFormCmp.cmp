@@ -1,0 +1,63 @@
+<aura:component controller="SPM_MemberCnt">
+    <aura:attribute name="member" type="Contact" />
+    <aura:attribute name="users" type="User[]" />
+    <aura:attribute name="orgUnits" type="Individual[]"/>
+    
+      <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+            <article class="slds-card slds-card_boundary">
+                <div class=" slds-m-top_xx-large">
+                    <div class="slds-grid slds-m-around_large">
+                        <div class=" slds-col  slds-m-right_large">
+                            <div class="">
+                                <lightning:input type="txt" label="Name:" placeholder="name" value="{!v.member.Name}" required="true" />
+                            </div>
+                            <div class="">
+                                <lightning:combobox options="{! v.gender }" value="" label="Gender:" onchange="{!c.genderChange}" required="true" placeholder="Sexe"/>
+                            </div>
+                            <div class=" ">
+                                <lightning:input label="Start Date:" type="date" value="{!v.member.Birthdate}" />
+                            </div>
+                            <div class="">
+                                <lightning:input type="text" label="Location:" required="true" value="{!v.member.LastName}" />
+                            </div>
+                        </div>
+                        <div class=" slds-col  slds-m-left_large">
+                            <div class=" ">
+                                <lightning:combobox options="{!v.contractType }" value="" label="Contract Type:" onchange="{!c.contractTypeChange}"
+                                                    placeholder="Select a contract type" />
+                            </div>
+                            <div class="slds-grid ">
+                               <div class="slds-col ">
+                                    <lightning:combobox options="{!v.orgUnits}" value="" label="Organisation Unit:" onchange="{!c.orgUnitChange}" 
+                                                        placeholder="Select a Org" />
+                                </div>
+                                <div class="slds_col">
+                                    <button
+                                            class="slds-m-top_large slds-button slds-button--icon-border slds-button--icon-xx-small slds-m-right_large"
+                                            aria-controls="tree0-node1">
+                                        <div class='icon-container'>
+                                            <lightning:buttonIcon iconName="utility:add" variant="brand" onclick="{! c.addOrgUnit }"
+                                                                  alternativeText="Add" />
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="">
+                                <lightning:combobox options="{!v.users}" value="" label="User:" onchange="" 
+                                                    placeholder="Select a user" />
+                            </div>
+                            <div class="">
+                                <lightning:input label="End Date:" type="date" value="{!v.member.LastCURequestDate}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </article> 
+    
+    <c:SPM_AddOrganisationUnitCmp/>
+</aura:component>

@@ -1,0 +1,88 @@
+<aura:component controller="SPM_AbsenceCnt" access="global"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes">
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+
+  <aura:attribute name="absence" type="Case" />
+  <aura:attribute name="recordId" type="Id" default="" />
+
+  <div class="slds-grid slds-theme_default">
+    <!--
+        First column
+      -->
+    <div class="slds-col" id="sidebar">
+      <c:SPM_AbsenceSidebarCmp />
+    </div>
+    <!--
+        Second column
+      -->
+    <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+
+      <article>
+        <div class="">
+          <div class="slds-form slds-m-around_large " role="list">
+            <div class="slds-form__row slds-grid">
+              <div class="slds-col">
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">Member: {!v.absence.Contact.Name}
+                    </span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">Type: {!v.absence.SuppliedPhone}
+                    </span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">Status: {!v.absence.Absence_Status__c}
+                    </span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">Start Date: {!v.absence.CreatedDate}</span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">End Date: {!v.absence.EndDate__c}</span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">Manager: {!v.absence.SuppliedName}</span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">Description: {!v.absence.Note__c}</span>
+                  </div>
+                </div>
+                <div class="slds-form__item slds-m-top_medium slds-m-bottom_medium" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                    <span class="slds-form-element__label">contact Info: {!v.absence.Subject}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <lightning:button class="slds-float_right slds-m-right_medium slds-m-bottom_small slds-button_brand"
+              label="Submit" onclick="{!c.handleUpdateStatus}" />
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</aura:component>

@@ -1,0 +1,34 @@
+<!--
+  @File Name          : SPM_CalendarRow.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 17/01/2020 à 20:54:04
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    03/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component>
+	<aura:attribute name="top" type="Integer" />
+	<aura:attribute name="left" type="Integer" />
+	<aura:attribute name="row" type="Integer" />
+	<aura:attribute name="col" type="Integer" />
+	<aura:attribute name="datas" type="List" />
+	<aura:attribute name="activities" type="List" />
+	<aura:attribute name="hasData" type="Boolean" default="false" />
+	<aura:attribute name="editEvent" type="Boolean" />
+	<aura:attribute name="showDetails" type="Boolean" />
+	<aura:attribute name="data" type="Object" />
+	<aura:attribute name="timeSheet" type="Contract" />
+	<aura:handler name='init' value='{!this}' action='{!c.doInit}' />
+	<aura:if isTrue="{!v.editEvent}">
+		<c:SPM_NewEventCmp timeSheet="{!v.data.timeSheet}" createNewEvent="{!v.editEvent}" action="createTimeSheet"/>
+	</aura:if>
+	<aura:if isTrue="{!v.hasData}">
+		<td rowspan="{!v.data.rowspan}" class="{!v.data.class}" onclick="{!c.timeSheetClick}">
+			{!v.data.timeSheet.Task__r.Name}
+		</td>
+	</aura:if>
+	
+</aura:component>

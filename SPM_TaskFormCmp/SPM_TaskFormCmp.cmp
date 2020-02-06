@@ -1,0 +1,99 @@
+<!--
+  @File Name          : SPM_TaskFormCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/01/2020 à 10:04:47
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    27/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component access="global" implements="flexipage:availableForAllPageTypes" controller="SPM_TaskCnt">
+	<aura:attribute name="task" type="Asset" default="{}" />
+	<aura:attribute name="projects" type="Account[]" />
+	<aura:attribute name="selectedProject" type="Account" />
+	<aura:attribute name="projectId" type="Id" default="" />
+	<!-- <aura:attribute name="workUnits" type="Campaign[]" /> -->
+	<aura:attribute name="status" type="SPM_TaskStatusCs__c[]" />
+	<aura:attribute name="name" type="String" default="{!$Label.c.name_field_label}" />
+	<aura:attribute name="isValidFields" type="boolean" default="false" />
+	<aura:attribute name="isOpen" type="boolean" default="false" />
+	<aura:attribute name="startDateValidationError" type="boolean" />
+	<aura:attribute name="endDateValidationError" type="boolean" />
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+	<!-- <aura:handler event="c.SPM_NewWorkUnitCreatedEvt" action="{!c.handleNewWorkUnitCreation}" /> -->
+
+	<div class="">
+		<!-- BOXED AREA -->
+		<fieldset class="slds-theme--default slds-container-x-large">
+
+			<!-- CREATE NEW EXPENSE FORM -->
+			<form class="slds-form--stacked slds-m-around_large">
+				<lightning:layout>
+					<lightning:layoutItem size="6" class="slds-m-right_small">
+						<div class="">
+							<lightning:input aura:id="isValideField" label="{!$Label.c.name_field_label}"
+								value="{!v.task.Name}" placeholder="Enter the Name" required="true" />
+						</div>
+						<aura:if isTrue="{!v.projectId==''}">
+							<div class="">
+								<lightning:combobox aura:id="isValideField" options="{!v.projects}"
+									value="{!v.task.AccountId}" label="{!$Label.c.projects_field_label}"
+									onchange="{!c.projectChange}" placeholder="Select a Project" required="true" />
+							</div>
+						</aura:if>
+						<div class="slds-grid slds-p-bottom_medium">
+							<div class="slds-col slds-p-right_small">
+								<lightning:input type="number" label="{!$Label.c.billable_hours_field_label}"
+									value="{!v.task.Billable_Hours__c}" placeholder="" />
+							</div>
+							<div class="slds-col">
+								<lightning:input type="number" label="{!$Label.c.estimated_hours_field_label}"
+									value="{!v.task.Quantity}" placeholder="" />
+							</div>
+						</div>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="6" class="slds-m-left_small">
+						<aura:if isTrue="{!v.projectId==''}">
+							<div class="">
+								<lightning:combobox options="{!v.status}" value="{!v.task.Status}"
+									label="{!$Label.c.status_field_label}" placeholder="Select a Status "
+									required="true" />
+							</div>
+						</aura:if>
+						<div class=" ">
+							<lightning:input value="{!v.task.StartDate__c}" disabled="{!empty(v.selectedProject.Id)}"
+								label="{!$Label.c.start_date_field_label}" type="date" required="true"
+								min="{!v.selectedProject.Start_Date__c}" max="{!v.selectedProject.End_Date__c}"
+								aura:id="isFieldValid" class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+								onchange="{!c.startDateUpdate}" />
+							<aura:if isTrue="{!v.startDateValidationError}">
+								<div class="slds-text-color_error slds-p-left_x-small">
+									Start date must be in present or in future..
+								</div>
+							</aura:if>
+						</div>
+						<div class="slds-form-element ">
+							<lightning:input label="{!$Label.c.delivery_date_field_label}" type="date" required="true"
+								disabled="{!empty(v.task.StartDate__c)}" min="{!v.task.StartDate__c}"
+								max="{!v.selectedProject.End_Date__c}" value="{!v.task.EndDate__c}"
+								aura:id="isFieldValid" class="{! v.endDateValidationError ? 'slds-has-error' : ''}"
+								onchange="{!c.endDateUpdate}" />
+							<aura:if isTrue="{!v.endDateValidationError}">
+								<div class="slds-text-color_error slds-p-left_x-small">
+									Start date should be greater than End date
+								</div>
+							</aura:if>
+						</div>
+					</lightning:layoutItem>
+				</lightning:layout>
+				<div class="slds-m-top_large">
+					<lightning:inputRichText label="{!$Label.c.description_field_label}" placeholder=""
+						value="{!v.task.Description}" />
+				</div>
+			</form>
+		</fieldset>
+	</div>
+</aura:component>

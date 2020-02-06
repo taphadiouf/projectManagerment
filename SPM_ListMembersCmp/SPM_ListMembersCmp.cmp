@@ -1,0 +1,113 @@
+<!--
+  @Component Name     : ListMembers.cmp
+  @Description        : 
+  @Author             : adiallo
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/08/2019 à 10:40:15
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author                 Modification
+  ==============================================================================
+  1.0    28/08/2019 à 10:42:14   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_MemberCnt" access="global"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable">
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+  <aura:handler name="SPM_NewMemberCreatedEvt" action="{!c.addMemberTolist}" event="c:SPM_NewMemberCreatedEvt" />
+  <aura:handler action="{!c.getMemberFilteredByProject}" event="c:SPM_FilterMembersByProjectEvt" />
+  <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+  <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+  <aura:registerEvent name="SPM_ShowDetailMemberEvt" type="c:SPM_ShowDetailMemberEvt" />
+
+  <aura:attribute name="members" type="Contact[]" />
+  <aura:attribute name="memberId" type="Id" />
+  <aura:attribute name="member" type="Contact" default="{}" />
+  <aura:attribute name="memberSelected" type="Contact" />
+  <aura:attribute name="membersSelected" type="Contact[]" />
+  <aura:attribute name="numberOfMembersToDisplay" type="Contact[]" />
+  <aura:attribute name="pageSize" type="Integer" default="5" />
+  <aura:attribute name="totalSize" type="Integer" />
+  <aura:attribute name="start" type="Integer" />
+  <aura:attribute name="end" type="Integer" />
+  <aura:attribute name="columns" type="List" />
+  <aura:attribute name="isModal" type="boolean" default="false" />
+  <aura:attribute name="isUpload" type="boolean" default="false" />
+  <aura:attribute name="recordId" type="Id" default="" />
+  <aura:attribute name="orgUnitId" type="Id" default="" />
+  <aura:attribute name="userId" type="Id" default="" />
+  <aura:attribute name="title" type="string" default=" Members" />
+  <aura:attribute name="membersHasProject" type="Contract[]" />
+  <aura:attribute name="Spinner" type="boolean" default="false" />
+  <aura:attribute name="pageReference" type="Object" />
+  <lightning:navigation aura:id="navService" />
+
+  <aura:if isTrue="{! v.userId != '' || v.orgUnitId != '' }">
+    <aura:if isTrue="{!v.Spinner}">
+      <div aura:id="spinnerId" class="slds-spinner_container">
+        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative " role="alert">
+          <span class="slds-assistive-text">Loading</span>
+          <div class="slds-spinner__dot-a"></div>
+          <div class="slds-spinner__dot-b"></div>
+        </div>
+      </div>
+    </aura:if>
+    <c:SPM_ListHeaderCmp objects="{!v.members}" numberOfLinesToDisplay="{!v.numberOfMembersToDisplay}"
+      totalSize="{!v.totalSize}" title="{!v.title}" objetsSelected="{!v.membersSelected}" />
+    <div class="slds-m-right_large ">
+      <lightning:button class="slds-float_right slds-m-top_medium slds-m-bottom_medium" label="New"
+        title="Neutral action" onclick="{! c.openModalAddMember }" />
+    </div>
+    <table class="slds-m-top_medium ">
+      <lightning:datatable keyField="id" data="{!v.numberOfMembersToDisplay}" columns="{!v.columns}"
+        onrowaction="{!c.handleRowAction}" hideCheckboxColumn="true" class="tablecol" />
+    </table>
+    <c:SPM_AddMemberCmp orgUnitId="{!v.orgUnitId}" userId="{!v.userId}" member="{!v.member}" memberId="{!v.memberId}"
+      memberSelected="{!v.memberSelected}" isModal="{!v.isModal}" isUpload="{!v.isUpload}" isNotModal="false"
+      recordId="{!v.recordId}" />
+    <c:SPM_UploadPictureCmp memberId="{!v.memberId}" isModal="{!v.isUpload}" />
+    <c:SPM_ListFooterCmp objects="{!v.members}" numberOfLinesToDisplay="{!v.numberOfMembersToDisplay}"
+      totalSize="{!v.totalSize}" pageSize="{!v.pageSize}" start="{!v.start}" end="{!v.end}" />
+    <aura:set attribute="else">
+      <div class="slds-grid ">
+        <!--
+        First column
+      -->
+        <div class="slds-col" id="sidebar">
+          <c:SPM_MemberSidebarCmp />
+        </div>
+        <!--
+        Second column
+      -->
+
+        <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+          <aura:if isTrue="{!v.Spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container">
+              <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+              </div>
+            </div>
+          </aura:if>
+          <c:SPM_ListHeaderCmp objects="{!v.members}" numberOfLinesToDisplay="{!v.numberOfMembersToDisplay}"
+            totalSize="{!v.totalSize}" title="{!v.title}" objetsSelected="{!v.membersSelected}" />
+          <div class="slds-m-right_large">
+            <lightning:button class="slds-float_right slds-m-top_medium slds-m-bottom_medium" label="New"
+              title="Neutral action" onclick="{! c.openModalAddMember }" />
+          </div>
+          <table class=" ">
+            <lightning:datatable keyField="id" data="{!v.numberOfMembersToDisplay}" columns="{!v.columns}"
+              onrowaction="{!c.handleRowAction}" hideCheckboxColumn="true" class="tablecol" />
+          </table>
+          <c:SPM_AddMemberCmp orgUnitId="{!v.orgUnitId}" userId="{!v.userId}" member="{!v.member}"
+            memberId="{!v.memberId}" memberSelected="{!v.memberSelected}" isModal="{!v.isModal}"
+            isUpload="{!v.isUpload}" isNotModal="false" recordId="{!v.recordId}" />
+          <c:SPM_UploadPictureCmp memberId="{!v.memberId}" isModal="{!v.isUpload}" />
+          <c:SPM_ListFooterCmp objects="{!v.members}" numberOfLinesToDisplay="{!v.numberOfMembersToDisplay}"
+            totalSize="{!v.totalSize}" pageSize="{!v.pageSize}" start="{!v.start}" end="{!v.end}" />
+        </div>
+      </div>
+    </aura:set>
+  </aura:if>
+</aura:component>

@@ -1,0 +1,15 @@
+.THIS .profileIcon {
+    width: 200px;
+    height: 200px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+
+    color: #ffffff;
+    cursor: pointer;
+}

@@ -1,0 +1,83 @@
+<!--
+  @File Name          : SPM_AddRiskCmp.cmp
+  @Description        : 
+  @Author             : Abdoulaye Diallo
+  @Group              : 
+  @Last Modified By   : 
+  @Last Modified On   : 4/09/2019, 11:28:07 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    8/30/2019         Abdoulaye Diallo  Initial Version
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global"
+                controller="SPM_RiskCnt">
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="projectId" type="Id" default="" />
+    <aura:attribute name="isNotModal" type="boolean" default="true" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="duration" type ="Integer" default="2" />
+    <aura:attribute name="maitrise" type="Integer" default="2"/>
+    <aura:attribute name="amount" type="Integer" default="2"/>
+    <aura:attribute name="risk" type="Opportunity" default="{'Name': '',
+                                                            'Type':'',
+                                                            'DeliveryInstallationStatus__c':'',
+                                                            'NextStep':'',
+                                                            'Duration__c':2,
+                                                            'Maitrise__c':2,
+                                                            'amount__c':2,
+                                                            'AccountId':''}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="SPM_IsFormRiskValidEvt" type="c:SPM_IsFormRiskValidEvt" />
+    <aura:registerEvent name="SPM_RiskEvt" type="c:SPM_RiskEvt"/>
+    <aura:if isTrue="{!v.isModal}">
+        
+        <!--Start Modal-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                                          variant="bare-inverse" class="slds-modal__close" />
+                    <c:SPM_FomTitleCmp title=" Risk" recordId="{!v.recordId}" />
+                </header>
+                <div class="slds-card">
+                     <div class="">
+                        <c:SPM_RiskFormCmp risk="{!v.risk}" isValidFields="{!v.isValidFields}" projectId="{!v.projectId}" duration="{!v.duration}" maitrise="{!v.maitrise}" amount="{!v.amount}"/>
+                        
+                    </div>
+                 </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="destructive" label="{!$Label.c.cancel_button_title}" title="Cancel"
+                                          onclick="{! c.closeModal }" />
+                        <aura:if isTrue="{!v.recordId!=''}">
+                            <lightning:button variant="brand" label="{!$Label.c.update_button_title}" title="Update"
+                                              onclick="{!c.updateRisks}"/>
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand" label="{!$Label.c.create_button_title}" title="Save"
+                                                  onclick="{!c.addRisk}" />
+                            </aura:set>
+                        </aura:if>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!--End Modal-->
+    </aura:if>
+    <aura:if isTrue="{!v.isNotModal}">
+        <c:SPM_FomTitleCmp title="Risk" recordId="{!v.recordId}" />
+        <c:SPM_RiskFormCmp risk="{!v.risk}" isValidFields="{!v.isValidFields}" />
+        <div class="slds-float_right ">
+            <lightning:button class=" slds-button slds-button_destructive slds-m-top_none " label="Cancel" />
+            <aura:if isTrue="{!v.recordId!=''}">
+                <lightning:button class=" " variant="success" label="Update" title="Update"
+                                  onclick="{!c.updateRisks}" />
+                <aura:set attribute="else">
+                    <lightning:button class=" " variant="success" label="Save" title="Save"
+                                      onclick="{!c.addRisk}" />
+                </aura:set>
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

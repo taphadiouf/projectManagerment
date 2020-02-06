@@ -1,0 +1,49 @@
+<aura:component controller="SPM_MemberCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    
+    <aura:attribute name="MemberList" type="Contact[]" />
+    <aura:attribute name="paginationList" type="Contact[]"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+    <aura:attribute name="totalSize" type="Integer"/>
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer"/>
+    <table>
+         <tr >
+            <td style="width:10%">Show</td><td style="width:12%"><ui:inputSelect aura:id="records" change="{!c.onSelectChange}">
+            <ui:inputSelectOption text="5" value="5"/>
+            <ui:inputSelectOption text="10" value="10"/>
+            <ui:inputSelectOption text="20" value="20"/>
+            <ui:inputSelectOption text="30" value="30"/>
+            </ui:inputSelect></td>
+            <td style="width:7%">Search</td>
+            <td style="width:25%"> 
+                <ui:inputText aura:id="input1"   change="{!c.searchKeyChange}"   required="true">
+                </ui:inputText>    
+            </td>   
+        </tr> 
+    </table>
+    
+    <table class="slds-table slds-table–bordered ">
+        <thead>
+           <tr style="background-color:#6cbcd2;color:white;font-weight:bold">
+                <th>Name</th>
+                <th>Gender</th>
+                <th>ContractType</th>
+                <th>OrganisationUnit</th> 
+            </tr>
+       </thead>
+        <tbody>
+            <aura:iteration items="{!v.paginationList}" var="item">
+                 <tr>
+               <td><ui:outputText value="{!item.Name}" /></td>
+                    <td><ui:outputText value="{!item.Gender}" /></td>
+                    <td><ui:outputText value="{!item.ContractType}" /></td>
+                    <td><ui:outputText value="{!item.OrganisationUnit}" /></td>
+                </tr>
+            </aura:iteration>
+            <lightning:button label="First" title="" disabled="{!v.start == 0}"  onclick="{!c.first}" />
+            <lightning:button label="Previous" title="" disabled="{!v.start == 0}"  onclick="{!c.previous}"/>
+            <lightning:button label="Next" title="" disabled="{!v.end >= v.totalSize}" onclick="{!c.next}" />
+            <lightning:button label="Last" title="" disabled="{!v.end >= v.totalSize}" onclick="{!c.last}"/> 
+        </tbody>
+    </table>      
+</aura:component>

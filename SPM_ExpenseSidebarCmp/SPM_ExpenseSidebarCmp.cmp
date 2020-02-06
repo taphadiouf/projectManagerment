@@ -1,0 +1,69 @@
+<aura:component controller="SPM_ExpenseCnt" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="membersHasProjects" type="Contract[]" default="[{}]"/>
+    <aura:attribute name="membersHasProject" type="Id" default=""/>
+    <aura:attribute name="projects" type="Account[]"/>
+    <aura:attribute name="project" type="String"  default=""/>
+    <aura:attribute name="expenseTypes" type="SPM_ExpenseTypeCS__c[]" />
+    <aura:attribute name="expenseType" type="String" default="" />
+    <aura:attribute name="startDate" type="Date"  />
+    <aura:attribute name="endDate" type="Date"  />
+    <aura:registerEvent name="SPM_FilterExpenseEvt" type="c:SPM_FilterExpenseEvt" />
+    
+    <div class="bg-black ">
+        <article class="slds-card  bg-black">
+            <c:SPM_HeaderSidebarCmp/>
+            <footer class="slds-card__footer m-top bg-dimgrey slds-border_top ">
+                <h2 class="slds-text-heading_medium text-white" ><b>Expense Filter</b></h2><br />
+                <table class=" ">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="" class="text-white">Project</label>
+                            </td>
+                            <td>
+                                <lightning:combobox  value="{! v.project}" options="{! v.projects }" onchange="{!c.projectChange}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="" class="text-white">Member</label>
+                            </td>
+                            <td>
+                                <lightning:combobox  value="{! v.membersHasProject}" options="{! v.membersHasProjects }" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="" class="text-white">Expense Type</label>
+                            </td>
+                            <td>
+                                <lightning:combobox  value="{! v.expenseType}" options="{! v.expenseTypes }" />
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="slds-float_right slds-m-top_small">
+                                    <lightning:button variant="Success" label="Go" title="Brand action"
+                                        onclick="{! c.filtrer }" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+
+                    <!--
+        Admin project
+      -->
+                   <c:SPM_AdminSidebarCmp/>
+                <!--
+        Home
+      -->
+                <c:SPM_HomeSideBarCmp />
+            </footer>
+        </article>
+    </div>
+</aura:component>

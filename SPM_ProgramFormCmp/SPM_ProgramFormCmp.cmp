@@ -1,0 +1,47 @@
+<aura:component  implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="program" type="Campaign" />
+    <aura:attribute name="startDateValidationError" type="boolean" />
+    <aura:attribute name="endDateValidationError" type="boolean" />
+    
+    
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class=" slds-theme--default slds-container-x-large">
+            
+            
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <div class="">
+                    <lightning:input type="txt" label="{!$Label.c.name_field_label}" placeholder="name"
+                                     value="{!v.program.Name}" required="true" />
+                </div>
+                <div class=" ">
+                    <lightning:input aura:id="isValideField" label="{!$Label.c.start_date_field_label}"
+                                     type="date" value="{!v.program.StartDate}"
+                                     class="{! v.startDateValidationError ? 'slds-has-error' : ''}"
+                                     onchange="{!c.startDateUpdate}" />
+                    <aura:if isTrue="{!v.startDateValidationError}">
+                        <div class="slds-text-color_error slds-p-left_x-small">
+                            Start date must be in present or in future..
+                        </div>
+                    </aura:if>
+                </div>
+                <div class="">
+                    <lightning:input aura:id="isValideField" label="{!$Label.c.end_date_field_label}"
+                                     type="date" value="{!v.program.EndDate}" 
+                                     class="{! v.endDateValidationError ? 'slds-has-error' : ''}"
+                                     onchange="{!c.endDateUpdate}" />
+                    <aura:if isTrue="{!v.endDateValidationError}">
+                        <div class="slds-text-color_error slds-p-left_x-small">
+                            Start date should be greater than End date
+                        </div>
+                    </aura:if>
+                </div>
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+            
+        </fieldset>
+        
+    </div>
+    
+</aura:component>

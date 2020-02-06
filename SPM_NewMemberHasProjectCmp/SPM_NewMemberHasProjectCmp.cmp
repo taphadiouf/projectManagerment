@@ -1,0 +1,71 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global"
+    controller="SPM_MembersHasProjectCnt">
+    <aura:attribute name="isModalMembersHasProject" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="projectId" type="Id" default="" />
+    <aura:attribute name="project" type="Account" />
+    <aura:attribute name="isNotModal" type="boolean" default="true" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="membersHasProject" type="Contract" default="{
+                                                            'SPM_Members__c': '',
+                                                            'AccountId':'',
+                                                            'Type__c':'',
+                                                            'StartDate':'',
+                                                            'End_Date__c':'',
+                                                            'Status_Member__c':''
+                                                             }" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="SPM_NewMembersHasProjectCreatedEvt" type="c:SPM_NewMembersHasProjectCreatedEvt" />
+    <aura:registerEvent name="SPM_IsFormValidEvt" type="c:SPM_IsFormValidEvt" />
+
+
+    <aura:if isTrue="{!v.isModalMembersHasProject}">
+
+        <!--Start Modal-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <c:SPM_FomTitleCmp title="Member Has Project" recordId="{!v.recordId}" />
+                </header>
+                <div class="slds-card">
+                        <c:SPM_MemberHasProjectFormCmp membersHasProject="{!v.membersHasProject}" project="{!v.project}"
+                            isValidFields="{!v.isValidFields}" projectId="{!v.projectId}"/>
+                </div>
+                            <footer class="slds-modal__footer">
+                   <lightning:button variant="destructive" label="{!$Label.c.cancel_button_title}" title="Cancel"
+                            onclick="{! c.closeModal }" />
+                        <aura:if isTrue="{!v.recordId!=''}">
+                            <lightning:button variant="brand" label="{!$Label.c.update_button_title}" 
+                            title="Update"
+                            onclick="{!c.updateMemberHasProject}" />
+                            <aura:set attribute="else">
+                            <lightning:button variant="brand" label="{!$Label.c.create_button_title}" title="Save"
+                                onclick="{!c.addMemberHasProject}" />
+                            </aura:set>
+                        </aura:if>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <aura:if isTrue="{!v.isNotModal}">
+        <c:SPM_FomTitleCmp title="Project" recordId="{!v.recordId}" />
+        <c:SPM_MemberHasProjectFormCmp membersHasProject="{!v.membersHasProject}" project="{!v.project}"
+                            isValidFields="{!v.isValidFields}" />
+        <div class="slds-float_right ">
+            <lightning:button class=" slds-button slds-button_destructive slds-m-top_none " label="Cancel" />
+            <aura:if isTrue="{!v.project!=''}">
+                <lightning:button class=" " variant="success" label="Update" title="Update"
+                        onclick="{! c.updateProjects }" />
+                    <aura:set attribute="else">
+                <lightning:button class=" " variant="success" label="Save" title="Update" onclick="{! c.addProject }" />
+                </aura:set>
+            </aura:if>
+        </div>
+    </aura:if>
+    <!--End Modal-->
+</aura:component>

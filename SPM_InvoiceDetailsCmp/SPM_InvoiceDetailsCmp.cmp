@@ -1,0 +1,141 @@
+<aura:component controller="SPM_InvoiceCnt" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable"
+    access="global" description="c:SPM_InvoiceDetailsCmp component">
+    <aura:attribute name="invoice" type="Contract" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="total" type="Decimal" default="0.0" />
+    <aura:attribute name="invoiceLines" type="Opportunity[]" default="[{}]" />
+    <aura:attribute name="sendData" type="object" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="slds-grid slds-theme_default">
+        <!--
+        First column
+      -->
+
+        <div class="slds-col" id="sc">
+            <div class="slds-card slds-size_1-of-1 slds-m-bottom_xx-large">
+                <lightning:buttonIcon iconName="utility:back" alternativeText="Go back" onclick="{!c.goBack}"
+                    class="slds-float_left slds-m-around_x-small slds-theme_inverse" />
+            </div>
+            <div class="slds-card slds-size_1-of-1 slds-m-bottom_x-large">
+
+
+                <div class="slds-m-left_x-large slds-m-bottom_x-large">
+                    <img src="{!$Resource.SPM_logo}" />
+                    <img src="{!$Resource.invoice}" class="slds-float_right" />
+
+                </div>
+                <lightning:buttonIcon iconName="utility:download" alternativeText="Download"
+                    onclick="{!c.downloadDocument}" class="slds-float_right slds-m-around_x-small" />
+                <div class="slds-m-bottom_x-large  ">
+                </div>
+                <div class="slds-size_4-of-4 slds-m-bottom_x-large">
+                    <c:SPM_CompanyAddressCmp />
+                    <div class="slds-size_1-of-4 slds-m-right_x-large slds-float_right">
+                        <table class="slds-table slds-table_header-hidden">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="background-color: cornflowerblue; color:white">
+                                        Invoice Data
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>N° Invoice</b>:
+                                    </td>
+                                    <td>
+                                        {!v.invoice.Id}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>{!$Label.c.customer_field_label}</b>:
+                                    </td>
+                                    <td>
+                                        {!v.invoice.customer__r.Name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>{!$Label.c.project_field_label}</b>:
+                                    </td>
+                                    <td>
+                                        {!v.invoice.Account.Name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>{!$Label.c.invoice_date_field_label}</b>:
+                                    </td>
+                                    <td>
+                                        {!v.invoice.End_Date__c}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_medium slds-m-bottom_x-large">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-around_x-small">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:  cornflowerblue">
+                                        <div style="color: white">Description</div>
+                                    </th>
+                                    <th style="background-color:  cornflowerblue">
+                                        <div style="color: white">Type</div>
+                                    </th>
+                                    <th style="background-color:  cornflowerblue">
+                                        <div style="color: white">Units</div>
+                                    </th>
+                                    <th style="background-color:  cornflowerblue">
+                                        <div style="color: white">UOM</div>
+                                    </th>
+                                    <th style="background-color:  cornflowerblue" colspan="2">
+                                        <div style="color: white">Rate</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.invoiceLines}" var="invoiceLine">
+                                    <tr>
+                                        <td>
+                                            {!invoiceLine.SPM_Description__c}
+                                        </td>
+                                        <td>
+                                            {!invoiceLine.Type}
+                                        </td>
+                                        <td>
+                                            {!invoiceLine.Units__c}
+                                        </td>
+                                        <td>
+                                            {!invoiceLine.amount__c}
+                                        </td>
+                                        <td>
+                                            {!invoiceLine.StageName}
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-around_x-small slds-size_1-of-4 slds-float_right">
+                            <tbody>
+                                <tr>
+                                    <td class="slds-float_right">
+                                        Total
+                                    </td>
+                                    <td>
+                                        {!v.total}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

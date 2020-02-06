@@ -1,0 +1,53 @@
+<aura:component controller="SPM_CustomerCnt" implements="flexipage:availableForAllPageTypes" access="global"> 
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="customer" type="Account" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    
+   
+    
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class="slds-theme--default slds-container-x-large">
+           
+
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout>
+                    <lightning:layoutItem size="12" class="slds-m-right_small">
+
+                        <div class="">
+                            <lightning:input type="txt" label="{!$Label.c.name_field_label}" placeholder="name" value="{!v.customer.Name}"
+                                required="true" aura:id="isFieldValid"/>
+                        </div>
+                        <div class=" ">
+                            <lightning:input value="{!v.customer.MailingCity}" label="{!$Label.c.invoice_address_field_label}" type="text" required="true" aura:id="isFieldValid"/>
+                        </div>
+                        <div class=" ">
+                            <lightning:input value="{!v.customer.MailingState}" label="{!$Label.c.city_label_field}" type="text" required="true" aura:id="isFieldValid"/>
+                        </div>
+                        <div class=" ">
+                            <lightning:input value="{!v.customer.MailingCountry}" label="{!$Label.c.country_label_field}" type="text" required="true" aura:id="isFieldValid"/>
+                        </div>
+                        <div class="">
+                            <lightning:input type="text" value="{!v.customer.Title}" label="{!$Label.c.contact_field_label}"
+                                required="true" aura:id="isFieldValid"/>
+                        </div>
+                        <div>
+                            <lightning:input   type="text" label="Contact Person" placeholder="" value="{!v.customer.AssistantName}" required="true" aura:id="isFieldValid"/>
+                        </div>
+                        <div>
+                            <lightning:input   type="text" label="{!$Label.c.note_field_label }" placeholder="" value="{!v.customer.Department}"/>
+                        </div>
+                        
+                       
+                    </lightning:layoutItem>  
+                </lightning:layout>                  
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+
+</aura:component>

@@ -1,0 +1,46 @@
+<!--
+  @Component Name     : SPM_OrgUnitCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 8/30/2019, 4:18:47 PM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    8/27/2019, 11:41:10 AM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="SPM_OrganisationUnitCnt" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:attribute name="organisationUnit" type="SPM_Organisation__c"/>
+    <div class="">
+        <!-- BOXED AREA -->
+        <fieldset class=" slds-theme--default slds-container-x-large">
+            
+            <!-- CREATE NEW EXPENSE FORM -->
+            <form class="slds-form--stacked slds-m-around_large">
+                <lightning:layout >
+                    <lightning:layoutItem size="12" class="slds-m-right_small">
+                        
+                        <div class="">
+                            <lightning:input aura:id="isValideField" type="txt" label="{!$Label.c.name_field_label}"  placeholder="Name" value="{!v.organisationUnit.Name}" required="true" />
+                        </div>  
+                        
+                    </lightning:layoutItem>
+                    
+                    
+                    
+                </lightning:layout>
+                
+                
+            </form>
+            <!-- / CREATE NEW EXPENSE FORM -->
+            
+        </fieldset>
+        <!-- / BOXED AREA -->
+    </div>
+    
+</aura:component>

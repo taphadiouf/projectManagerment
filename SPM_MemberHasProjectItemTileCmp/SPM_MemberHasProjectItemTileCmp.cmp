@@ -1,0 +1,110 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="SPM_MembersHasProjectCnt"> 
+ 
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+  <aura:attribute name="membersHasProject" type="Contract"/>
+  <aura:attribute name="recordId" type="String" />
+
+  <div class="slds-m-bottom_small slds-page-header slds-page-header_record-home">
+    <lightning:layout horizontalAlign="spread" verticalAlign="center">
+      <lightning:layoutItem>
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <lightning:icon iconName="standard:environment_hub" class="slds-theme_success" />
+          </div>
+          <div class="slds-media__body">
+            <div style="font-size: 0.8125rem;">{!$Label.c.members_field_label}</div>
+            <!--div class="slds-page-header__title slds-text-heading_small">Project Outlet Garruzzo</div-->
+            <div class="slds-page-header__title slds-text-heading_small">{!v.membersHasProject.SPM_Members__r.Name}</div>
+          </div>
+          <div class="slds-media__figure slds-media__figure_reverse"></div>
+        </div>
+      </lightning:layoutItem>
+      <lightning:layoutItem>
+        <lightning:layout>
+          <lightning:layoutItem>
+            <!--<lightning:buttonGroup class="slds-m-right_largeall">
+              <lightning:button class="slds-theme_neutral" variant="neutral" label="Modifica"></lightning:button>
+              <lightning:button class="slds-theme_neutral" variant="neutral" label="Cambia titola deal">
+              </lightning:button>
+              <lightning:button class="slds-theme_neutral" variant="neutral" label="Button2"></lightning:button>
+              <lightning:buttonMenu variant="border-filled" menuAlignment="right" iconName="utility:down"
+                iconSize="medium">
+                <lightning:menuItem label="Menu Item"></lightning:menuItem>
+                <lightning:menuItem label="Menu Item"></lightning:menuItem>
+              </lightning:buttonMenu>
+            </lightning:buttonGroup>-->
+          </lightning:layoutItem>
+        </lightning:layout>
+      </lightning:layoutItem>
+    </lightning:layout>
+
+    <div class="slds-theme_default slds-m-top_medium">
+      <div class="slds-grid slds-m-right_large">
+        <div class="slds-col slds-size_4-of-5">
+          <table class="">
+            <tbody>
+              <tr>
+                <td class="">
+                  <div class="slds-form-element  slds-m-left_small "><span class="slds-form-element__label">{!$Label.c.members_field_label}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">
+                        <span class="slds-avatar slds-avatar_profile-image-small"> </span>
+                        <a href="">{!v.membersHasProject.SPM_Members__r.Name}</a>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="slds-form-element   "><span class="slds-form-element__label">{!$Label.c.role_field_label}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">
+                        <span>{!v.membersHasProject.Type__c}</span>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="slds-form-element   "><span class="slds-form-element__label">{!$Label.c.start_date_field_label}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">
+                        <span>{!v.membersHasProject.StartDate}</span>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="slds-form-element   "><span class="slds-form-element__label">{!$Label.c.end_date_field_label}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">
+                        <span>{!v.membersHasProject.End_Date__c}</span>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="slds-form-element   "><span class="slds-form-element__label">{!$Label.c.status_field_label}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">
+                        <span>{!v.membersHasProject.Status_Member__c}</span>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="slds-form-element   "><span class="slds-form-element__label">{!$Label.c.project_manager_field_label}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">
+                        <span>{!v.projectManagement.SPM_Members__r.Name}</span>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</aura:component>

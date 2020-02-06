@@ -1,0 +1,13 @@
+.THIS .myCheckbox{
+  display: inline-block;
+  float: left;
+  
+}
+
+.THIS .slds-theme_info{
+  background-color: #3498db;
+}
+
+.THIS .slds-theme_success{
+  background-color: #5afe03;
+}

@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="SPM_ExpenseCnt">
+    <ltng:require scripts="{!$Resource.chartJs2+'/chart/Chart.js2'}"
+                  afterScriptsLoaded="{!c.scriptsLoaded}" />
+    <canvas id="pie-chart" width="950" height="250"></canvas>
+ </aura:component>

@@ -1,0 +1,106 @@
+<!--
+  @Component Name     : ListAbsences.cmp
+  @Description        : 
+  @Author             : adiallo
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 9/11/2019, 9:29:17 AM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author                 Modification
+  ==============================================================================
+  1.0    28/08/2019 à 10:42:14   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component 
+    controller="SPM_AbsenceCnt" 
+     implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable"
+  access="global"
+>
+    <aura:handler 
+        name="init" 
+        action="{!c.doInit}" 
+        value="{!this}" 
+    />
+    <aura:handler 
+        name="SPM_NewAbsenceCreatedEvt"
+        action="{!c.addAbsenceToList}"
+        event="c:SPM_NewAbsenceCreatedEvt"
+    />
+    <aura:handler 
+        action="{!c.getAbsencesFiltered}" 
+        event="c:SPM_FilterAbsencesEvt" 
+    />
+
+    <aura:attribute name="absences" type="Case[]" />
+    <aura:attribute name="absence" type="Case" default="{}"/>
+    <aura:attribute name="absencesSelected" type="Case[]" />
+    <aura:attribute name="numberOfAbsencesToDisplay" type="Case[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isModalNewAbsence" type="boolean" default="false" />
+    <aura:attribute name="title" type="String" default="Absences" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:navigation aura:id="navService" />
+    
+
+
+   
+    <div class="slds-grid ">
+        <!--
+      First column
+    -->
+    <div class="slds-col" id="sidebar">
+        <c:SPM_AbsenceSidebarCmp />
+    </div>
+    
+        <!--
+      Second column
+    -->
+        <div class="slds-col slds-size_3-of-4 slds-theme_default slds-m-left_xx-small" id="sc">
+          
+            <c:SPM_ListHeaderCmp 
+            objects="{!v.absences}" 
+            numberOfLinesToDisplay="{!v.numberOfAbsencesToDisplay}"
+            totalSize="{!v.totalSize}" 
+            title="{!v.title}" 
+            objetsSelected="{!v.absencesSelected}" />
+
+        <div class="slds-m-right_large">
+            <lightning:button 
+                class="slds-float_right slds-m-top_medium slds-m-bottom_medium" 
+                label="New" 
+                title="Neutral action"
+                onclick="{! c.openModalAddAbsence }" />
+        </div>
+        <table class=" ">
+            <lightning:datatable 
+                keyField="id" 
+                data="{!v.numberOfAbsencesToDisplay}" 
+                columns="{!v.columns}"
+                onrowaction="{!c.handleRowAction}" 
+                hideCheckboxColumn="true" 
+                class="tablecol" />
+        </table>
+            
+        <c:SPM_NewAbsenceCmp 
+            absence="{!v.absence}" 
+            isModal="{!v.isModal}"
+            isNotModal="false"
+            recordId="{!v.recordId}" />
+
+        <c:SPM_ListFooterCmp 
+            objects="{!v.absences}" 
+            numberOfLinesToDisplay="{!v.numberOfAbsencesToDisplay}"
+            totalSize="{!v.totalSize}" 
+            pageSize="{!v.pageSize}" 
+            start="{!v.start}" 
+            end="{!v.end}" />
+        </div>
+      </div>
+
+</aura:component>

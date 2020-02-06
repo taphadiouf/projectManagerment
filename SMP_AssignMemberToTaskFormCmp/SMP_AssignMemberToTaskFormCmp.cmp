@@ -1,0 +1,38 @@
+<aura:component
+  controller="SPM_MemberHasProjectHasTaskCnt"
+  implements="force:appHostable,flexipage:availableForAllPageTypes"
+  access="global"
+>
+<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+<aura:attribute name="membersHasProject" type="Contract[]" />
+<aura:attribute name="projectId" type="Id" default=""/>
+<aura:attribute name="taskId" type="Id" default="" />
+<aura:attribute name="memberHasProjectId" type="Id" default="" />
+<aura:attribute name="tasks" type="Asset[]" />
+  <aura:attribute name="memberHasTask" type="SPM_Organisation__c" />
+
+  <div class="">
+    <fieldset class=" slds-theme--default slds-container-x-large">
+      <form class="slds-form--stacked slds-m-around_large">
+        <lightning:layout>
+          <lightning:layoutItem size="12" class="slds-m-right_small">
+            <div class="">
+                <aura:if isTrue="{!v.taskId != ''}">
+                <lightning:combobox options="{!v.membersHasProject}"
+                value="{! v.memberHasTask.MemberHasProject__c}"
+                label="Member"
+                 placeholder="Select a member" required="true" />
+                </aura:if>
+                <aura:if isTrue="{!v.memberHasProjectId != ''}">
+                        <lightning:combobox options="{!v.tasks}"
+                        value="{! v.memberHasTask.Task__c}"
+                        label="Task"
+                         placeholder="Select a task" required="true" />
+                </aura:if>
+            </div>
+          </lightning:layoutItem>
+        </lightning:layout>
+      </form>
+    </fieldset>
+  </div>
+</aura:component>

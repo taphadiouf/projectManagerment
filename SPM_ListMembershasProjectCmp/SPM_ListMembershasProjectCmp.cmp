@@ -1,0 +1,75 @@
+<aura:component
+  controller="SPM_MembersHasProjectCnt"
+  access="global"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId"
+>
+  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+  <aura:handler
+  name="SPM_NewMembersHasProjectCreatedEvt"
+  action="{!c.updatelist}"
+  event="c:SPM_NewMembersHasProjectCreatedEvt"
+/>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="membersHasProject" type="Contract[]" />
+  <aura:attribute name="memberHasProject" type="Contract" default="{}"/>
+  <aura:attribute name="project" type="Account" default="{}" />
+  <aura:attribute name="membersHasProjectSelected" type="Contract[]" />
+  <aura:attribute name="numberOfMembersHasProjectToDisplay" type="Contract[]" />
+  <aura:attribute name="pageSize" type="Integer" default="5" />
+  <aura:attribute name="totalSize" type="Integer" />
+  <aura:attribute name="start" type="Integer" />
+  <aura:attribute name="end" type="Integer" />
+  <aura:attribute name="columns" type="List" />
+  <aura:attribute name="isModal" type="boolean" default="false" />
+  <aura:attribute name="memberId" type="Id" default="" />
+  <aura:attribute name="title" type="String" default=" MEMBERS OF PROJECT" />
+  <aura:attribute name="isModalOpened" type="boolean" default="false" />
+  <aura:attribute name="isModalAssign" type="boolean" default="false" />
+  <aura:attribute name="memberHasProjectId" type="Id" default="" />
+  <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+  <c:SPM_ListHeaderCmp
+    objects="{!v.membersHasProject}"
+    numberOfLinesToDisplay="{!v.numberOfMembersHasProjectToDisplay}"
+    totalSize="{!v.totalSize}"
+    title="{!v.title}"
+    objetsSelected="{!v.membersHasProjectSelected}"
+  />
+  <div class="slds-m-right_large">
+    <lightning:button
+      class="slds-float_right slds-m-top_medium slds-m-bottom_medium"
+      label="New"
+      title="Neutral action"
+      onclick="{! c.openModalAddMember }"
+    />
+  </div>
+  <table>
+  <div class="slds-table slds-table–bordered ">
+    <lightning:datatable
+      keyField="id"
+      data="{!v.numberOfMembersHasProjectToDisplay}"
+      columns="{!v.columns}"
+      onrowaction="{!c.handleRowAction}"
+      class="tablecol"
+    />
+  </div>
+</table>
+  <!--End DataTable-->
+  <c:SPM_NewMemberHasProjectCmp
+        project="{!v.project}"
+        isModalMembersHasProject="{!v.isModal}"
+        isNotModal="false"
+        projectId="{!v.recordId}"
+        recordId="{!v.memberId}"
+        membersHasProject="{!v.memberHasProject}"
+      />
+  <c:SPM_ListFooterCmp
+    objects="{!v.membersHasProject}"
+    numberOfLinesToDisplay="{!v.numberOfMembersHasProjectToDisplay}"
+    totalSize="{!v.totalSize}"
+    pageSize="{!v.pageSize}"
+    start="{!v.start}"
+    end="{!v.end}"
+  />
+  <c:SMP_AssignMemberToTaskCmp projectId="{!v.recordId}" memberHasProjectId="{! v.memberHasProjectId}" isModal="{!v.isModalAssign}"/>
+</aura:component>

@@ -1,0 +1,95 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    access="global">
+
+    <aura:attribute name="itemFlown" type="String" default="project" />
+    <aura:attribute name="isDisplayProject" type="Boolean" default="false" />
+    <aura:attribute name="current" type="string" default="project" />
+    <aura:attribute name="projectId" type="String" default="" />
+
+
+    <div class=" slds-card width slds-m-top_xx-small" onmouseout="">
+        <lightning:layout>
+            <lightning:layoutItem>
+                <ul id="nav" class="">
+                    <li class="{! v.current == 'project'? 'current' : '' }" title="Projects"
+                        onmouseover="{!c.displayeProjects}">
+                        <div class="slds-media slds-m-bottom_large slds-m-top_xx-small">
+                            <div class="slds-media__figure slds-m-top_medium">
+                                <lightning:icon iconName="standard:environment_hub" size="slds-icon_medium"
+                                    variant="slds-icon-inverse">
+                                </lightning:icon>
+                            </div>
+                            <!--end some-->
+                            <div class="slds-media__figure slds-media__figure_reverse"></div>
+                        </div>
+                    </li><!-- n1 -->
+                    <li class="{! v.current == 'finances'? 'current' : '' }"  onmouseover="{!c.displayeAbsence}">
+                        <div class="slds-media slds-m-bottom_large">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:resource_absence" size="slds-icon_medium"
+                                    variant="slds-icon-inverse" class="">
+                                </lightning:icon>
+                            </div>
+                            <!--end some-->
+                            <div class="slds-media__figure slds-media__figure_reverse"></div>
+                        </div>
+                    </li>
+                    <li class="{! v.current == 'expenses'? 'current' : '' }">
+                        <div class="slds-media slds-m-bottom_large">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:account" size="slds-icon_medium"
+                                    variant="slds-icon-inverse">
+                                </lightning:icon>
+                            </div>
+                            <!--end some-->
+                            <div class="slds-media__figure slds-media__figure_reverse"></div>
+                        </div>
+                    </li>
+
+                    <li class="{! v.current == 'risk'? 'current' : '' }">
+                        <div class="slds-media slds-m-bottom_large">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:contact" size="slds-icon_medium"
+                                    variant="slds-icon-inverse">
+                                </lightning:icon>
+                            </div>
+                            <!--end some-->
+                            <div class="slds-media__figure slds-media__figure_reverse"></div>
+                        </div>
+                    </li>
+                    <li class="{! v.current == 'risk'? 'current' : '' }">
+                        <div class="slds-media slds-m-bottom_large">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:timesheet" size="slds-icon_medium"
+                                    variant="slds-icon-inverse">
+                                </lightning:icon>
+                            </div>
+                            <!--end some-->
+                            <div class="slds-media__figure slds-media__figure_reverse"></div>
+                        </div>
+                    </li>
+                    <li class="{! v.current == 'risk'? 'current' : '' }">
+                        <div class="slds-media slds-m-bottom_large">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:task" size="slds-icon_medium"
+                                    variant="slds-icon-inverse">
+                                </lightning:icon>
+                            </div>
+                            <!--end some-->
+                            <div class="slds-media__figure slds-media__figure_reverse"></div>
+                        </div>
+                    </li>
+                </ul>
+            </lightning:layoutItem>
+            <lightning:layoutItem>
+                <!--begin-->
+                <aura:if isTrue="{!v.isDisplayProject}">
+                    <c:SPM_ShowProjectsForMemberCmp projectId="{!v.projectId}"
+                        isDisplayProject="{!v.isDisplayProject}" itemFlown="{!v.itemFlown}"/>
+                </aura:if>
+                <!--end-->
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

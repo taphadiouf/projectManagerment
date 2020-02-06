@@ -1,0 +1,124 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="SPM_WorkUnitCnt">
+  ​
+  <aura:attribute name="workUnit" type="Campaign" />
+  <aura:attribute name="timeSheet" type="Contract" />
+  <aura:attribute name="timeSheets" type="Contract[]" />
+  <aura:attribute name="timeSheetId" type="String" />
+  <aura:attribute name="isOpen" type="boolean" default="false" />
+  <aura:attribute name="isOpened" type="boolean" default="false" />
+  <aura:attribute name="isValidFields" type="boolean" default="false" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+  <aura:handler event="c.SPM_NewTimeSheetCreatedEvt" action="{!c.SPM_NewTimeSheetCreatedEvt}" />
+  <!--<aura:attribute name="timesheets" type="Contract"/>-->
+  <div class="">
+    <!-- BOXED AREA -->
+    <fieldset class=" slds-box slds-theme--default slds-container-x-large">
+      <legend
+        id="newexpenseform"
+        class="slds-text-heading--small 
+              slds-p-vertical--medium"
+      >
+        Add Work Unit
+      </legend>
+      ​
+      <!-- CREATE NEW EXPENSE FORM -->
+      <form class="slds-form--stacked slds-m-around_large">
+        <lightning:layout>
+          <lightning:layoutItem  class="slds-grid slds-m-right_small">
+              <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+  <thead>
+    <tr class="slds-line-height_reset">
+      <th class="" >
+        <div class="slds-truncate"></div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate">{!$Label.c.monday_field_label}</div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate" >{!$Label.c.tuesday_field_label}</div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate" >{!$Label.c.wednesday_field_label}</div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate" >{!$Label.c.thursday_field_label}</div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate">{!$Label.c.friday_field_label}</div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate">{!$Label.c.saturday_field_label}</div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate">{!$Label.c.sunday_field_label}</div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="slds-hint-parent">
+      <th data-label="Opportunity Name" scope="row">
+        <div class="slds-truncate" title="Cloudhub">
+          Hours
+        </div>
+      </th>
+      <td data-label="Account Name">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.NumberOfContacts}"
+        />
+      </td>
+      <td data-label="Close Date">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.HierarchyNumberOfContacts}"
+        />
+      </td>
+      <td data-label="Prospecting">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.NumberOfConvertedLeads}"
+        />
+      </td>
+      <td data-label="Confidence">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.HierarchyNumberOfConvertedLeads}"
+        />
+      </td>
+      <td data-label="Amount">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.NumberOfLeads}"
+        />
+      </td>
+      <td data-label="Contact">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.HierarchyNumberOfLeads}"
+        />
+      </td>
+      <td data-label="Contact">
+        <lightning:input
+        type="number"
+        value="{!v.workUnit.NumberSent}"
+        />
+      </td>
+      
+    </tr>
+</tbody>
+</table>
+          </lightning:layoutItem>
+        </lightning:layout>
+      </form>
+      <!-- / CREATE NEW EXPENSE FORM -->
+      ​
+    </fieldset>
+    <!-- / BOXED AREA -->
+  </div>
+      <aura:if isTrue="{!v.isOpened}">
+        <c:SPM_NewTimeSheetCmp isModal="{!v.isOpen}" isValidFields="{!v.isValidFields}"/>
+      </aura:if>
+  <!-- <c:SPM_NewTimeSheetCmp isModal="{!v.isOpen}" /> -->
+</aura:component>

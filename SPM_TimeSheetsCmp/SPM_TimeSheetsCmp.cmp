@@ -1,0 +1,176 @@
+<!--
+  @File Name          : SPM_TimeSheetsCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 17/01/2020 à 22:50:10
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    02/01/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component implements="force:appHostable" controller="SPM_TimeSheetCnt">
+	<aura:attribute name="top" type="Integer" />
+	<aura:attribute name="left" type="Integer" />
+	<aura:attribute name="activities" type="List" />
+    <aura:attribute name="createNewEvent" type="Boolean" default="false" />
+    <aura:attribute name="showDetails" type="Boolean" default="false" />
+    <aura:attribute name="selectedWeek" type="Integer" default="0" />
+    <aura:attribute name="timeSheet" type="Object" />
+    <aura:attribute name="week" type="Object" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="timeSheets" type="Contract[]" />
+    <aura:attribute name="days" type="List" />
+    <aura:attribute name="years" type="List" />
+    <aura:attribute name="firstDay" type="Date" />
+    <aura:attribute name="lastDay" type="Date" />
+    <aura:attribute name="hourses" type="List" />
+    <aura:attribute name="calendarDatas" type="List" />
+    <aura:attribute name="dates" type="List" />
+    <aura:attribute name="daysDate" type="List" />
+    <aura:attribute name="currentMonth" type="String" default="January" />
+    <aura:attribute name="currentYear" type="Integer" />
+    <aura:handler name='init' value='{!this}' action='{!c.doInit}' />
+    <aura:handler name='timeSheetSaved' event='c:SPM_NewTimeSheetCreatedEvt' action='{!c.timeSheetAdded}' />
+    <aura:handler name='deleteTimeSheet' event='c:SPM_NewTimeSheetCreatedEvt' action='{!c.delete}' />
+    
+    <aura:if isTrue="{!v.createNewEvent}">
+        <c:SPM_NewEventCmp createNewEvent="{!v.createNewEvent}" action="createTimeSheet" />
+    </aura:if>
+
+    <aura:if isTrue="{!not(v.loaded)}">
+        <div>
+            <div>
+                <lightning:spinner alternativeText="Loading" size="large" />
+            </div>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+
+    <div class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-event">
+                            <lightning:icon alternativeText="alternativeText" iconName="standard:event" />
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span>TimeSheets</span>
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title="Acme - 1,200 Widgets">{!v.week}</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <div class="slds-page-header__control">
+                        <ul class="slds-button-group-list">
+                            <li>
+                                <lightning:buttonIcon alternativeText="alternativeText" iconName="utility:chevronleft"
+                                    title="Previous week" variant="border-filled" onclick="{! c.prevWeek }" />
+                            </li>
+                            <li>
+                                <lightning:buttonIcon alternativeText="alternativeText" iconName="utility:chevronright"
+                                    title="Next week" variant="border-filled" onclick="{! c.nextWeek }" />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="slds-page-header__control">
+                        <lightning:button variant="neutral" label="Today" title="Today" onclick="{! c.today }" />
+                    </div>
+                    <div class="slds-page-header__control">
+                        <lightning:buttonIcon alternativeText="alternativeText" iconName="utility:refresh"
+                            title="Refresh" variant="border-filled" onclick="{! c.refresh }" />
+                    </div>
+                    <div class="slds-page-header__control">
+                        <lightning:button variant="neutral" label="New TimeSheet" title="New TimeSheet"
+                            onclick="{! c.newEvent }" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-grid">
+        <div class="slds-col slds-size_9-of-12 slds-theme_default slds-box">
+            <table class="slds-table slds-table_bordered slds-table_col-bordered slds-is-resizable" role="grid">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <th class="slds-cell-shrink" scope="col" style="text-align: center;"></th>
+                        <aura:iteration items="{!v.days}" var="day">
+                            <th class="slds-cell-shrink" scope="col" style="text-align: center;"><b>{!day}</b> </th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:if isTrue="{!v.loaded}">
+                        <aura:iteration items="{!v.hourses}" var="hourse" indexVar="row">
+                            <tr>
+                                <td><b>{!hourse}</b></td>
+                                <aura:iteration items="{!v.days}" var="day" indexVar="col">
+                                    <c:SPM_CalendarRow datas="{!v.calendarDatas}" row="{!row}" col="{!col}" showDetails="{!v.showDetails}" top="{!v.top}" left="{!v.left}" timeSheet="{!v.timeSheet}" activities="{!v.activities}" />
+                                </aura:iteration>
+                            </tr>
+                        </aura:iteration>
+                    </aura:if>
+                </tbody>
+            </table>
+        </div>
+        <div class="slds-col slds-size_3-of-12 slds-theme_default">
+            <div class="slds-grid slds-align_absolute-center">
+                <div class="slds-col slds-size_1-of-4 slds-m-top_small">
+                    <lightning:buttonIcon iconName="utility:left" variant="bare" size="medium" onclick="{! c.prevMonth }" alternativeText="Go to previous month" />
+                </div>
+                <div class="slds-col slds-size_1-of-4 slds-m-top_small">
+                    <div class="slds-text-title_caps">{!v.currentMonth}</div>
+                </div>
+                <div class="slds-col slds-size_1-of-4 slds-m-top_small">
+                    <div class="slds-float_right">
+                        <lightning:buttonIcon iconName="utility:right" variant="bare" size="medium" onclick="{! c.nextMonth }" alternativeText="Go to next month" />
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning:select name="year" label="" onchange="{!c.yearHandler}" value="{!v.currentYear}">
+                        <aura:iteration items="{!v.years}" var="year">
+                            <option value="{!year}" selected="{!v.currentYear == year}">{!year}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered  slds-m-top_small">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col"> Mon </th>
+                        <th scope="col"> Tue </th>
+                        <th scope="col"> Wed </th>
+                        <th scope="col"> Thu </th>
+                        <th scope="col"> Fri </th>
+                        <th scope="col"> Sat </th>
+                        <th scope="col"> Sun </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.daysDate}" var="row" indexVar="index">
+                        <tr class="{!'slds-hint-parent '+if(index==v.selectedWeek,'selectedWeek','')}" onclick="{!c.selectedWeek}">
+                            <aura:iteration items="{!row}" var="col">
+                                <td name="{!index}"> {!col} </td>
+                            </aura:iteration>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.showDetails}">
+		<div style="{!'position:absolute; top:'+v.top+'px; left:'+v.left+'px'}">
+			<c:SPM_TimeSheetDetailsCmp timeSheet="{!v.timeSheet}" activities="{!v.activities}" showDetails="{!v.showDetails}" />
+		</div>
+	</aura:if>
+</aura:component>

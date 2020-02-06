@@ -1,0 +1,27 @@
+<!--
+  @Component Name     : ListMembers.cmp
+  @Description        : 
+  @Author             : adiallo
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/08/2019 à 10:40:15
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author                 Modification
+  ==============================================================================
+  1.0    28/08/2019 à 10:42:14   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component access="global" implements="flexipage:availableForAllPageTypes">
+
+    <aura:attribute name="objects" type="Object[]" />
+    <aura:attribute name="numberOfLinesToDisplay" type="Object[]" />
+    <aura:attribute name="pageSize" type="Integer" default="5" />
+    <aura:attribute name="totalSize" type="Integer" />
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer" />
+
+    <lightning:button class="slds-m-top_medium slds-m-bottom_medium" label="{!$Label.c.first_button_title}"  title="" disabled="{!v.start == 0}" onclick="{!c.first}" />
+    <lightning:button class="slds-m-top_medium slds-m-bottom_medium" label="{!$Label.c.previous_button_title}" title="" disabled="{!v.start == 0}" onclick="{!c.previous}" />
+    <lightning:button class="slds-m-top_medium slds-m-bottom_medium" label="{!$Label.c.next_button_title}" title="" disabled="{!v.end >= v.totalSize-1}" onclick="{!c.next}" />
+    <lightning:button class="slds-m-top_medium slds-m-bottom_medium" label="{!$Label.c.last_button_title}" title="" disabled="{!v.end >= v.totalSize}" onclick="{!c.last}" />
+</aura:component>

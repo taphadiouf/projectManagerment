@@ -1,0 +1,106 @@
+<aura:component controller="SPM_InvoiceLineCnt" access="global" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="invoiceLines" type="Opportunity[]" default="[{'SPM_Description__c': '',
+                                                                        'SPM_InvoiceLineType__c': '',
+                                                                        'Units__c': '',
+                                                                        'amount__c': '',
+                                                                        'StageName': '',
+                                                                        'TotalOpportunityQuantity': '',
+                                                                        'Duration__c': ''
+                                                                    }]" />
+    <aura:attribute name="invoice" type="Contract[]" />
+    <aura:attribute name="invoiceLineTypes" type="SPM_InvoiceLineTypesCS__c[]" />
+    <aura:attribute name="invoiceLineRates" type="SPM_InvoiceLineRateCS__c[]" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SPM_IsFormValidEvt" action="{!c.verifyFields}" />
+    <div class="slds-col slds-size_1-of-1 slds-p-around_medium slds-m-bottom_x-large">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-around_x-small">
+            <thead>
+                <tr>
+                    <th style="background-color: #212125">
+                        <div style="color: white">No Line</div>
+                    </th>
+                    <th style="background-color: #212125">
+                        <div style="color: white">Description</div>
+                    </th>
+                    <th style="background-color: #212125">
+                        <div style="color: white">Type</div>
+                    </th>
+                    <th style="background-color: #212125">
+                        <div style="color: white">Units</div>
+                    </th>
+                    <th style="background-color: #212125">
+                        <div style="color: white">UOM</div>
+                    </th>
+                    <th style="background-color: #212125" colspan="2">
+                        <div style="color: white">Rate</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.invoiceLines}" var="invoiceLine" indexVar="index">
+                    <tr>
+                        <td>
+                            {!index + 1}
+                        </td>
+                        <td>
+                            <lightning:input aura:id="isValideField" type="text"
+                                value="{!invoiceLine.SPM_Description__c}" />
+                        </td>
+                        <td>
+                            <lightning:input aura:id="isValideField" type="text"
+                                value="{!invoiceLine.SPM_InvoiceLineType__c}" />
+                        </td>
+                        <td>
+                            <lightning:input aura:id="isValideField" type="number" value="{!invoiceLine.Units__c}" />
+                        </td>
+                        <td>
+                            <lightning:input aura:id="isValideField" type="number" value="{!invoiceLine.amount__c}" />
+                        </td>
+                        <td>
+                            <lightning:combobox aura:id="isValideField" options="{!v.invoiceLineRates}"
+                                value="{!invoiceLine.StageName}" placeholder="-Select-" />
+                        </td>
+                        <td>
+                            <!-- conditionally Display Add or Delete Icons if rowIndex is 0 then show Add New Row Icon else show delete Icon -->
+                            <aura:if isTrue="{!index == 0}">
+                                <a onclick="{!c.AddNewRow}">
+                                    <lightning:icon iconName="utility:add" class="slds-icon slds-icon_small"
+                                        size="small" title="Add new row" />
+                                    <span class="slds-assistive-text">Add Icon</span>
+                                </a>
+                                <aura:set attribute="else">
+                                    <a onclick="{!c.removeRow}" id="{!index}">
+                                        <lightning:icon variant="error" iconName="utility:delete"
+                                            class="slds-icon slds-icon_small" size="small" title="remove this row" />
+                                        <span class="slds-assistive-text">Delete Icon</span>
+                                    </a>
+                                </aura:set>
+                            </aura:if>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+        <!--Last fields-->
+
+        <div class="slds-col slds-size_1-of-8" style="float: right">
+            <table class="slds-m-bottom_x-large slds-m-around_x-small slds-table_header-hidden">
+                <tr>
+                    <td style="text-align: left" class="slds-p-bottom_x-small">
+                        <lightning:input aura:id="isValideField" type="number" label="{!$Label.c.vat_field_label }"
+                            value="{!v.invoiceLines[0].TotalOpportunityQuantity}" placeholder="%"
+                            onchange="{!c.vatChange}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">
+                        <lightning:input aura:id="isValideField" type="number" label="{!$Label.c.tax_field_label }"
+                            value="{!v.invoiceLines[0].Duration__c}" onchange="{!c.taxChange}" placeholder="%" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</aura:component>

@@ -1,0 +1,11 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="SPM_TaskCnt">
+    <aura:handler 
+        name="init" 
+        action="{!c.doInit}" 
+        value="{!this}" 
+    />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <!--<aura:attribute name="tasks" type="Asset[]" />-->
+    <lightning:button class=" " variant="success" label="view Gantt Chart" title="view"
+                        onclick="{! c.showGantt }"  disabled="false" />
+</aura:component>

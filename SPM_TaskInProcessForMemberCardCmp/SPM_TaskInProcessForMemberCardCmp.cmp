@@ -1,0 +1,54 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable"
+    access="global">
+    <aura:attribute name="tasks" type="Asset[]" />
+    <aura:attribute name="isVisible" type="boolean" />
+    <aura:attribute name="isDragLeave" type="boolean" />
+    <aura:attribute name="statusTask" type="String" />
+    <aura:attribute name="taskMoved" type="Asset" />
+    <aura:registerEvent name="SPM_TaskFormChangeEvt" type="c:SPM_TaskFormChangeEvt" />
+    <div class="slds-theme_shade column" ondrop="{!c.onDrop}">
+        <div class="slds-theme_shade slds-card slds-card_boundary">
+            <lightning:layout class="slds-wrap slds-theme_shade" multipleRows="true">
+                <lightning:layoutItem>
+                    <div
+                        class="slds-m-bottom_small slds-p-around_medium slds-p-top_small slds-page-header slds-theme_shade">
+                        <div class="slds-media slds-theme_shade">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:entitlement_process" size="medium" />
+                            </div>
+                            <div class="slds-media_body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-text-heading_small">
+                                                In Progress
+                                            </span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-scrollable_y" style="height:30rem;width:37,5rem">
+                <div class="drop-zone" aura:id="dropZone" ondragover="{!c.dragoverHandler}"
+                    ondragleave="{!c.dragLeaveHandler}" ondrop="{!c.dropHandler}">
+                    <div class="slds-theme_default slds-app-launcher__tile-figure">
+                        <div class="slds-m-around_small">
+                            <aura:if isTrue="{!not(empty(v.tasks))}">
+                                <aura:iteration items="{!v.tasks}" var="item">
+                                    <c:SPM_TaskCardCmp task="{!item}" isVisible="{!v.isVisible}"
+                                        backgroundColor="#feb203" taskMoved="{!v.taskMoved}" />
+                                </aura:iteration>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-app-launcher__tile-body">
+                <div class="slds-text-align_center" style="font-size: 0.8125rem;"><span>Footer<br /></span></div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="absence" type="Case"/>
+    <aura:attribute name="isModal" type="boolean" default="false"/>
+</aura:event>

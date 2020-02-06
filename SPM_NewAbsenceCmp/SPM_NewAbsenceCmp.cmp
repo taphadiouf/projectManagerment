@@ -1,0 +1,80 @@
+<!--
+  @File Name          : SPM_AddMemberCmp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 28/01/2020 à 11:03:38
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    8/30/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global"
+    controller="SPM_AbsenceCnt">
+    <aura:attribute name="isModal" type="boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" default="" />
+    <aura:attribute name="isNotModal" type="boolean" default="true" />
+    <aura:attribute name="isValidFields" type="boolean" default="false" />
+
+    <aura:attribute name="absence" type="Case" default="{'SuppliedPhone':'',
+                                                          'SuppliedName':'',
+                                                          'CreatedDate':'',
+                                                          'Subject':'',
+                                                          'SuppliedCompany':'',
+                                                          'EndDate__c':'',
+                                                          'Note__c':''}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="SPM_IsFormValidEvt" type="c:SPM_IsFormValidEvt" />
+
+
+    <aura:if isTrue="{!v.isModal}">
+
+        <!--Start Modal-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <c:SPM_FomTitleCmp title="Absence" recordId="{!v.recordId}" />
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-card">
+                        <c:SPM_AbsenceFormCmp absence="{!v.absence}" isValidFields="{!v.isValidFields}" />
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="destructive" label="{!$Label.c.cancel_button_title}" title="Cancel"
+                        onclick="{! c.closeModal }" />
+                    <aura:if isTrue="{!v.recordId!= ''}">
+                        <lightning:button variant="brand" label="{!$Label.c.update_button_title}" title="Update"
+                            onclick="{!c.updateAbsence}" />
+                        <aura:set attribute="else">
+                            <lightning:button variant="brand" label="{!$Label.c.create_button_title}" title="Save"
+                                onclick="{!c.addAbsence}" />
+                        </aura:set>
+                    </aura:if>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <!--End Modal-->
+    <aura:if isTrue="{!v.isNotModal}">
+        <c:SPM_FomTitleCmp title="Absence" recordId="{!v.recordId}" />
+        <c:SPM_AbsenceFormCmp absence="{!v.absence}" isValidFields="{!v.isValidFields}" />
+        <div class="slds-float_right ">
+            <lightning:button class=" slds-button slds-button_destructive slds-m-top_none "
+                label="{!$Label.c.cancel_button_title}" />
+            <aura:if isTrue="{!v.recordId!=''}">
+                <lightning:button class=" " variant="success" label="{!$Label.c.update_button_title}" title="Update"
+                    onclick="{! c.updateAbsence }" />
+                <aura:set attribute="else">
+                    <lightning:button class=" " variant="success" label="{!$Label.c.create_button_title}" title="Update"
+                        onclick="{! c.addAbsence }" disabled="false" />
+                </aura:set>
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

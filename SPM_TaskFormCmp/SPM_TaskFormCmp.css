@@ -1,0 +1,7 @@
+.THIS .display-none{
+    display: none;
+}
+
+.THIS.resize{
+    width:50% !important;
+}

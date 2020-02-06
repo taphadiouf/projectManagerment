@@ -1,0 +1,12 @@
+<aura:component  controller="SPM_ExpenseCnt" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <ltng:require scripts="{!$Resource.chartJs+'/chart/Chart.js'}" afterScriptsLoaded="{!c.doInit}"/>
+    <div class="slds-grid">
+      <div class="slds-col slds-size_1-of-2">
+        <canvas aura:id="barChart" id="barChart" />
+      </div>
+      <div class="slds-col slds-size_1-of-2">
+        <canvas id="doughnut-chart"></canvas>
+      </div>
+    </div>
+</aura:component>
